@@ -1,19 +1,26 @@
 import styled from "styled-components";
 import { MAIN, GRAY_SCALE } from "../../constants/colors";
+import { useState } from "react";
 
 function SortBar() {
+  const [selected, setSelected] = useState("최신"); 
+
   return (
-    <>
-      <BarBody>
-        <BarContents>
-          <Button>최신</Button>
-          <Divider>|</Divider>
-          <Button>인기</Button>
-          <Divider>|</Divider>
-          <Button>팔로잉</Button>
-        </BarContents>
-      </BarBody>
-    </>
+    <BarBody>
+      <BarContents>
+        <Button active={selected === "최신"} onClick={() => setSelected("최신")}>
+          최신
+        </Button>
+        <Divider>|</Divider>
+        <Button active={selected === "인기"} onClick={() => setSelected("인기")}>
+          인기
+        </Button>
+        <Divider>|</Divider>
+        <Button active={selected === "팔로잉"} onClick={() => setSelected("팔로잉")}>
+          팔로잉
+        </Button>
+      </BarContents>
+    </BarBody>
   );
 }
 
@@ -31,12 +38,12 @@ const BarContents = styled.div`
 
 const Button = styled.button`
   all: unset;
-  color: ${GRAY_SCALE.GRAY500};
+  color: ${(props) => (props.active ? MAIN.BLUE : GRAY_SCALE.GRAY500)};
   font-weight: 600;
   font-size: 18px;
+  cursor: pointer;
 
-  &:hover,
-  &:focus {
+  &:hover {
     color: ${MAIN.BLUE}; /* 파란색으로 변경 */
   }
 `;
