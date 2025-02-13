@@ -6,6 +6,7 @@ import "./App.css";
 import MainPage from "./pages/MainPage";
 import StudioPage from "./pages/StudioPage";
 import LoginPage from "./pages/LoginPage"
+import SearchResultPage from "./pages/SearchResultPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/video-studio" element={<StudioPage />} />
+          <Route path="/search" element={<SearchResultPage/>} />
         </Routes>
       </AppWrapper>
     </>
