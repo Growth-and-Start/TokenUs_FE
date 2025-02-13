@@ -2,15 +2,39 @@ import styled from "styled-components";
 import { MAIN, SECONDARY } from "../../constants/colors";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function SearchBar() {
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleSearch = (e) => {
+    e.preventDefault(); 
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
+  useEffect(() => {
+    if (!location.pathname.startsWith("/search")) {
+      setSearchQuery("");
+    }
+  }, [location.pathname]);
+
   return (
     <>
       <SearchBarBox>
-        <form action="." method="post">
-          <Input type="text" placeholder="검색어를 입력해 주세요" />
+        <form onSubmit={handleSearch}>
+          <Input 
+          type="text" 
+          placeholder="검색어를 입력해 주세요" 
+          value={searchQuery}
+          onChange={(e)=>setSearchQuery(e.target.value)}/>
           <SearchButton type="submit">
-          <FontAwesomeIcon icon={faMagnifyingGlass} style={{color:MAIN.BLUE}} />
+            <FontAwesomeIcon icon={faMagnifyingGlass} style={{color:MAIN.BLUE}} />
           </SearchButton>
         </form>
       </SearchBarBox>
