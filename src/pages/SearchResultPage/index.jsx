@@ -52,21 +52,6 @@ const tempData_video = [
     channel: "프론트엔드 마스터",
     date: "2024-02-10",
   },
-  {
-    title: "자바스크립트 최신 문법 정리",
-    channel: "TechWorld",
-    date: "2024-02-08",
-  },
-  {
-    title: "Next.js로 서버 사이드 렌더링 배우기",
-    channel: "웹개발의 모든 것",
-    date: "2024-02-05",
-  },
-  {
-    title: "AI 기반 추천 시스템 구현하기",
-    channel: "데이터 사이언스 연구소",
-    date: "2024-02-03",
-  },
 ];
 
 function SearchResultPage() {
@@ -114,10 +99,10 @@ margin-bottom: 40px;
 `;
 
 const ContentListWrapper = styled.div`
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(250px, auto));
+justify-content: center;
+gap:20px;
 `;
 
 export default SearchResultPage;
