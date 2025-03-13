@@ -27,6 +27,10 @@ const Button = styled.button`
   &:disabled{
     background-color: ${GRAY_SCALE.GRAY300}
   }
+
+  &:hover{
+    background-color: #265cffb4;
+  }
 `;
 
 export default Button1;

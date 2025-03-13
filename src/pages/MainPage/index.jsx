@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { MAIN } from "../../constants/colors";
 import SortBar from "../../components/VideoContent/SortBar";
 import VideoCard from "../../components/VideoContent/VideoCard,";
+import NFTInfo from "../../components/VideoContent/Main/NFTInfo";
+import HolderList from "../../components/VideoContent/Main/HolderList";
 
 const tempData = [
   {
@@ -64,7 +66,9 @@ function MainPage() {
       <TrendContentWrapper>
         <TrendTitle>실시간 인기 영상</TrendTitle>
         <TrendContent>
-
+          <Thumbnail/>
+          <HolderList/>
+          <NFTInfo/>
         </TrendContent>
       </TrendContentWrapper>
       <SortBar/>
@@ -89,21 +93,35 @@ padding: 30px 0;
 
 const TrendContentWrapper = styled.div`
 padding: 0 10%;
+margin-bottom: 30px;
 `
 const TrendTitle = styled.div`
 color: ${MAIN.BLUE};
 font-weight: 600;
 font-size: 22px;
+padding: 10px 0;
 `
 
-const TrendContent = styled.div``
+const TrendContent = styled.div`
+display:flex;
+gap: 5px;
+height: 250px;
+`
+
+const Thumbnail = styled.div`
+  background-color: gray;
+  border-radius: 5px;
+  width: 40%;
+  height: 100%;
+`
 
 const ContentListWrapper = styled.div`
-display: flex;
-gap:20px;
-flex-wrap: wrap;
-justify-content: center;
 padding: 0 10%;
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(250px, auto));
+justify-content: center;
+gap:20px;
+margin-top:20px;
 `
 
 export default MainPage;
