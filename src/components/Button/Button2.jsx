@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { MAIN, BACKGROUND } from "../../constants/colors";
 
-function Button2({ className, children, onClick, width, height }) {
+function Button2({ className, children, onClick, width, height, fontSize }) {
   return (
-    <Button className={className} onClick={onClick} width={width} height={height}>
+    <Button className={className} onClick={onClick} width={width} height={height} fontSize={fontSize}>
       {children}
     </Button>
   );
@@ -21,8 +21,13 @@ const Button = styled.button`
   border-radius: 8px;
   cursor: pointer;
   padding: 10px 20px;
-  font-weight: 600;
-  font-size: 90%;
+  font-weight: 500;
+  font-size: ${(props) => props.fontSize || "auto"};
+
+  &:hover{
+    color: #265cffb4;
+    border-color: #265cffb4;
+  }
 `;
 
 export default Button2;
