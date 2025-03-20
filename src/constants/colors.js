@@ -9,7 +9,7 @@ export const SECONDARY = {
 }
 
 export const GRAY_SCALE = {
-  GRAY100: '#E4E7F0',
+  GRAY100: '#F2F5FE',
   GRAY300: '#D3D8E5',
   GRAY500: '#73798D',
   GRAY700: '#535761',
