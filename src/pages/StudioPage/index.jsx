@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import ChannelCard from "/Users/kimwonyeong/TokenUs_FE/src/components/VideoStudio/ChannelCard.jsx";
-import VideoTable from "/Users/kimwonyeong/TokenUs_FE/src/components/VideoStudio/VideoTable.jsx";
+import ChannelCard from "src/components/VideoStudio/ChannelCard.jsx";
+import VideoTable from "src/components/VideoStudio/VideoTable.jsx";
 
 const tempData_channel = {
     name: "크리에이터 연합 토크너스",

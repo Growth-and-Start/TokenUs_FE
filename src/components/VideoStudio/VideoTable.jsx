@@ -1,9 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
-import VideoRow from "/Users/kimwonyeong/TokenUs_FE/src/components/VideoStudio/VideoRow.jsx";
-import CheckboxCounter from "/Users/kimwonyeong/TokenUs_FE/src/components/VideoStudio/CheckboxCounter.jsx";
+import VideoRow from "src/components/VideoStudio/VideoRow.jsx";
+import CheckboxCounter from "src/components/VideoStudio/CheckboxCounter.jsx";
 import { GRAY_SCALE, BACKGROUND, TEXT } from "../../constants/colors";
-import FONT from "/Users/kimwonyeong/TokenUs_FE/src/constants/fonts.js";
+import FONT from "src/constants/fonts.js";
 
 function VideoTable({ videos }) {
 

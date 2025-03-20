@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { GRAY_SCALE, MAIN } from "../../constants/colors";
-import FONT from "/Users/kimwonyeong/TokenUs_FE/src/constants/fonts.js";
+import FONT from "src/constants/fonts.js";
 
 function CheckboxCounter({ count }) {
 console.log("전달된 count 값:", count); // 상태 값 확인

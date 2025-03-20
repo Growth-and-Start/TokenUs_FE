@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { GRAY_SCALE, TEXT } from "../../constants/colors";
-import FONT from "/Users/kimwonyeong/TokenUs_FE/src/constants/fonts.js";
-import defaultThumbnail from "/Users/kimwonyeong/TokenUs_FE/src/assets/default-thumbnail.png";
+import FONT from "src/constants/fonts.js";
+import defaultThumbnail from "src/assets/default-thumbnail.png";
 
 function VideoRow(props) {
   console.log("VideoRow props:", props);

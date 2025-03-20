@@ -2,7 +2,7 @@ import { Avatar } from "antd";
 import styled from "styled-components";
 import Button1 from "../Button/Button1";
 import { GRAY_SCALE, TEXT } from "../../constants/colors";
-import FONT from "/Users/kimwonyeong/TokenUs_FE/src/constants/fonts.js";
+import FONT from "src/constants/fonts.js";
 
 function ChannelCard({name, account}) {
   return (
