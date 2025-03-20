@@ -1,7 +1,7 @@
 function StudioPage() {
   return(
     <>
-    비디오 스튜튜디오 페이지
+    비디오 스튜디오 페이지
     </>
   )
 }
