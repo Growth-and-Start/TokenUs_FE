@@ -1,19 +1,37 @@
 import styled from "styled-components";
 import Button1 from "../../components/Button/Button1";
 import TextInput from "../../components/Signup/Input/textInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import CloseButton from "../../components/Button/CloseButton";
+import { login } from "../../services/authService"; 
 
-function LoginPage() {
+function LoginPage({ updateLoginStatus }) {
+
+  //사용자 입력 데이터
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [error, setError] = useState(""); 
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async () => {
+    setError(""); 
+    try {
+      const response = await login(formData); 
+      localStorage.setItem("token", response.token); 
+      updateLoginStatus(true); //
+      navigate("/"); 
+    } catch (error) {
+      console.error("로그인 실패:", error);
+      setError("이메일 또는 비밀번호가 잘못되었습니다."); 
+    }
   };
 
   return (
@@ -27,15 +45,16 @@ function LoginPage() {
           />
           <Title>로그인</Title>
           <Form>
-            <TextInput type="email" onChange={handleChange}>
+            <TextInput type="email" name="email" value={formData.email} onChange={handleChange}>
               이메일
             </TextInput>
-            <TextInput type="password" onChange={handleChange}>
+            <TextInput type="password" name="password" value={formData.password} onChange={handleChange}>
               비밀번호
             </TextInput>
           </Form>
+          {error && <ErrorMessage>{error}</ErrorMessage>} {/* 에러 메시지 표시 */}
           <ButtonWrapper>
-            <Button1 width="170px" height="40px" fontSize="18px">
+            <Button1 width="170px" height="40px" fontSize="18px" onClick={handleSubmit}>
               로그인
             </Button1>
             <MoveToSignup>
@@ -102,6 +121,12 @@ const MoveToSignup = styled.div`
 const StyledLink = styled(Link)`
   font-size: 13px;
   color: #535761;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 14px;
+  text-align: center;
 `;
 
 export default LoginPage;
