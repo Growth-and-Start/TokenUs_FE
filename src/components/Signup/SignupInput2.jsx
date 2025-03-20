@@ -10,13 +10,13 @@ function SignupInput2({ onClickPrevious, onClickSubmit, onChange, data }) {
       <SignupInputWrapper>
         <Title>회원가입</Title>
         <Form>
-          <TextInput type="name" onChange={onChange} data={data.name}>
+          <TextInput type="name" name="name" onChange={onChange} data={data.name}>
             이름
           </TextInput>
-          <TextInput type="nick" onChange={onChange} data={data.nick}>
+          <TextInput type="nickname" name="nickname" onChange={onChange} data={data.nickname}>
             닉네임
           </TextInput>
-          <ImgInput type="file" name="profile" onChange={onChange} data={data.nick}>
+          <ImgInput type="file" name="profileUrl" onChange={onChange} data={data.profileUrl}>
             프로필 사진 선택
           </ImgInput>
         </Form>
