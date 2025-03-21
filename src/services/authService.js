@@ -12,6 +12,17 @@ export const signup = async (userData) => {
   });
 };
 
+//이메일 중복 체크
+export const checkEmail = async (userData) => {
+  const response = await axios.post(`${API_URL}/email_check`, userData, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+
+  return response.data.result;
+}
+
 
 //로그인
 export const login = async (userData) => {
