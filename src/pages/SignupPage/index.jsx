@@ -23,6 +23,18 @@ function SignupPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  //사용자 데이터 변경
+  const handleChange = (e) => {
+    const { name, type, value, files } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: type === "file" ? files[0] : value,
+    }));
+
+    console.log(formData);
+
+  };
+
 //이미지 업로드 처리
   const handleImageUpload = async () => {
     if (!formData.profileUrl) return null;
@@ -58,14 +70,6 @@ function SignupPage() {
     }
   };
 
-  const handleChange = (e) => {
-    const { name, type, value, files } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: type === "file" ? files[0] : value,
-    }));
-
-  };
 
   return (
     <SignupWrapper>
