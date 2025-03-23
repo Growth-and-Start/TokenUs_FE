@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-function TextInput ({className, children, type='text',  onChange, data }) {
+function TextInput ({className, children, type='text', name, onChange, data }) {
 
   return(
     <>
@@ -8,7 +8,7 @@ function TextInput ({className, children, type='text',  onChange, data }) {
       <Label>{children}</Label>
       <Input
       type={type}
-      name={type}
+      name={name}
       value={data}
       onChange={onChange}
       />
