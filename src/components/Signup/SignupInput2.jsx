@@ -1,7 +1,7 @@
 // components/Signup/SignupInput2.jsx
 
 import styled from "styled-components";
-import TextInput from "./Input/textInput";
+import TextInput from "../Input/TextInput";
 import Button2 from "../Button/Button2";
 import Button1 from "../Button/Button1";
 import ImgInput from "./Input/ImgInput";
