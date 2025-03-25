@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Button1 from "../../components/Button/Button1";
-import TextInput from "../../components/Signup/Input/textInput";
+import TextInput from "../../components/Input/TextInput";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import CloseButton from "../../components/Button/CloseButton";
