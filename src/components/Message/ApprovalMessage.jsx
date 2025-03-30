@@ -7,9 +7,9 @@ function ApprovalMessage({ children, size }) {
     <>
       <MessageWrapper>
         <Text size={size}>
+        <FontAwesomeIcon icon={faCircleCheck} style={{ color: "#00B118" }} />
+        &nbsp; 
           {children}
-          &nbsp; 
-          <FontAwesomeIcon icon={faCircleCheck} style={{ color: "#00B118" }} />
         </Text>
       </MessageWrapper>
     </>

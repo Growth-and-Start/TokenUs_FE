@@ -7,9 +7,9 @@ function ErrorMessage({ children, size }) {
     <>
       <MessageWrapper>
         <Text size={size}>
-          {children}
-          &nbsp; 
           <FontAwesomeIcon icon={faCircleXmark} style={{ color: "#E73E3E" }} />
+          &nbsp;
+          {children}
         </Text>
       </MessageWrapper>
     </>
