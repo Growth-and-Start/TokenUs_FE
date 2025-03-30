@@ -1,11 +1,15 @@
 import Button1 from "../../Button/Button1";
 import Button2 from "../../Button/Button2";
+import ImageInput from "../../Input/ImageInput";
 import RadioInput from "../../Input/RadioInput";
 import TextArea from "../../Input/TextArea";
 import TextInput from "../../Input/TextInput";
+import VideoInput from "../../Input/VideoInput";
 import BasicModalLayout from "../Layout/BasicModalLayout";
+import UploadedFileName from "../../Output/UploadedFileName";
 
-function UploadVideoModal1({ onCancel, onNext, onChange, data }) {
+function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
+
   return (
     <BasicModalLayout
       header={"비디오 업로드"}
@@ -20,8 +24,18 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data }) {
         </>
       }
     >
-      <TextInput onChange={onChange} name="title" >제목</TextInput>
-      <TextArea height="80px" name="detail">영상 요약</TextArea>
+      {/* {data.fileUrl !== "" ?  <VideoInput onChange={onChange}/> : "업로드 완"} */}
+      
+      
+      {data.videoUrl ? (
+        <UploadedFileName title={data.videoUrl.name} onRemove={onRemove} />
+      ) : (
+        <VideoInput onChange={onChange} />
+      )}
+      
+      
+      <TextInput onChange={onChange} name="videoTitle" >제목</TextInput>
+      <TextArea onChange={onChange} height="80px" name="videoDetail">영상 요약</TextArea>
       <RadioInput
         name="isOpen"
         data={data.isOpen}
@@ -33,6 +47,13 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data }) {
       >
         공개 설정
       </RadioInput>
+      <ImageInput
+      name="thumbnailUrl"
+      onChange={onChange}
+      data={data.thumbnailUrl}
+      >
+        썸네일 선택
+      </ImageInput>
     </BasicModalLayout>
   );
 }
