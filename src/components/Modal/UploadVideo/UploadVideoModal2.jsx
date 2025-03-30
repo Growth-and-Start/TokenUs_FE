@@ -12,34 +12,34 @@ function UploadVideoModal2({ onBack, onChange, onSubmit, data, setNftData }) {
     setNftData((prev) => ({ ...prev, nftPrice: newPrice }));
   };
 
-  const handleDecreasePrice = () => {
-    const currentPrice = parseFloat(data.nftPrice || "0") || 0;
-    const newPrice = Math.max(currentPrice - 0.001, 0).toFixed(3); // 최소값 0
-    setNftData((prev) => ({ ...prev, nftPrice: newPrice }));
-  };
+  // const handleDecreasePrice = () => {
+  //   const currentPrice = parseFloat(data.nftPrice || "0") || 0;
+  //   const newPrice = Math.max(currentPrice - 0.001, 0).toFixed(3); // 최소값 0
+  //   setNftData((prev) => ({ ...prev, nftPrice: newPrice }));
+  // };
 
   const handleIncreaseSupply = () => {
     const currentSupply = parseInt(data.totalSupply || "0") || 0;
     setNftData((prev) => ({ ...prev, totalSupply: currentSupply + 1 }));
   };
 
-  const handleDecreaseSupply = () => {
-    const currentSupply = parseInt(data.totalSupply || "0") || 0;
-    setNftData((prev) => ({
-      ...prev,
-      totalSupply: Math.max(currentSupply - 1, 1),
-    }));
-  };
+  // const handleDecreaseSupply = () => {
+  //   const currentSupply = parseInt(data.totalSupply || "0") || 0;
+  //   setNftData((prev) => ({
+  //     ...prev,
+  //     totalSupply: Math.max(currentSupply - 1, 1),
+  //   }));
+  // };
 
   return (
     <BasicModalLayout
       header={"비디오 업로드"}
       footer={
         <>
-          <Button2 onClick={onBack} width="100px">
+          <Button2 onClick={onBack} width="100px" fontSize="15px">
             이전
           </Button2>
-          <Button1 onClick={onSubmit} width="100px">
+          <Button1 onClick={onSubmit} width="100px" fontSize="15px">
             업로드
           </Button1>
         </>
