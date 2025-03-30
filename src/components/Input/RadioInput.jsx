@@ -29,6 +29,7 @@ function RadioInput({ className, children, name, data, onChange, options = [] })
 
 
 const RadioInputWrapper = styled.div`
+box-sizing: border-box;
   display: flex;
   flex-direction: column;
 `;

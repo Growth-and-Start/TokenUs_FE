@@ -20,6 +20,7 @@ function TextInput ({className, children, type='text', name, onChange, data, hei
 }
 
 const TextInputWrapper = styled.div`
+box-sizing: border-box;
 display: flex;
 flex-direction: column;
 `
