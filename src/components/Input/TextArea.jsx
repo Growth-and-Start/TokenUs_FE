@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BACKGROUND, MAIN } from "../../constants/colors";
+import { BACKGROUND, MAIN, SECONDARY, GRAY_SCALE } from "../../constants/colors";
 
 function TextArea ({className, children, type='text', name, onChange, data, height }) {
 
@@ -22,6 +22,7 @@ function TextArea ({className, children, type='text', name, onChange, data, heig
 const TextAreaWrapper = styled.div`
 display: flex;
 flex-direction: column;
+box-sizing: border-box;
 `
 const Label = styled.label`
 font-weight: 520;
@@ -40,6 +41,26 @@ outline: none;
 &:focus {
   border: 1.5px solid ${MAIN.BLUE}; 
 }
+
+&::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* 스크롤바 트랙 (배경) */
+  &::-webkit-scrollbar-track {
+    width: 20px;
+  }
+
+  /* 스크롤바 썸 (움직이는 막대) */
+  &::-webkit-scrollbar-thumb {
+    background: ${GRAY_SCALE.GRAY300};
+    border-radius: 10px;
+  }
+
+  /* 스크롤바 썸에 hover 효과 */
+  &::-webkit-scrollbar-thumb:hover {
+    background: ${SECONDARY.BLUE};;
+  }
 `
 
 
