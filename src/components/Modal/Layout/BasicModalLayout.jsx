@@ -1,15 +1,17 @@
 import styled from "styled-components";
-import { BACKGROUND } from "../../../constants/colors";
+import { BACKGROUND, SECONDARY, GRAY_SCALE } from "../../../constants/colors";
 
-function BasicModalLayout({header, children, footer}) {
+function BasicModalLayout({ header, children, footer }) {
   return (
     <>
       <Overlay>
-      <Container>
-        {header && <Header>{header}</Header>}
-        <Body>{children}</Body>
-        {footer && <Footer>{footer}</Footer>}
-      </Container>
+        <Container>
+          {header && <Header>{header}</Header>}
+          <ScrollBody>
+            <Body>{children}</Body>
+          </ScrollBody>
+          {footer && <Footer>{footer}</Footer>}
+        </Container>
       </Overlay>
     </>
   );
@@ -30,30 +32,62 @@ const Overlay = styled.div`
 `;
 
 const Container = styled.div`
-  background: ${BACKGROUND.WHITE} ;
-  padding: 26px;
+  box-sizing: border-box;
+  background: ${BACKGROUND.WHITE};
   border-radius: 12px;
-  width: 32%;
+  padding: 25px 15px 25px 25px;
+  width: 35%;
   max-width: 90%;
+  max-height: 80%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+`;
+
+const ScrollBody = styled.div`
+  overflow-y: auto;
+  flex-grow: 1;
+  padding-right: 13px;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  /* 스크롤바 트랙 (배경) */
+  &::-webkit-scrollbar-track {
+    width: 20px;
+  }
+
+  /* 스크롤바 썸 (움직이는 막대) */
+  &::-webkit-scrollbar-thumb {
+    background: ${GRAY_SCALE.GRAY300};
+    border-radius: 10px;
+  }
+
+  /* 스크롤바 썸에 hover 효과 */
+  &::-webkit-scrollbar-thumb:hover {
+    background: ${SECONDARY.BLUE};;
+  }
 `;
 
 const Header = styled.div`
   font-weight: bold;
   font-size: 23px;
-  margin: 10px 0 30px 0;
+  margin: 10px 0 20px 0;
 `;
 
 const Body = styled.div`
-display: flex;
-flex-direction: column;
-gap: 30px;
-margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin: 30px 0;
 `;
 
 const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 10px;
+  margin: 20px 0 10px 0;
 `;
 
 export default BasicModalLayout;
