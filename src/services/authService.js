@@ -33,5 +33,6 @@ export const login = async (userData) => {
     withCredentials: true, // JWT 쿠키 사용 시 필요
   });
 
-  return response.data;
+  return response.data.result.accessToken;
+  
 };

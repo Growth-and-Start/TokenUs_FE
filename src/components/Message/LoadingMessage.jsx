@@ -1,13 +1,13 @@
 import styled from "styled-components";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {MAIN} from "../../constants/colors";
+import { LoadingOutlined } from '@ant-design/icons';
 
-function ErrorMessage({ children, size }) {
+function LoadingMessage({ children, size }) {
   return (
     <>
       <MessageWrapper>
         <Text size={size}>
-          <FontAwesomeIcon icon={faCircleXmark} style={{ color: "#E73E3E" }} />
+        <LoadingOutlined style={{ fontSize: size, color: MAIN.BLUE }}/>
           &nbsp;
           {children}
         </Text>
@@ -22,9 +22,9 @@ const MessageWrapper = styled.div`
 `;
 
 const Text = styled.p`
-  color: #e73e3e;
+  color: ${MAIN.BLUE};
   margin-right: 5px;
   font-size: ${(props) => props.size};
 `;
 
-export default ErrorMessage;
+export default LoadingMessage;

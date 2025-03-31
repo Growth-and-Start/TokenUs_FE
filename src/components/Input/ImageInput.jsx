@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { GRAY_SCALE, MAIN } from "../../../constants/colors";
+import { GRAY_SCALE, MAIN } from "../../constants/colors";
 
-function ImgInput({ name, onChange, data, children }) {
+function ImageInput({ name, onChange, data, children }) {
   return (
     <Wrapper>
       <Title>{children}</Title>
       <Input>
-        <Left>
+        <Button>
           <StyledLabel htmlFor={name}>파일 선택</StyledLabel>
           <HiddenInput
             id={name}
@@ -15,8 +15,8 @@ function ImgInput({ name, onChange, data, children }) {
             accept="image/*"
             onChange={onChange}
           />
-        </Left>
-        <FileName>{data && data.name}</FileName>
+        </Button>
+        {/* <FileName>{data && data.name}</FileName> */}
         {data && <Preview src={URL.createObjectURL(data)} alt="preview" />}
       </Input>
     </Wrapper>
@@ -38,18 +38,18 @@ const Input = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  gap: 20px;
 `;
 
-const Left = styled.div`
+const Button = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
 `;
 
 const StyledLabel = styled.label`
-  width: 100px;
-  height: 50px;
+  width: 160px;
+  height: 90px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,6 +58,7 @@ const StyledLabel = styled.label`
   border: 1.5px solid ${GRAY_SCALE.GRAY300};
   border-radius: 10px;
   font-size: 16px;
+  text-decoration: underline;
   cursor: pointer;
 
   &:hover {
@@ -69,19 +70,18 @@ const HiddenInput = styled.input`
   display: none;
 `;
 
-const FileName = styled.div`
-color: ${GRAY_SCALE.GRAY500};
-font-size: 12px;
-max-width: 145px;
-word-wrap: break-word;
-`;
+// const FileName = styled.div`
+// color: ${GRAY_SCALE.GRAY500};
+// font-size: 12px;
+// max-width: 145px;
+// word-wrap: break-word;
+// `;
 
 const Preview = styled.img`
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+  width: 160px;
+  height: 90px;
   object-fit: cover;
   border: 1px solid #ddd;
 `;
 
-export default ImgInput;
+export default ImageInput;

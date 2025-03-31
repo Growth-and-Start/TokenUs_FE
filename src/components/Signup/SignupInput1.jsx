@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import TextInput from "./Input/textInput";
+import TextInput from "../Input/TextInput";
 import Button1 from "../Button/Button1";
 import { useState } from "react";
 import Button2 from "../Button/Button2";
@@ -29,7 +29,7 @@ function SignupInput1({ onClickNext, onChange, data }) {
 
     try {
       const isAvailable = await checkEmail(data.email);
-      if (isAvailable) {
+      if (!isAvailable) {
         setEmailCheckStatus(true);
         setEmailCheckMessage("사용 가능한 이메일입니다.");
       } else {
