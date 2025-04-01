@@ -56,11 +56,7 @@ function StudioPage() {
   const handleUploadModalClose = () => setIsUploadModalOpen(false);
 
   //지갑 연결 상태 확인
-  const checkWallet = () => {
-
-  }
-
-
+  const checkWallet = () => {};
 
   const channel = tempData_channel;
 
@@ -88,24 +84,22 @@ function StudioPage() {
 
       {/* 비디오 업로드 모달 조건부 렌더링 */}
       {isUploadModalOpen && (
-        <UploadModalController
-          onClose={handleUploadModalClose}
-        />
+        <UploadModalController onClose={handleUploadModalClose} />
       )}
     </>
   );
 }
 
 const StudioPageWrapper = styled.div`
-  padding: 48px 0;
+  padding: 30px 10%;
 `;
 
 const ChannelCardWrapper = styled.div`
+  margin-top: 20px;
   margin-bottom: 32px;
 `;
 
 const VideoTableWrapper = styled.div`
-  margin: 48px;
   overflow-x: auto;
 `;
 

@@ -67,7 +67,7 @@ const VideoInfoCell = styled(TableData)`
   text-align: left;
   width: 574px;
   height: 180px;
-  padding : 20px;
+  padding : 0 20px;
 `;
 
 const Thumbnail = styled.img`
