@@ -39,12 +39,17 @@ function UploadModalController({ onClose }) {
   };
 
   //사용자 입력 데이터(비디오 정보) 변경
-  const handleChangeVideoInfo = (e) => {
-    const { name, type, value, files } = e.target;
+  const handleChangeVideoInfo = async(e) => {
+    const { name, value, files } = e.target;
 
     let finalValue = value;
 
-    if (type === "file") {
+    if (name === "videoUrl") {
+      console.log("비디오 업로드 시도");
+      finalValue = await uploadContent(files[0], "video");
+    }
+
+    if (name === "thumbnailUrl") {
       finalValue = files[0];
     }
 
@@ -67,21 +72,13 @@ function UploadModalController({ onClose }) {
     }));
   };
 
-  const removeVideo = () => {
-    setVideoData((prevData) => ({
-      ...prevData,
-      "videoUrl": null,
-    }));
-  }
 
   // 비디오 정보 POST
   const handleSubmitVideoInfo = async () => {
     try{
-      const uploadedVideoUrl = await uploadContent(videoData.videoUrl, "video");
       const uploadedImageUrl = await uploadContent(videoData.thumbnailUrl, "thumbnail"); 
-      const finalVideoData = {...videoData, videoUrl: uploadedVideoUrl, thumbnailUrl: uploadedImageUrl};
+      const finalVideoData = {...videoData, thumbnailUrl: uploadedImageUrl};
       
-
       postVideoData(finalVideoData);
 
        //temp for test
@@ -112,7 +109,6 @@ function UploadModalController({ onClose }) {
           onNext={handleNext}
           onChange={handleChangeVideoInfo}
           data={videoData}
-          onRemove={removeVideo}
         />
       )}
       {step === 2 && (
