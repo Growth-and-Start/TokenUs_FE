@@ -64,8 +64,8 @@ function StudioPage() {
 
   const channel = tempData_channel;
 
-  console.log("channel:", channel);
-  console.log("videos:", tempData_videoTable);
+  // console.log("channel:", channel);
+  // console.log("videos:", tempData_videoTable);
 
   if (!channel || !tempData_videoTable) {
     return <div>Loading...</div>; // 값 없으면 로딩 처리
