@@ -6,9 +6,8 @@ function ApprovalMessage({ children, size }) {
   return (
     <>
       <MessageWrapper>
+      <FontAwesomeIcon icon={faCircleCheck} style={{ color: "#00B118" }} />
         <Text size={size}>
-        <FontAwesomeIcon icon={faCircleCheck} style={{ color: "#00B118" }} />
-        &nbsp; 
           {children}
         </Text>
       </MessageWrapper>
@@ -19,12 +18,12 @@ function ApprovalMessage({ children, size }) {
 const MessageWrapper = styled.div`
   display: flex;
   align-items: center;
+  gap: 8px;
 `;
 
 const Text = styled.p`
   color: #535761;
-  margin-right: 5px;
-  font-size: ${(props) => props.size};
+  font-size: ${({size}) => size || "12px"};
 `;
 
 export default ApprovalMessage;

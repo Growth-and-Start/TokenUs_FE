@@ -6,9 +6,8 @@ function ErrorMessage({ children, size }) {
   return (
     <>
       <MessageWrapper>
+      <FontAwesomeIcon icon={faCircleXmark} style={{ color: "#E73E3E" }} />
         <Text size={size}>
-          <FontAwesomeIcon icon={faCircleXmark} style={{ color: "#E73E3E" }} />
-          &nbsp;
           {children}
         </Text>
       </MessageWrapper>
@@ -19,12 +18,12 @@ function ErrorMessage({ children, size }) {
 const MessageWrapper = styled.div`
   display: flex;
   align-items: center;
+  gap: 8px;
 `;
 
 const Text = styled.p`
   color: #e73e3e;
-  margin-right: 5px;
-  font-size: ${(props) => props.size};
+  font-size: ${({size}) => size || "12px"};
 `;
 
 export default ErrorMessage;
