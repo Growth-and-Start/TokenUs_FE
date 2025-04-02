@@ -4,6 +4,9 @@ import { MAIN } from "../../constants/colors";
 import ChannelCard from "../../components/VideoContent/ChannelCard";
 import VideoCard from "../../components/VideoContent/VideoCard,";
 import { GRAY_SCALE } from "../../constants/colors";
+import { useEffect, useState } from "react";
+import { getSearchResult } from "../../services/videoService";
+import { getSearchResult_channel } from "../../services/channelService";
 
 const tempData_channel = [
   {
@@ -57,24 +60,65 @@ const tempData_video = [
 function SearchResultPage() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q");
+
+  const [loading, setLoading] = useState(true);
+
+  //검색 결과 데이터
+  const [videoResults, setVideoResults] = useState([]);
+  const [channelResults, setChannelResults] = useState([]);
+
+  //검색 결과 데이터 요청
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      setLoading(true);
+      try {
+        const videoList = await getSearchResult(query);
+        const channelList = await getSearchResult_channel(query);
+        setVideoResults(videoList);
+        setChannelResults(channelList);
+        //temp for test
+        console.log("검색 결과(영상): ", videoList);
+        console.log("검색 결과(채널): ", channelList);
+      } catch (error) {
+        console.log("검색 실패: ", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (query) {
+      fetchSearchResults();
+    }
+  }, [query]);
   return (
     <>
       <SearchResultWrapper>
         <Title>{`"${query}"의 검색 결과`}</Title>
         <ChannelListWrapper>
-          {tempData_channel.map((channel, index) => (
-            <div key={index} style={{borderBottom: `1px solid ${GRAY_SCALE.GRAY300}`}}>
-              <ChannelCard name={channel.name} account={channel.account} />
+          {channelResults.map((channel, index) => (
+            <div
+              key={index}
+              style={{ borderBottom: `1px solid ${GRAY_SCALE.GRAY300}` }}
+            >
+              <ChannelCard
+                name={channel.nickName}
+                account={channel.email}
+                profileUrl={channel.profileImageUrl}
+                subscribed={channel.subscribed}
+                userId={channel.id}
+              />
             </div>
           ))}
         </ChannelListWrapper>
         <ContentListWrapper>
-          {tempData_video.map((video, index) => (
+          {videoResults.map((video, index) => (
             <VideoCard
               key={index}
-              title={video.title}
-              channel={video.channel}
-              date={video.date}
+              title={video.videoTitle}
+              channel={video.creatorNickname}
+              date={video.createdAt}
+              thumbnailUrl={video.thumbnailUrl}
+              videoUrl={video.videoUrl}
             />
           ))}
         </ContentListWrapper>
@@ -95,14 +139,14 @@ const Title = styled.div`
 `;
 
 const ChannelListWrapper = styled.div`
-margin-bottom: 40px;
+  margin-bottom: 40px;
 `;
 
 const ContentListWrapper = styled.div`
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(250px, auto));
-justify-content: center;
-gap:20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, auto));
+  justify-content: center;
+  gap: 25px;
 `;
 
 export default SearchResultPage;
