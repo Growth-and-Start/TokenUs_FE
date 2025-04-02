@@ -49,10 +49,11 @@ function MainPage() {
       {videoData.map((video, index) => (
         <VideoCard
           key={index}
-          title={video.videoTitle}
+          title={video.videoTitle || "제목이 없습니다"}
           channel={video.creatorNickname}
           date={video.createdAt}
           thumbnailUrl={video.thumbnailUrl}
+          videoUrl={video.videoUrl}
         />
       ))}
       </ContentListWrapper>
@@ -94,9 +95,9 @@ const Thumbnail = styled.img`
 const ContentListWrapper = styled.div`
 padding: 0 10%;
 display: grid;
-grid-template-columns: repeat(auto-fill, minmax(250px, auto));
+grid-template-columns: repeat(auto-fill, minmax(240px, auto));
 justify-content: center;
-gap:20px;
+gap:25px;
 margin-top:20px;
 `
 
