@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { GRAY_SCALE, MAIN } from "../../constants/colors";
 
-function VideoInput({ onChange }) {
+function VideoInput({ onChange, name }) {
   // const handleDrop = (e) => {
   //   e.preventDefault();
   //   if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
@@ -21,7 +21,7 @@ function VideoInput({ onChange }) {
       </Label>
       <HiddenInput
         id="videoUpload"
-        name="videoUrl"
+        name={name}
         type="file"
         accept="video/*"
         onChange={onChange}

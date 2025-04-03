@@ -1,16 +1,13 @@
 import styled from "styled-components";
-import {MAIN} from "../../constants/colors";
-import { LoadingOutlined } from '@ant-design/icons';
+import { MAIN } from "../../constants/colors";
+import { LoadingOutlined } from "@ant-design/icons";
 
 function LoadingMessage({ children, size }) {
   return (
     <>
       <MessageWrapper>
-        <Text size={size}>
-        <LoadingOutlined style={{ fontSize: size, color: MAIN.BLUE }}/>
-          &nbsp;
-          {children}
-        </Text>
+        <LoadingOutlined style={{ fontSize: size, color: MAIN.BLUE }} />
+        <Text size={size}>{children}</Text>
       </MessageWrapper>
     </>
   );
@@ -19,12 +16,12 @@ function LoadingMessage({ children, size }) {
 const MessageWrapper = styled.div`
   display: flex;
   align-items: center;
+  gap:8px;
 `;
 
 const Text = styled.p`
   color: ${MAIN.BLUE};
-  margin-right: 5px;
-  font-size: ${(props) => props.size};
+  font-size: ${({ size }) => size || "12px"};
 `;
 
 export default LoadingMessage;

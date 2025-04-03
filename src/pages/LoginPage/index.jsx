@@ -24,8 +24,7 @@ function LoginPage({ updateLoginStatus }) {
   const handleSubmit = async () => {
     setError(""); 
     try {
-      const response = await login(formData); 
-      localStorage.setItem("accessToken", response); 
+      await login(formData); 
       updateLoginStatus(true); //
       navigate("/"); 
     } catch (error) {
