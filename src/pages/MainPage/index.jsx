@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { MAIN } from "../../constants/colors";
 import SortBar from "../../components/VideoContent/SortBar";
-import VideoCard from "../../components/VideoContent/VideoCard,";
+import VideoCard from "../../components/VideoContent/VideoCard";
 import NFTInfo from "../../components/VideoContent/Main/NFTInfo";
 import HolderList from "../../components/VideoContent/Main/HolderList";
 import { useEffect, useState } from "react";
