@@ -6,6 +6,7 @@ import SignupInput2 from "../../components/Signup/SignupInput2";
 import SignupComplement from "../../components/Signup/SignupComplement";
 import { signup } from "../../services/authService";
 import { uploadContent } from "../../utils/upload";
+import { connectWallet } from "../../utils/blockchainNetwork";
 
 function SignupPage() {
   //회원가입 단계
@@ -37,6 +38,16 @@ function SignupPage() {
       [name]: type === "file" ? files[0] : value,
     }));
   };
+
+  //지갑 주소 연결
+  const handleConnectWallet = async() => {
+    const address = await connectWallet();
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      "walletAddress": address,
+    }));
+    console.log(formData);
+  }
 
   //회원가입 데이터 제출 처리
   const handleSubmit = async () => {
@@ -78,6 +89,7 @@ function SignupPage() {
             onClickPrevious={() => setStep(1)}
             onClickSubmit={handleSubmit}
             onChange={handleChange}
+            onClick={handleConnectWallet}
             data={formData}
           />
         )}
