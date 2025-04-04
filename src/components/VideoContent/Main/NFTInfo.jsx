@@ -14,14 +14,14 @@ function NFTInfo() {
           <Header>Unit Price</Header>
           <Header>Quantity</Header>
           <Header>Creator</Header>
-          <Data>$27</Data>
+          <Data>$0.02</Data>
           <Data>20</Data>
           <Data>크리에이터 연합 토크너스</Data>
         </BasicInfo>
         <PriceInfo>
           <Title>예상 가격</Title>
           <Price>
-            <CurrentPrice>27 ETH</CurrentPrice>
+            <CurrentPrice>0.02 ETH</CurrentPrice>
             <QuantityButton count={count} setCount={setCount}/>
           </Price>
         </PriceInfo>

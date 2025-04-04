@@ -1,16 +1,19 @@
 import styled from "styled-components";
+import { BACKGROUND, MAIN } from "../../constants/colors";
 
-function TextInput ({className, children, type='text',  onChange, data }) {
+function TextInput ({className, children, type='text', name, onChange, data, height, width, required = false, }) {
 
   return(
     <>
     <TextInputWrapper className={className}>
       <Label>{children}</Label>
       <Input
+      height={height}
       type={type}
-      name={type}
+      name={name}
       value={data}
       onChange={onChange}
+      required = {required}
       />
     </TextInputWrapper>
     </>
@@ -18,6 +21,7 @@ function TextInput ({className, children, type='text',  onChange, data }) {
 }
 
 const TextInputWrapper = styled.div`
+box-sizing: border-box;
 display: flex;
 flex-direction: column;
 `
@@ -27,10 +31,18 @@ font-size: 15px;
 padding-bottom: 10px;
 `
 const Input = styled.input`
-height: 40px;
+height:  ${({ height }) => height || "40px"};
+width: ${({width }) => width || "auto"};
 border: 1px solid #73798D;
 border-radius: 5px;
-background-color: #F8F8FF;
+background-color: ${BACKGROUND.WHITE};
+padding: 0 10px;
+
+outline: none; 
+
+&:focus {
+  border: 1.5px solid ${MAIN.BLUE};
+}
 `
 
 

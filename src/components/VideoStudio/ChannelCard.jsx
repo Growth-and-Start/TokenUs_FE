@@ -4,7 +4,7 @@ import Button1 from "../Button/Button1";
 import { GRAY_SCALE, TEXT } from "../../constants/colors";
 import FONT from "../../constants/fonts.js";
 
-function ChannelCard({name, account}) {
+function ChannelCard({name, account, onClick}) {
   return (
     <>
     <ChannelCardWrapper>
@@ -14,7 +14,9 @@ function ChannelCard({name, account}) {
         <ChannelAccount>{account}</ChannelAccount>
       </InfoWrapper>
       <ButtonWrapper>
-      <Button1 width="150px" height="40px" fontSize="18px">업로드</Button1>
+      <Button1
+      onClick={onClick} 
+      width="150px" height="40px" fontSize="18px">업로드</Button1>
       </ButtonWrapper>
     </ChannelCardWrapper>
     </>
