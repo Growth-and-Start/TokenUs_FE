@@ -10,24 +10,6 @@ function SignupComplement() {
     navigate("/login");
   };
 
-  const connectWallet = async () => {
-    if (typeof window.ethereum !== "undefined") {
-      try {
-        const accounts = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        });
-        const walletAddress = accounts[0];
-        console.log("✅ 지갑 주소:", walletAddress);
-        alert(`지갑이 연결되었습니다:\n${walletAddress}`);
-      } catch (error) {
-        console.error("❌ 지갑 연결 실패:", error);
-        alert("지갑 연결에 실패했습니다.");
-      }
-    } else {
-      alert("메타마스크가 설치되어 있지 않습니다.");
-    }
-  };
-
   return (
     <>
       <ComplementWrapper>
@@ -43,9 +25,6 @@ function SignupComplement() {
         >
           로그인하기
         </Button1>
-        <WalletConnectText onClick={connectWallet}>
-          내 지갑 연결하기
-        </WalletConnectText>
       </ComplementWrapper>
     </>
   );
@@ -73,12 +52,5 @@ const Text = styled.p`
   font-size: 23px;
 `;
 
-const WalletConnectText = styled.span`
-  margin-top: 10px;
-  font-size: 13px;
-  color: #535761;
-  cursor: pointer;
-  text-decoration: underline;
-`;
 
 export default SignupComplement;
