@@ -50,7 +50,7 @@ function NavBar({ isLoggedIn, updateLoginStatus }) {
 
 const NavWrapper = styled.div`
   background-color: ${BACKGROUND.WHITE};
-  padding: 8px 10px;
+  padding: 6px 10px;
   border: 1px solid ${GRAY_SCALE.GRAY300};
   display: flex;
   gap: 15px;
