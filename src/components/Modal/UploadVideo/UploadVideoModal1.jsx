@@ -14,6 +14,8 @@ import { useState, useEffect } from "react";
 import { checkVideoSimilarity } from "../../../services/videoService";
 import styled from "styled-components";
 import { GRAY_SCALE } from "../../../constants/colors";
+import SockJS from 'sockjs-client/dist/sockjs';
+import { Client } from "@stomp/stompjs";
 
 function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
   //업로드한 비디오 이름
@@ -25,33 +27,56 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
   const [similarityResult, setSimilarityResult] = useState(null);
   const [maxSimilarity, setMaxSimilarity] = useState(0);
   const [avgSimilarity, setAvgSimilarity] = useState(0);
-  //유사도 검사 요청
+
+  //웹소켓 연결 및 유사도 검사 결과 응답 받기
   useEffect(() => {
-    const runSimilarityCheck = async () => {
-      if (!data.videoUrl) return;
-      setSimilarityStatus("loading");
-      const response = await checkVideoSimilarity(data.videoUrl);
-      setSimilarityResult(response.data);
-      //temp for test
-      console.log("유사도 검사 결과", similarityResult);
-
-      //유사도 결과 수치 저장
-      setMaxSimilarity(similarityResult.result.max_similarity.toFixed(2));
-      setAvgSimilarity(similarityResult.result.avg_similarity.toFixed(2));
-      
-      //유사한 비디오 경로 저장
-      // const similarVideo = "";
-
-      //유사도 검사 결과(통과/실패)에 따라 상태 변경
-      if (similarityResult.result.passed) {
-        setSimilarityStatus("pass");
-      } else {
-        setSimilarityStatus("fail");
+    const socket = new SockJS('http://54.180.83.169:8080/ws');
+    const stompClient = new Client({
+      webSocketFactory: () => socket,
+      reconnectDelay: 5000,
+      onConnect: () => {
+        console.log('STOMP 연결됨');
+  
+        stompClient.subscribe('/topic/similarity_result', (message) => {
+          const result = JSON.parse(message.body);
+          console.log('유사도 결과 수신:', result);
+  
+          if (result.passed) {
+            setSimilarityStatus('pass');
+          } else {
+            setSimilarityStatus('fail');
+          }
+  
+          setMaxSimilarity(result.max_similarity.toFixed(2));
+          setAvgSimilarity(result.avg_similarity.toFixed(2));
+        });
+  
+        // ✅ 구독 완료된 뒤에 HTTP 요청
+        if (data.videoUrl) {
+          checkVideoSimilarity(data.videoUrl)
+            .then((res) => {
+              console.log("유사도 검사 요청 완료:", res);
+            })
+            .catch((err) => {
+              console.error("유사도 검사 요청 실패:", err);
+              setSimilarityStatus("error");
+            });
+        }
+      },
+      onStompError: (frame) => {
+        console.error('STOMP 에러:', frame);
+        setSimilarityStatus("error");
       }
+    });
+  
+    stompClient.activate();
+  
+    return () => {
+      stompClient.deactivate();
     };
-
-    runSimilarityCheck();
-  }, [data.videoUrl]);
+  }, [data.videoUrl]); // ✅ 구독 + 검사 요청 한 번에 처리
+  
+  
 
   const removeVideo = () => {
     setVideoName("");
@@ -109,9 +134,7 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
         )}
         {similarityStatus === "fail" && (
           <FailMessageBox>
-            <ErrorMessage size={"13px"}>
-              업로드 불가
-            </ErrorMessage>
+            <ErrorMessage size={"13px"}>업로드 불가</ErrorMessage>
             <SimilarityValue>
               평균 유사도 : {maxSimilarity} / 최대 유사도 : {avgSimilarity}
             </SimilarityValue>
