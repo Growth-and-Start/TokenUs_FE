@@ -7,9 +7,12 @@ import MainPage from "./pages/MainPage";
 import StudioPage from "./pages/StudioPage";
 import LoginPage from "./pages/LoginPage"
 import SearchResultPage from "./pages/SearchResultPage";
-import MyPage from "./pages/MyPage";
+import MyPageLayout from "./layout/MyPageLayout";
+import ProfilePage from "./pages/MyPage";
+import WalletPage from "./pages/MyPage/WalletPage";
 import ExchangePage from "./pages/ExchangePage";
 import { useState, useEffect } from "react";
+import { Outlet } from "react-router-dom";
 
 
 function App() {
@@ -41,8 +44,12 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/video-studio" element={<StudioPage />} />
           <Route path="/search" element={<SearchResultPage/>} />
-          <Route path="/mypage" element={<MyPage/>} />
           <Route path="/exchange" element={<ExchangePage/>} />
+
+          <Route path="/mypage" element={<MyPageLayout />}>
+            <Route index element={<ProfilePage />} />
+            <Route path="wallet" element={<WalletPage />} />
+          </Route>
         </Routes>
       </AppWrapper>
     </>
