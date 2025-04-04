@@ -11,6 +11,7 @@ import ViewCounter from "../../components/VideoContent/SocialActions/ViewCounter
 import ShareButton from "../../components/VideoContent/SocialActions/ShareButton";
 import NFTPrice from "../../components/VideoContent/NFTInfo/NFTPrice";
 import NFTHistory from "../../components/VideoContent/NFTInfo/NFTHistory";
+import { useEffect, useState } from "react";
 
 //비디오 시청 페이지
 function WatchVideoPage() {
@@ -18,11 +19,16 @@ function WatchVideoPage() {
   const location = useLocation();
   const { title, channel, formattedDate, videoUrl } = location.state || {};
 
+  const [loading, setLoading] = useState(false);
+
+  const[subscribed, setSubscribed] = useState(false);
+  const[liked, setLiked] = useState(false);
   const tempData = {
     title: "8시 스쿼시는 즐거워",
     profileUrl: "",
     channelName: "8시 스쿼시 연맹",
     subscribed: false,
+    liked: true,
     likes: 87,
     views: 256,
     description: "8시 스쿼시 함께 하실래여? 김재열 강사님과 함께합니다.",
@@ -63,12 +69,30 @@ function WatchVideoPage() {
     ],
   };
 
-  //구독하기
-  const handleSubscribe = () => {};
+  //구독하기&구독 취소하기
+  const toggleSubscription = () => {
+    setSubscribed(!subscribed);
+  }
+  //좋아요하기&취소하기
+  const toggleLike = () => {
+    setLiked(!liked)
+  }
 
-  //구독 취소하기
-  const handleUnsubscribe = () => {};
+  useEffect(() => {
+    const loadData = () => {
+      setLoading(true);
+      try{
+        setLiked(tempData.liked);
+        setSubscribed(tempData.subscribed);
+      }catch(error){
+        console.error("시청 영상 데이터 불러오기 실패:", error);
+      } finally {
+      setLoading(false);
+    }
+    };
 
+    loadData();
+  }, []);
   return (
     <>
       <Wrapper>
@@ -81,12 +105,12 @@ function WatchVideoPage() {
                 <Avatar src={tempData.profileUrl} size={45} />
                 <ChannelName>{tempData.channelName}</ChannelName>
                 <ButtonWrapper>
-                  {tempData.subscribed ? (
+                  {subscribed ? (
                     <Button2
                       width="100px"
                       height="40px"
                       fontSize="15px"
-                      onClick={handleUnsubscribe}
+                      onClick={toggleSubscription}
                     >
                       구독 중
                     </Button2>
@@ -95,7 +119,7 @@ function WatchVideoPage() {
                       width="100px"
                       height="40px"
                       fontSize="15px"
-                      onClick={handleSubscribe}
+                      onClick={toggleSubscription}
                     >
                       구독하기
                     </Button1>
@@ -103,7 +127,7 @@ function WatchVideoPage() {
                 </ButtonWrapper>
               </Channel>
               <SocialActions>
-                <LikeButton count={170} />
+                <LikeButton count={170} liked={liked} onClick={toggleLike}/>
                 <ViewCounter count={289} />
                 <ShareButton />
               </SocialActions>
@@ -141,7 +165,7 @@ const NFTArea = styled.div`
 
 const StyledVideo = styled(Video)`
   transform: translateY(-4px) scale(1);
-  box-shadow:0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   border-radius: 10px;
 `;
 
