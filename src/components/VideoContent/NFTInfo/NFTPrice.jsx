@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { MAIN, GRAY_SCALE, TEXT } from "../../../constants/colors";
 import Button2 from "../../Button/Button2";
 
-function NFTPrice({price}) {
+function NFTPrice({price, className}) {
   return (
     <>
-      <Wrapper>
+      <Wrapper className={className}>
         <Title>NFT Price</Title>
         <ContentWrapper>
           <PriceInfo>
