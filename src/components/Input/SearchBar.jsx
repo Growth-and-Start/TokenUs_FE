@@ -52,6 +52,7 @@ const SearchBarBox = styled.div`
 const Input = styled.input`
   all: unset;
   width: 300px;
+  height: 22px;
 `;
 
 const SearchButton = styled.button`
