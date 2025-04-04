@@ -102,10 +102,10 @@ function SignupInput1({ onClickNext, onChange, data }) {
               onChange={handleEmailChange}
               data={data.email}
             >
-              이메일
+              * 이메일
             </EmailInput>
             <CheckButton height="40px" onClick={handleCheckEmail}>
-              중복확인
+              * 중복확인
             </CheckButton>
           </EmailBox>
           <MessageWrapper>
@@ -125,7 +125,7 @@ function SignupInput1({ onClickNext, onChange, data }) {
             onChange={handlePasswordChange}
             data={data.password}
           >
-            비밀번호
+            * 비밀번호
           </TextInput>
           <MessageWrapper>
             {passwordMessage.type === "success" && (
@@ -139,7 +139,7 @@ function SignupInput1({ onClickNext, onChange, data }) {
 
         <div>
           <TextInput type="password" onChange={handleCheckPasswordChange}>
-            비밀번호 확인
+            * 비밀번호 확인
           </TextInput>
           <MessageWrapper>
             {checkPasswordMessage.type === "success" && (
