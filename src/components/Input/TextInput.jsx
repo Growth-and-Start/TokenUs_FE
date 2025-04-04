@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BACKGROUND, MAIN } from "../../constants/colors";
 
-function TextInput ({className, children, type='text', name, onChange, data, height, width }) {
+function TextInput ({className, children, type='text', name, onChange, data, height, width, required = false, }) {
 
   return(
     <>
@@ -13,6 +13,7 @@ function TextInput ({className, children, type='text', name, onChange, data, hei
       name={name}
       value={data}
       onChange={onChange}
+      required = {required}
       />
     </TextInputWrapper>
     </>
