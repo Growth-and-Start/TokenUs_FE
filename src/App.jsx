@@ -10,7 +10,6 @@ import SearchResultPage from "./pages/SearchResultPage";
 import MyPageLayout from "./layout/MyPageLayout";
 import ProfilePage from "./pages/MyPage";
 import WalletPage from "./pages/MyPage/WalletPage";
-import ExchangePage from "./pages/ExchangePage";
 import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
@@ -45,7 +44,6 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/video-studio" element={<StudioPage />} />
           <Route path="/search" element={<SearchResultPage/>} />
-          <Route path="/exchange" element={<ExchangePage/>} />
 
           <Route path="/mypage" element={<MyPageLayout />}>
             <Route index element={<ProfilePage />} />

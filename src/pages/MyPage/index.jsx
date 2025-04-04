@@ -4,7 +4,7 @@ import { MAIN, TEXT, GRAY_SCALE } from "../../constants/colors";
 import { Avatar } from "antd";
 import Button2 from "../../components/Button/Button2";
 import Button1 from "../../components/Button/Button1";
-import TextInput from "../../components/Signup/Input/textInput";
+import TextInput from "../../components/Input/TextInput.jsx";
 import { useState } from "react";
 
 const LabelInput = ({ label, ...props }) => (
