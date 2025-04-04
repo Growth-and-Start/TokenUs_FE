@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "../User/Avatar";
-import { MoreOutlined } from "@ant-design/icons";
+import { HolderOutlined, MoreOutlined } from "@ant-design/icons";
 
 function NavBar({ isLoggedIn, updateLoginStatus }) {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ function NavBar({ isLoggedIn, updateLoginStatus }) {
         <>
           <StyledLink to="/video-studio">비디오 스튜디오</StyledLink>
           <Division>
-          <MoreOutlined />
+            <HolderOutlined style={{ fontSize: '22px', color: GRAY_SCALE.GRAY500 }} />
           </Division>
           <AvatarLink to="/mypage">
             <Avatar size={35} />
@@ -82,8 +82,8 @@ const StyledLink = styled(Link)`
 `;
 
 const Division = styled.div`
-display: flex;
-align-items: center;
+  display: flex;
+  align-items: center;
 `;
 
 const AvatarLink = styled(Link)`
