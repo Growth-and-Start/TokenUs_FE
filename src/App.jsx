@@ -7,11 +7,12 @@ import MainPage from "./pages/MainPage";
 import StudioPage from "./pages/StudioPage";
 import LoginPage from "./pages/LoginPage";
 import SearchResultPage from "./pages/SearchResultPage";
-import MyPage from "./pages/MyPage";
-import Test from "./pages/TestTemp";
+import MyPageLayout from "./layout/MyPageLayout";
+import ProfilePage from "./pages/MyPage";
+import WalletPage from "./pages/MyPage/WalletPage";
+import ExchangePage from "./pages/ExchangePage";
 import { useState, useEffect } from "react";
-import WatchVideoPage from "./pages/WatchVideoPage";
-import MarketplacePage from "./pages/MarketplacePage";
+import { Outlet } from "react-router-dom";
 
 function App() {
   //로그인 상태
@@ -39,18 +40,17 @@ function App() {
           updateLoginStatus={updateLoginStatus}
         />
         <Routes>
-          <Route path="/" element={<MainPage />} />  {/* 메인 홈*/}
-          <Route
-            path="/login"
-            element={<LoginPage updateLoginStatus={updateLoginStatus} />}
-          />  {/*로그인*/}
-          <Route path="/signup" element={<SignupPage />} />  {/*회원 가입*/}
-          <Route path="/search" element={<SearchResultPage />} />   {/*검색 결과*/}
-          <Route path="/watch/:title" element={<WatchVideoPage/>}/>   {/*영상 시청*/}
-          <Route path="/video-studio" element={<StudioPage />} />   {/*비디오 업로드 관리*/}
-          <Route path="/mypage" element={<MyPage />} />   {/*마이 페이지*/}
-          <Route path="/marketplace" element={<MarketplacePage />} />   {/*NFT 거래소*/}
-          <Route path="/test" element={<Test />} />
+          <Route path="/" element={<MainPage />} />
+          <Route path="/login" element={<LoginPage updateLoginStatus={updateLoginStatus}/>} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/video-studio" element={<StudioPage />} />
+          <Route path="/search" element={<SearchResultPage/>} />
+          <Route path="/exchange" element={<ExchangePage/>} />
+
+          <Route path="/mypage" element={<MyPageLayout />}>
+            <Route index element={<ProfilePage />} />
+            <Route path="wallet" element={<WalletPage />} />
+          </Route>
         </Routes>
       </AppWrapper>
     </>
