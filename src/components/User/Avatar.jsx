@@ -1,7 +1,8 @@
 import styled from "styled-components";
+import defaultProfile from "../../assets/defaultProfile.png";
 
 function Avatar({ src, size = 50 }) {
-  return <StyledAvatar src={src} size={size} alt="Profile Image" />;
+  return <StyledAvatar src={src || defaultProfile} size={size} alt="Profile Image" />;
 }
 
 const StyledAvatar = styled.img`
