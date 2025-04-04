@@ -20,7 +20,8 @@ export const BACKGROUND = {
 }
 
 export const TEXT = {
-  BLACK: '#1a1b1d'
+  BLACK: '#1a1b1d',
+  GRAY: '#535761',
 }
 
 export const WARNING = {
