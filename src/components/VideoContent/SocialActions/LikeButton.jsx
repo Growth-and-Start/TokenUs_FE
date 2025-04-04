@@ -3,15 +3,10 @@ import styled from "styled-components";
 import { TEXT } from "../../../constants/colors";
 import { useState } from "react";
 
-function LikeButton({ count = 0 }) {
-  const [liked, setLiked] = useState(false); // 하트 클릭 여부 상태
-
-  const handleClick = () => {
-    setLiked((prev) => !prev); // 클릭하면 토글
-  };
+function LikeButton({ count, liked, onClick}) {
 
   return (
-    <Wrapper onClick={handleClick}>
+    <Wrapper onClick={onClick}>
       {liked ? <StyledFilledIcon /> : <StyledOutlinedIcon />}
       <Count>{count}</Count>
       <Text>좋아요</Text>
