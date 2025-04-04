@@ -5,6 +5,8 @@ import SearchBar from "../Input/SearchBar";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import Avatar from "../User/Avatar";
+import { HolderOutlined, MoreOutlined } from "@ant-design/icons";
 
 function NavBar({ isLoggedIn, updateLoginStatus }) {
   const navigate = useNavigate();
@@ -27,6 +29,13 @@ function NavBar({ isLoggedIn, updateLoginStatus }) {
       {isLoggedIn ? (
         <>
           <StyledLink to="/video-studio">비디오 스튜디오</StyledLink>
+          <Division>
+            <HolderOutlined style={{ fontSize: '22px', color: GRAY_SCALE.GRAY500 }} />
+          </Division>
+          <AvatarLink to="/mypage">
+            <Avatar size={35} />
+          </AvatarLink>
+
           <IconWrapper onClick={handleLogout}>
             <StyledIcon icon={faArrowRightFromBracket} size="lg" />
             <Tooltip>로그아웃</Tooltip>
@@ -41,22 +50,22 @@ function NavBar({ isLoggedIn, updateLoginStatus }) {
 
 const NavWrapper = styled.div`
   background-color: ${BACKGROUND.WHITE};
-  padding: 8px 10px;
+  padding: 6px 10px;
   border: 1px solid ${GRAY_SCALE.GRAY300};
   display: flex;
+  gap: 15px;
   width: 100%;
   box-sizing: border-box;
 `;
 
 const Logo = styled.img`
-  margin: 0 15px;
   display: flex;
   align-items: center;
+  margin-left: 5px;
 `;
 
 const SearchWrapper = styled.div`
   flex-grow: 1;
-  margin: 0 15px;
   display: flex;
   align-items: center;
 `;
@@ -64,13 +73,22 @@ const SearchWrapper = styled.div`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: ${TEXT.BLACK};
-  margin: 0 15px;
   display: flex;
   align-items: center;
 
   &:hover {
     color: ${MAIN.BLUE};
   }
+`;
+
+const Division = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const AvatarLink = styled(Link)`
+  display: flex;
+  align-items: center;
 `;
 
 const StyledIcon = styled(FontAwesomeIcon)`
@@ -97,7 +115,7 @@ const IconWrapper = styled.div`
 
 const Tooltip = styled.span`
   position: absolute;
-  top: 130%; 
+  top: 130%;
   left: 50%;
   transform: translateX(-50%);
   background-color: ${MAIN.BLUE};

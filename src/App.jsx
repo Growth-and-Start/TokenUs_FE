@@ -15,7 +15,7 @@ import { Outlet } from "react-router-dom";
 
 function App() {
   //로그인 상태
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("accessToken"));
 
   // 로그인 상태 변경 함수
   const updateLoginStatus = (status) => {
@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     const handleStorageChange = () => {
-      setIsLoggedIn(!!localStorage.getItem("token"));
+      setIsLoggedIn(!!localStorage.getItem("accessToken"));
     };
 
     window.addEventListener("storage", handleStorageChange);
