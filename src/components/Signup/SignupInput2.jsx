@@ -7,7 +7,13 @@ import Button1 from "../Button/Button1";
 import ImgInput from "./Input/ImgInput";
 import { MAIN } from "../../constants/colors";
 
-function SignupInput2({ onClickPrevious, onClickSubmit, onChange, onClick,data }) {
+function SignupInput2({
+  onClickPrevious,
+  onClickSubmit,
+  onChange,
+  onClick,
+  data,
+}) {
   return (
     <SignupInputWrapper>
       <Title>회원가입</Title>
@@ -15,16 +21,28 @@ function SignupInput2({ onClickPrevious, onClickSubmit, onChange, onClick,data }
         <TextInput type="text" name="name" onChange={onChange} data={data.name}>
           * 이름
         </TextInput>
-        <TextInput type="text" name="nickname" onChange={onChange} data={data.nickname}>
+        <TextInput
+          type="text"
+          name="nickname"
+          onChange={onChange}
+          data={data.nickname}
+        >
           * 닉네임
         </TextInput>
         <ImgInput name="profileUrl" onChange={onChange} data={data.profileUrl}>
           프로필 사진 선택
         </ImgInput>
       </Form>
-      <WalletConnectText onClick={onClick}>
+      {data.walletAddress ? (
+        <WalletConnectText onClick={onClick}>
+          내 지갑: {data.walletAddress}
+        </WalletConnectText>
+      ) : (
+        <WalletConnectText onClick={onClick}>
           지갑을 연결하시겠습니까?
         </WalletConnectText>
+      )}
+
       <Buttons>
         <Button2 onClick={onClickPrevious} width="90px">
           이전
@@ -55,7 +73,7 @@ const Form = styled.div`
   gap: 30px;
 `;
 
-const WalletConnectText = styled.span`
+const WalletConnectText = styled.div`
   font-size: 13px;
   color: #535761;
   cursor: pointer;
@@ -64,7 +82,7 @@ const WalletConnectText = styled.span`
   justify-content: center;
   margin-bottom: 10px;
 
-  &:hover{
+  &:hover {
     color: ${MAIN.BLUE};
   }
 `;
