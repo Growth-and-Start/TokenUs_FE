@@ -26,10 +26,12 @@ const VideoCardWrapper = styled.div`
   justify-content: center;
   box-sizing: border-box;
   gap: 2px;
+  /* width: 250px; */
+  width : 100%
 
   &:hover {
     transform: translateY(-4px) scale(1.00);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 10px ${GRAY_SCALE.GRAY300};
     border-radius: 10px;
   }
 `;
@@ -41,8 +43,7 @@ const Thumbnail = styled.div`
   background-size: cover;
   background-position: center;
   border-radius: 5px;
-  width: 240px;
-  height: 135px;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
 
   &::after {

@@ -7,7 +7,8 @@ import HolderList from "../../components/VideoContent/Main/HolderList";
 import { useEffect, useState } from "react";
 import { getVideoList } from "../../services/videoService";
 import trendContentThumbnail from "../../assets/default-thumbnail.png"
-
+import FONT from "../../constants/fonts";
+import Footer from "../../components/Footer";
 
 function MainPage() {
   const [videoData, setVideoData] = useState([]);
@@ -59,23 +60,24 @@ function MainPage() {
       ))}
       </ContentListWrapper>
     </MainWrapper>
+    <Footer />
     </>
   )
 }
 
 const MainWrapper = styled.div`
 padding: 30px 0;
+margin-bottom : 100px;
 `
 
 const TrendContentWrapper = styled.div`
 padding: 0 10%;
-margin-bottom: 30px;
+margin-bottom: 60px;
 `
 const TrendTitle = styled.div`
 color: ${MAIN.BLUE};
-font-weight: 600;
-font-size: 22px;
 padding: 10px 0;
+${FONT.TITLE};
 `
 
 const TrendContent = styled.div`
@@ -92,14 +94,37 @@ const Thumbnail = styled.img`
   object-position: center;
 `;
 
-
-const ContentListWrapper = styled.div`
+/* const ContentListWrapper = styled.div`
 padding: 0 10%;
 display: grid;
 grid-template-columns: repeat(auto-fill, minmax(240px, auto));
 justify-content: center;
 gap:25px;
-margin-top:20px;
-`
+margin-top:30px;
+` */
+
+const ContentListWrapper = styled.div`
+  width: 100%;
+  padding : 0 150px;
+  box-sizing: border-box;
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+`;
+
 
 export default MainPage;

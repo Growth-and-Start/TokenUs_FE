@@ -25,8 +25,9 @@ const Button = styled.button`
   font-size: ${(props) => props.fontSize || "auto"};
 
   &:hover{
-    color: #265cffb4;
-    border-color: #265cffb4;
+    color: #0049D9;
+    border-color: #0049D9;
+    box-shadow : 1px 1px 7px #E5E5E5;
   }
 `;
 

@@ -29,7 +29,12 @@ const Button = styled.button`
   }
 
   &:hover{
-    background-color: #265cffb4;
+    background-color: #0049D9;
+    box-shadow : 1px 1px 7px ${GRAY_SCALE.GRAY300};
+  }
+  
+  &:disabled:hover {
+    background-color: ${GRAY_SCALE.GRAY300};
   }
 `;
 

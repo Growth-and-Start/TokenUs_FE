@@ -46,13 +46,13 @@ const SearchBarBox = styled.div`
   display: inline-block;
   border: 1px solid ${SECONDARY.BLUE};
   border-radius: 8px;
-  padding: 1px 10px;
+  padding: 8px 10px;
 `;
 
 const Input = styled.input`
   all: unset;
   width: 300px;
-  height: 22px;
+  
 `;
 
 const SearchButton = styled.button`

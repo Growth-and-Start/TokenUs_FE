@@ -51,18 +51,21 @@ function NavBar({ isLoggedIn, updateLoginStatus }) {
 
 const NavWrapper = styled.div`
   background-color: ${BACKGROUND.WHITE};
-  padding: 6px 10px;
-  border: 1px solid ${GRAY_SCALE.GRAY300};
+  padding: 16px 32px;
+  border-bottom: 1px solid ${GRAY_SCALE.GRAY300};
   display: flex;
   gap: 15px;
   width: 100%;
+  height : 60px;
   box-sizing: border-box;
+  align-items: center;
 `;
 
 const Logo = styled.img`
   display: flex;
   align-items: center;
-  margin-left: 5px;
+  margin-left : 5px;
+  margin-right : 15px;
 `;
 
 const SearchWrapper = styled.div`

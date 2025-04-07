@@ -1,27 +1,29 @@
 import styled from "styled-components";
-import { MAIN, GRAY_SCALE } from "../../../constants/colors";
+import { MAIN, GRAY_SCALE, TEXT } from "../../../constants/colors";
 import QuantityButton from "../../Input/QuantityButton";
 import { useState } from "react";
 import Button1 from "../../Button/Button1";
 import Button2 from "../../Button/Button2";
+import FONT from "../../../constants/fonts";
 
 function NFTInfo() {
   const [count, setCount] = useState(1);
+  const TotalPrice = 0.0027;
   return (
     <>
       <NFTInfoWrapper>
         <BasicInfo>
-          <Header>Unit Price</Header>
-          <Header>Quantity</Header>
+          <Header>Mint Price</Header>
+          <Header>Floor Price</Header>
           <Header>Creator</Header>
-          <Data>$0.02</Data>
-          <Data>20</Data>
+          <Data>$0.0002</Data>
+          <Data>$0.0027</Data>
           <Data>크리에이터 연합 토크너스</Data>
         </BasicInfo>
         <PriceInfo>
           <Title>예상 가격</Title>
           <Price>
-            <CurrentPrice>0.02 ETH</CurrentPrice>
+            <CurrentPrice>{TotalPrice * count} ETH</CurrentPrice>
             <QuantityButton count={count} setCount={setCount}/>
           </Price>
         </PriceInfo>
@@ -64,7 +66,8 @@ margin-bottom: 30px;
 `;
 
 const Title = styled.div`
-color: #535761;
+color: ${GRAY_SCALE.GRAY700};
+${FONT.CAPTION}
 font-size: 13px;
 `;
 
@@ -74,8 +77,8 @@ justify-content: space-between;
 `;
 
 const CurrentPrice = styled.div`
-font-size: 23px;
-font-weight: 550;
+${FONT.TITLE};
+color : ${TEXT.BLACK};
 `;
 
 const Buttons = styled.div`
