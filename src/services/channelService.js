@@ -22,14 +22,18 @@ export const postSubscribe = async (targetId) => {
 
 
 //채널 구독 취소 요청
-// export const deleteSubscribe = async (targetId) => {
-//   return await axiosInstance.delete(`${API_URL}/unsubscribe/${targetId}`);
-// };
-
 export const deleteSubscribe = async (targetId) => {
   return await axiosInstance.delete(`${API_URL}/unsubscribe`, {
     params: { targetId },
   }
-
   );
 };
+
+//현재 로그인한 사용자의 특정 크리에이터에 대한 정보 요청
+export const getUserDetail = async (creatorId) => {
+  const response = await axiosInstance.get(`${API_URL}/detail`, {
+    params: { creatorId },
+  });
+
+  return response.data.result;
+}
