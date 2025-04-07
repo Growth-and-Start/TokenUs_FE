@@ -7,7 +7,7 @@ import MainPage from "./pages/MainPage";
 import StudioPage from "./pages/StudioPage";
 import LoginPage from "./pages/LoginPage";
 import SearchResultPage from "./pages/SearchResultPage";
-import Test from "./pages/TestTemp";
+/* import Test from "./pages/TestTemp"; */
 import { useState, useEffect } from "react";
 import WatchVideoPage from "./pages/WatchVideoPage";
 import MarketplacePage from "./pages/MarketplacePage";
@@ -63,7 +63,7 @@ function App() {
           {/*마이 페이지*/}
           <Route path="/marketplace" element={<MarketplacePage />} />
           {/*NFT 거래소*/}
-          <Route path="/test" element={<Test />} />
+          {/* <Route path="/test" element={<Test />} /> */}
         </Routes>
       </AppWrapper>
     </>
