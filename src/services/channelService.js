@@ -29,11 +29,17 @@ export const deleteSubscribe = async (targetId) => {
   );
 };
 
-//현재 로그인한 사용자의 특정 크리에이터에 대한 정보 요청
+//현재 로그인한 사용자의 다른 크리에이터에 대한 정보 요청
 export const getUserDetail = async (creatorId) => {
   const response = await axiosInstance.get(`${API_URL}/detail`, {
     params: { creatorId },
   });
 
+  return response.data.result;
+}
+
+//현재 로그인한 사용자 정보 요청
+export const getMyInfo = async () =>{
+  const response = await axiosInstance.get(`${API_URL}/get_my_info`)
   return response.data.result;
 }
