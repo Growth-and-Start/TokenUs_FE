@@ -25,7 +25,7 @@ function NavBar({ isLoggedIn, updateLoginStatus }) {
       <SearchWrapper>
         <SearchBar />
       </SearchWrapper>
-      <StyledLink to="/exchange">NFT 거래소</StyledLink>
+      <StyledLink to="/marketplace">NFT 거래소</StyledLink>
       {isLoggedIn ? (
         <>
           <StyledLink to="/video-studio">비디오 스튜디오</StyledLink>

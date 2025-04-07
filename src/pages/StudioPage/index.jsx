@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import ChannelCard from "../../components/VideoStudio/ChannelCard.jsx";
 import VideoTable from "../../components/VideoStudio/VideoTable.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UploadModalController from "./UploadModalController.jsx";
+import { getMyInfo } from "../../services/channelService.js";
 
 const tempData_channel = {
-  name: "크리에이터 연합 토크너스",
+  name: "8시 스쿼시 연맹",
   account: "tokenus.creator@gmail.com",
 };
 
@@ -45,6 +46,9 @@ const tempData_videoTable = [
 ];
 
 function StudioPage() {
+  //사용자 정보 데이터
+  const [userData, setUserData] = useState("");
+
   //비디오 업로드 실행 여부
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
@@ -58,22 +62,40 @@ function StudioPage() {
   //지갑 연결 상태 확인
   const checkWallet = () => {};
 
+  //로딩 상태
+  const [loading, setLoading] = useState(false);
+
   const channel = tempData_channel;
 
   // console.log("channel:", channel);
   // console.log("videos:", tempData_videoTable);
 
-  if (!channel || !tempData_videoTable) {
-    return <div>Loading...</div>; // 값 없으면 로딩 처리
-  }
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setLoading(true);
+      try {
+        const response = await getMyInfo();
+        setUserData(response);
+      } catch (error) {
+        console.log("사용자 정보 가져오기 실패:", error);
+      } finally{
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
 
   return (
     <>
       <StudioPageWrapper>
         <ChannelCardWrapper>
           <ChannelCard
-            name={channel.name}
-            account={channel.account}
+            name={userData.nickname}
+            account={userData.email}
+            profileUrl={userData.profileImageUrl}
+            wallet={userData.walletAddress}
             onClick={handleUploadModalOpen}
           />
         </ChannelCardWrapper>
