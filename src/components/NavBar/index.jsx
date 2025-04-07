@@ -34,6 +34,7 @@ function NavBar({ isLoggedIn, updateLoginStatus }) {
           </Division>
           <AvatarLink to="/mypage">
             <Avatar size={35} />
+            <Tooltip>마이페이지</Tooltip>
           </AvatarLink>
 
           <IconWrapper onClick={handleLogout}>
@@ -89,6 +90,11 @@ const Division = styled.div`
 const AvatarLink = styled(Link)`
   display: flex;
   align-items: center;
+  position: relative;
+  &:hover span {
+    opacity: 1;
+    visibility: visible;
+  }
 `;
 
 const StyledIcon = styled(FontAwesomeIcon)`

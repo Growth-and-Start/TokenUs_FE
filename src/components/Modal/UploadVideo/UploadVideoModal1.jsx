@@ -10,11 +10,14 @@ import UploadedFileName from "../../Output/UploadedFileName";
 import LoadingMessage from "../../Message/LoadingMessage";
 import ApprovalMessage from "../../Message/ApprovalMessage";
 import ErrorMessage from "../../Message/ErrorMessage";
-import { useState, useEffect } from "react";
-import { checkVideoSimilarity } from "../../../services/videoService";
+import { useState, useEffect, useRef } from "react";
+import {
+  checkVideoSimilarity,
+  getVideoURL,
+} from "../../../services/videoService";
 import styled from "styled-components";
 import { GRAY_SCALE } from "../../../constants/colors";
-import SockJS from 'sockjs-client/dist/sockjs';
+import SockJS from "sockjs-client/dist/sockjs";
 import { Client } from "@stomp/stompjs";
 
 function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
@@ -27,56 +30,66 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
   const [similarityResult, setSimilarityResult] = useState(null);
   const [maxSimilarity, setMaxSimilarity] = useState(0);
   const [avgSimilarity, setAvgSimilarity] = useState(0);
+  const [similarVideo, setSimilarVideo] = useState("");
 
   //웹소켓 연결 및 유사도 검사 결과 응답 받기
   useEffect(() => {
-    const socket = new SockJS('http://54.180.83.169:8080/ws');
+    const socket = new SockJS("http://54.180.83.169:8080/ws");
     const stompClient = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
       onConnect: () => {
-        console.log('STOMP 연결됨');
-  
-        stompClient.subscribe('/topic/similarity_result', (message) => {
+        console.log("✅ STOMP 연결됨");
+
+        // 구독 완료 여부를 위한 flag
+        let subscribed = false;
+
+        stompClient.subscribe("/topic/similarity_result", async (message) => {
           const result = JSON.parse(message.body);
-          console.log('유사도 결과 수신:', result);
-  
+          console.log("📩 유사도 결과 수신:", result);
+
           if (result.passed) {
-            setSimilarityStatus('pass');
+            setSimilarityStatus("pass");
           } else {
-            setSimilarityStatus('fail');
+            setSimilarityStatus("fail");
           }
-  
           setMaxSimilarity(result.max_similarity.toFixed(2));
           setAvgSimilarity(result.avg_similarity.toFixed(2));
+          const similarVideoURL = await getVideoURL(result.similar_video_id);
+          setSimilarVideo(similarVideoURL);
+          console.log("유사한 비디오: ",similarVideo);
         });
-  
-        // ✅ 구독 완료된 뒤에 HTTP 요청
-        if (data.videoUrl) {
-          checkVideoSimilarity(data.videoUrl)
-            .then((res) => {
-              console.log("유사도 검사 요청 완료:", res);
-            })
-            .catch((err) => {
-              console.error("유사도 검사 요청 실패:", err);
-              setSimilarityStatus("error");
-            });
-        }
+
+        // 🔐 STOMP 내부적으로 subscribe가 큐에 올라가기 전에 HTTP 요청이 먼저 가는 걸 막기 위해
+        // 약간의 딜레이 or 다음 tick 사용
+        setTimeout(() => {
+          if (data.videoUrl) {
+            console.log("📤 유사도 검사 HTTP 요청 실행");
+            setSimilarityStatus("loading");
+
+            checkVideoSimilarity(data.videoUrl)
+              .then((res) => {
+                console.log("✅ 유사도 검사 요청 완료:", res);
+              })
+              .catch((err) => {
+                console.error("❌ 유사도 검사 요청 실패:", err);
+                setSimilarityStatus("error");
+              });
+          }
+        }, 0); // ✅ 이벤트 루프 다음 tick에 실행
       },
       onStompError: (frame) => {
-        console.error('STOMP 에러:', frame);
+        console.error("❌ STOMP 에러:", frame);
         setSimilarityStatus("error");
-      }
+      },
     });
-  
+
     stompClient.activate();
-  
+
     return () => {
       stompClient.deactivate();
     };
-  }, [data.videoUrl]); // ✅ 구독 + 검사 요청 한 번에 처리
-  
-  
+  }, [data.videoUrl]);
 
   const removeVideo = () => {
     setVideoName("");
@@ -133,12 +146,24 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
           </ApprovalMessage>
         )}
         {similarityStatus === "fail" && (
-          <FailMessageBox>
-            <ErrorMessage size={"13px"}>업로드 불가</ErrorMessage>
-            <SimilarityValue>
-              평균 유사도 : {maxSimilarity} / 최대 유사도 : {avgSimilarity}
-            </SimilarityValue>
-          </FailMessageBox>
+          <>
+            <FailMessageBox>
+              <ErrorMessage size={"13px"}>업로드 불가</ErrorMessage>
+
+              <SimilarityInfo>
+                <SimilarityValue>
+                  평균 유사도 : {maxSimilarity} / 최대 유사도 : {avgSimilarity}
+                </SimilarityValue>
+                <SimilarVideoURL
+                  href={similarVideo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                   → 유사한 비디오 보러가기
+                </SimilarVideoURL>
+              </SimilarityInfo>
+            </FailMessageBox>
+          </>
         )}
       </div>
       {/* 기타 다른 영상 정보 입력 */}
@@ -179,16 +204,27 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
 }
 
 const FailMessageBox = styled.div`
-  display: flex;
-  text-align: center;
-  gap: 10px;
+
 `;
+
+const SimilarityInfo = styled.div`
+    display: flex;
+  text-align: center;
+  gap: 20px;
+`
 
 const SimilarityValue = styled.div`
   color: ${GRAY_SCALE.GRAY700};
-  font-size: 11px;
+  font-size: 12px;
   display: flex;
   align-items: center;
+`;
+
+const SimilarVideoURL = styled.a`
+  all: unset;
+  font-size: 12px;
+  color: ${GRAY_SCALE.GRAY700};
+  cursor: pointer;
 `;
 
 export default UploadVideoModal1;

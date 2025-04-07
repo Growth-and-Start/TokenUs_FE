@@ -12,17 +12,26 @@ import ShareButton from "../../components/VideoContent/SocialActions/ShareButton
 import NFTPrice from "../../components/VideoContent/NFTInfo/NFTPrice";
 import NFTHistory from "../../components/VideoContent/NFTInfo/NFTHistory";
 import { useEffect, useState } from "react";
+import { getVideoDetail, likeVideo, unlikeVideo } from "../../services/videoService";
+import {
+  deleteSubscribe,
+  getUserDetail,
+  postSubscribe,
+} from "../../services/channelService";
 
 //비디오 시청 페이지
 function WatchVideoPage() {
   const { videoTitle } = useParams();
   const location = useLocation();
-  const { title, channel, formattedDate, videoUrl } = location.state || {};
+  const { videoId, creatorId } = location.state || {};
 
   const [loading, setLoading] = useState(false);
+  const [videoData, setVideoData] = useState("");
+  const [channelData, setChannelData] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
 
-  const[subscribed, setSubscribed] = useState(false);
-  const[liked, setLiked] = useState(false);
   const tempData = {
     title: "8시 스쿼시는 즐거워",
     profileUrl: "",
@@ -70,25 +79,56 @@ function WatchVideoPage() {
   };
 
   //구독하기&구독 취소하기
-  const toggleSubscription = () => {
-    setSubscribed(!subscribed);
-  }
+  const toggleSubscription = async () => {
+    try {
+      if (subscribed === false) {
+        await postSubscribe(creatorId);
+      } else if (subscribed === true) {
+        await deleteSubscribe(creatorId);
+      }
+      setSubscribed(!subscribed);
+    } catch (error) {
+      console.log("구독 요청 실패: ", error);
+    }
+  };
+
   //좋아요하기&취소하기
-  const toggleLike = () => {
-    setLiked(!liked)
-  }
+  const toggleLike = async () => {
+    try {
+      if (!liked) {
+        await likeVideo(videoId);
+        setLiked(true);
+        setLikeCount(prev => prev + 1);
+      } else {
+        await unlikeVideo(videoId);
+        setLiked(false);
+        setLikeCount(prev => prev - 1);
+      }
+      console.log("좋아요 요청 성공!")
+    } catch (err) {
+      console.error("좋아요 요청 실패:", err);
+    }
+  };
+  
 
   useEffect(() => {
-    const loadData = () => {
+    const loadData = async () => {
       setLoading(true);
-      try{
-        setLiked(tempData.liked);
-        setSubscribed(tempData.subscribed);
-      }catch(error){
+      try {
+        console.log("파라미터: ", videoId, creatorId);
+        const contentData = await getVideoDetail(videoId);
+        const userData = await getUserDetail(creatorId);
+        console.log("영상 정보:", contentData);
+        console.log("채널 정보:", userData);
+        setVideoData(contentData);
+        setChannelData(userData);
+        setLiked(contentData.isLiked);
+        setSubscribed(userData.subscribed);
+      } catch (error) {
         console.error("시청 영상 데이터 불러오기 실패:", error);
       } finally {
-      setLoading(false);
-    }
+        setLoading(false);
+      }
     };
 
     loadData();
@@ -97,13 +137,13 @@ function WatchVideoPage() {
     <>
       <Wrapper>
         <ContentArea>
-          <StyledVideo url={videoUrl} />
+          <StyledVideo url={videoData.videoUrl} />
           <VideoInfo>
-            <VideoTitle>{tempData.title}</VideoTitle>
+            <VideoTitle>{videoData.videoTitle}</VideoTitle>
             <VideoDetail>
               <Channel>
-                <Avatar src={tempData.profileUrl} size={45} />
-                <ChannelName>{tempData.channelName}</ChannelName>
+                <Avatar src={channelData.profileImageUrl} size={45} />
+                <ChannelName>{channelData.nickName}</ChannelName>
                 <ButtonWrapper>
                   {subscribed ? (
                     <Button2
@@ -127,12 +167,16 @@ function WatchVideoPage() {
                 </ButtonWrapper>
               </Channel>
               <SocialActions>
-                <LikeButton count={170} liked={liked} onClick={toggleLike}/>
-                <ViewCounter count={289} />
+                <LikeButton
+                  count={likeCount}
+                  liked={liked}
+                  onClick={toggleLike}
+                />
+                <ViewCounter count={videoData.viewCount} />
                 <ShareButton />
               </SocialActions>
             </VideoDetail>
-            <VideoDescription>{tempData.description}</VideoDescription>
+            <VideoDescription>{videoData.VideoDetail}</VideoDescription>
           </VideoInfo>
         </ContentArea>
 
