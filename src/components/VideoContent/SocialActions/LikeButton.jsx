@@ -1,13 +1,12 @@
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
 import styled from "styled-components";
 import { TEXT } from "../../../constants/colors";
-import { useState } from "react";
 
-function LikeButton({ count, liked, onClick}) {
+function LikeButton({ count=0, liked, onClick}) {
 
   return (
-    <Wrapper onClick={onClick}>
-      {liked ? <StyledFilledIcon /> : <StyledOutlinedIcon />}
+    <Wrapper>
+      {liked ? <StyledFilledIcon onClick={onClick}/> : <StyledOutlinedIcon onClick={onClick}/>}
       <Count>{count}</Count>
       <Text>좋아요</Text>
     </Wrapper>
