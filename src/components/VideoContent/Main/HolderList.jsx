@@ -1,48 +1,40 @@
 import styled from "styled-components";
-import { MAIN, GRAY_SCALE, BACKGROUND } from "../../../constants/colors";
+import { MAIN, GRAY_SCALE, BACKGROUND, TEXT } from "../../../constants/colors";
+import FONT from "../../../constants/fonts";
 
 const tempData = [
   {
-    "name": "UserName1",
     "account": "0xf2nr...0013",
-    "quantity": "1"
+    "price": "0.027"
   },
   {
-    "name": "UserName1",
     "account": "0xf2nr...0013",
-    "quantity": "1"
+    "price": "0.027"
   },
   {
-    "name": "UserName1",
     "account": "0xf2nr...0013",
-    "quantity": "1"
+    "price": "0.027"
   },
   {
-    "name": "UserName1",
     "account": "0xf2nr...0013",
-    "quantity": "1"
+    "price": "0.027"
   },
   {
-    "name": "UserName1",
     "account": "0xf2nr...0013",
-    "quantity": "1"
+    "price": "0.027"
   },
   {
-    "name": "UserName1",
     "account": "0xf2nr...0013",
-    "quantity": "1"
+    "price": "0.027"
   }
 ]
 
-function Holder({name, account, quantity, index}) {
+function Holder({account, price, index}) {
   return(
     <>
     <HolderWrapper isOdd={index % 2 !== 0}>
-      <UserInfo>
-        <UserName>{name}</UserName>
-        <UserAccount>{account}</UserAccount>
-      </UserInfo>
-      <Quantity>{quantity} items</Quantity>
+      <UserAccount>{account}</UserAccount>
+      <Price>{price}ETH</Price>
     </HolderWrapper>
     </>
   )
@@ -51,23 +43,20 @@ function Holder({name, account, quantity, index}) {
 const HolderWrapper = styled.div`
 display: flex;
 justify-content: space-between;
-padding: 5px 15px;
+padding: 15px;
 background-color: ${(props) =>
-    props.isOdd ? GRAY_SCALE.GRAY100 : BACKGROUND.WHITE };
-`;
-const UserInfo = styled.div`
-`;
-const UserName = styled.div`
-  font-size: 15px;
+    props.isOdd ? '#EDF1FE' : BACKGROUND.WHITE };
 `;
 const UserAccount = styled.div`
-  font-size: 12px;
-  color: #535761;`;
-const Quantity = styled.div`
+  ${FONT.BODY2}
+  color: ${GRAY_SCALE.GRAY700};
+`;  
+const Price = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
-font-size: 15px;
+${FONT.BODY2};
+color: ${TEXT.BLACK};
 `;
 
 
@@ -83,9 +72,8 @@ function HolderList() {
           {tempData.map((holder,index)=>(
             <Holder
             key={index}
-            name={holder.name}
             account={holder.account}
-            quantity={holder.quantity}
+            price={holder.price}
             index={index}
             />
           ))}
