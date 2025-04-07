@@ -52,8 +52,9 @@ function MainPage() {
           title={video.videoTitle || "제목이 없습니다"}
           channel={video.creatorNickname}
           date={video.createdAt}
-          thumbnailUrl={video.thumbnailUrl}
           videoUrl={video.videoUrl}
+          videoId={video.videoId}
+          creatorId={video.creatorId}
         />
       ))}
       </ContentListWrapper>

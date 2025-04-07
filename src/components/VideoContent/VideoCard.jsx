@@ -2,13 +2,13 @@ import styled from "styled-components";
 import { GRAY_SCALE } from "../../constants/colors";
 import { Link } from "react-router-dom";
 
-function VideoCard({ title, channel, date, thumbnailUrl, videoUrl, videoId }) {
+function VideoCard({ title, channel, date, thumbnailUrl, videoId, creatorId }) {
   const [year, month, day] = date.split("T")[0].split("-");
   const formattedDate = `${year} / ${month} / ${day}`;
   return (
     <Link 
     to={`/watch/${title}`} 
-    state={{title, channel, formattedDate, videoUrl}}
+    state={{videoId, creatorId}}
     style={{ textDecoration: "none", color: "inherit" }}>
       <VideoCardWrapper>
         <Thumbnail thumbnailUrl={thumbnailUrl} />
