@@ -42,3 +42,35 @@ export const getSearchResult = async (searchFor) => {
 
   return response.data.result;
 }
+
+//비디오 시청 페이지 정보 요청
+export const getVideoDetail = async (videoId) => {
+  const response = await axiosInstance.get(`${API_URL}/detail`, {
+    params: { videoId },
+  });
+
+  return response.data.result;
+};
+
+
+//영상 좋아요 하기
+export const likeVideo = async (videoId) => {
+  await axiosInstance.post(`${API_URL}/like?videoId=${videoId}`);
+};
+
+//영상 좋아요 취소하기
+export const unlikeVideo = async (videoId) => {
+  return await axiosInstance.delete(`${API_URL}/unlike`, {
+    params: { videoId },
+  }
+  );
+};
+
+//비디오 ID로 해당 비디오 URL 요청(유사도 검사 시 유사한 비디오 반환에 사용)
+export const getVideoURL = async(videoId) =>{
+  const response = await axiosInstance.get(`${API_URL}/get_url`,{
+    params: {videoId},
+  }
+  )
+  return response.data.result.videoUrl;
+}
