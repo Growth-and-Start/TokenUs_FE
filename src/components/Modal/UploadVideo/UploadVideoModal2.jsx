@@ -55,12 +55,12 @@ function UploadVideoModal2({ onBack, onChange, onSubmit, data, setNftData }) {
 
       <InputsContainer>
         <InputItem>
-          <Label>NFT 가격 (ETH)</Label>
+          <Label>NFT 가격 (WEI)</Label>
           <InputRow>
            
             <StyledInput
               type="number"
-              step="0.001"
+              step="1"
               name="price"
               value={data.price || ""}
               onChange={onChange}
