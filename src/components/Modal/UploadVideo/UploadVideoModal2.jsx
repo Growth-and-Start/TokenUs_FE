@@ -39,7 +39,12 @@ function UploadVideoModal2({ onBack, onChange, onSubmit, data, setNftData }) {
           <Button2 onClick={onBack} width="100px" fontSize="15px">
             이전
           </Button2>
-          <Button1 onClick={onSubmit} width="100px" fontSize="15px">
+          <Button1 onClick={onSubmit} width="100px" fontSize="15px" disabled={
+              !(
+                data.nftName.trim() !== "" &&
+                data.nftSymbol.trim() !== ""
+              )
+            }>
             업로드
           </Button1>
         </>
