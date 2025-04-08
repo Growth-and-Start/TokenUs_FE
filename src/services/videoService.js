@@ -77,3 +77,10 @@ export const getVideoURL = async(videoId) =>{
   )
   return response.data.result.videoUrl;
 }
+
+//내가 업로드한 비디오 요청
+export const getMyVideo = async() => {
+  const response = await axiosInstance.get(`${API_URL}/get_my_videos`)
+
+  return response.data.result;
+}
