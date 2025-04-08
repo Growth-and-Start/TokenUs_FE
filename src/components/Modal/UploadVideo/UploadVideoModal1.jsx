@@ -33,7 +33,7 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
 
   //웹소켓 연결 및 유사도 검사 결과 응답 받기
   useEffect(() => {
-    const socket = new SockJS("http://54.180.83.169:8080/ws");
+    const socket = new SockJS("http://13.125.207.27:8080/ws");
     const stompClient = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
