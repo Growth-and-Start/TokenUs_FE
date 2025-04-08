@@ -5,6 +5,10 @@ import { uploadContent } from "../../utils/upload";
 import { postVideoData } from "../../services/videoService";
 import { mintVideoNFT } from "../../services/NFTService";
 import { getMyInfo } from "../../services/channelService";
+import BasicModalLayout from "../../components/Modal/Layout/BasicModalLayout";
+import styled from "styled-components";
+import Button1 from "../../components/Button/Button1";
+import { GRAY_SCALE, TEXT } from "../../constants/colors";
 
 function UploadModalController({ onClose }) {
   const [error, setError] = useState("");
@@ -25,10 +29,13 @@ function UploadModalController({ onClose }) {
     totalSupply: 1,
     nftName: "",
     nftSymbol: "",
-    price: 0.001,
+    price: 0,
     videoId: 0,
     creatorAddress: "",
   });
+
+  //NFT 발행 트랜잭션 해시 값
+  const [hash, setHash] = useState("");
 
   //비디오 업르드 단계(1: 기본 정보 및 유사도 검사, 2: NFT 발행)
   const [step, setStep] = useState(1);
@@ -63,10 +70,6 @@ function UploadModalController({ onClose }) {
       finalValue = value === "true";
     }
 
-    if(name === "price"){
-      finalValue = Number(value);
-    }
-
     setVideoData((prevData) => ({
       ...prevData,
       [name]: finalValue,
@@ -76,9 +79,17 @@ function UploadModalController({ onClose }) {
   //사용자 입력 데이터(NFT 정보) 변경
   const handleChangeNFTInfo = (e) => {
     const { name, type, value, files } = e.target;
+
+    let finalValue = value;
+
+    if (name === "price" || name === "totalSupply") {
+      finalValue = Number(value);
+    }
+
+
     setNftData((prevData) => ({
       ...prevData,
-      [name]: type === "file" ? files[0] : value,
+      [name]: type === "file" ? files[0] : finalValue,
     }));
   };
 
@@ -110,23 +121,18 @@ function UploadModalController({ onClose }) {
     }
   };
 
-  // NFT 정보 POST & NFT 발행
-  // const postNFTInfo = async () => {
-  //   try {
-  //     await mintVideoNFT(nftData);
-  //   } catch (error) {
-  //     console.log("NFT 발행 실패: ", error);
-  //     setError("NFT 발행 실패");
-  //     return;
-  //   }
-  // };
 
   // NFT 정보 POST(비디오 업로드 완료)
   const handleSubmit = async () => {
     const finalNFTData = await postVideoInfo();
-    await mintVideoNFT(finalNFTData);
-
-    onClose(); //모달 창 닫기
+    try {
+      const transactionHash =  await mintVideoNFT(finalNFTData);
+      setHash(transactionHash);
+      console.log("트랜잭션 Hash: ", transactionHash);
+      handleNext();
+    } catch (error) {
+      console.log("NFT 발행 실패: ", error);
+    }
   };
 
   //temp for test
@@ -161,8 +167,46 @@ function UploadModalController({ onClose }) {
           setNftData={setNftData}
         />
       )}
+      {step === 3 && (
+        <BasicModalLayout
+          footer={
+            <Button1 onClick={onClose} width="100px" fontSize="15px">
+              완료
+            </Button1>
+          }
+        >
+          <CompletionBody>
+          <CompletionMessage>
+            영상이 등록되었습니다!
+            <HashValue>{hash}</HashValue>
+          </CompletionMessage>
+          <StyledLink>마켓플레이스에 NFT 등록하기</StyledLink>
+          </CompletionBody>
+        </BasicModalLayout>
+      )}
     </>
   );
 }
 
 export default UploadModalController;
+
+const CompletionBody = styled.div`
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ gap: 30px;
+`
+
+const CompletionMessage = styled.div`
+font-size: 25px;
+font-weight: 550;
+`;
+
+const HashValue = styled.div`
+  font-size: 13px;
+`
+
+const StyledLink = styled.a`
+color:${TEXT.GRAY}
+`
