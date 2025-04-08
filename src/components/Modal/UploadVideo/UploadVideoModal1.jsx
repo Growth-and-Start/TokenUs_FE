@@ -27,7 +27,6 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
   //유사도 검사 진행 결과
   const [similarityStatus, setSimilarityStatus] = useState("idle"); // "idle" | "loading" | "pass" | "fail" | "error"
   //유사도 검사 결과 (n%)
-  const [similarityResult, setSimilarityResult] = useState(null);
   const [maxSimilarity, setMaxSimilarity] = useState(0);
   const [avgSimilarity, setAvgSimilarity] = useState(0);
   const [similarVideo, setSimilarVideo] = useState("");
@@ -41,9 +40,6 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
       onConnect: () => {
         console.log("✅ STOMP 연결됨");
 
-        // 구독 완료 여부를 위한 flag
-        let subscribed = false;
-
         stompClient.subscribe("/topic/similarity_result", async (message) => {
           const result = JSON.parse(message.body);
           console.log("📩 유사도 결과 수신:", result);
@@ -55,13 +51,10 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
           }
           setMaxSimilarity(result.max_similarity.toFixed(2));
           setAvgSimilarity(result.avg_similarity.toFixed(2));
-          const similarVideoURL = await getVideoURL(result.similar_video_id);
-          setSimilarVideo(similarVideoURL);
-          console.log("유사한 비디오: ",similarVideo);
+          setSimilarVideo(result.similar_video_url);
         });
 
-        // 🔐 STOMP 내부적으로 subscribe가 큐에 올라가기 전에 HTTP 요청이 먼저 가는 걸 막기 위해
-        // 약간의 딜레이 or 다음 tick 사용
+        //구독 후 HTTP 요청이 가도록 타임 딜레이
         setTimeout(() => {
           if (data.videoUrl) {
             console.log("📤 유사도 검사 HTTP 요청 실행");
@@ -76,7 +69,7 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
                 setSimilarityStatus("error");
               });
           }
-        }, 0); // ✅ 이벤트 루프 다음 tick에 실행
+        }, 0);
       },
       onStompError: (frame) => {
         console.error("❌ STOMP 에러:", frame);
