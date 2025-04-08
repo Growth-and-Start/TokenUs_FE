@@ -4,7 +4,7 @@ import FONT from "../../constants/fonts.js";
 import defaultThumbnail from "../../assets/default-thumbnail.png";
 
 function VideoRow(props) {
-  console.log("VideoRow props:", props);
+  // console.log("VideoRow props:", props);
 
   const { video, isChecked, onCheckboxChange } = props;
 

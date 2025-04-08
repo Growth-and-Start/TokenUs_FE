@@ -9,7 +9,7 @@ function VideoTable({ videos }) {
 
   const [selectedIds, setSelectedIds] = useState([]);
 
-  console.log("선택된 상태:", selectedIds);
+  // console.log("선택된 상태:", selectedIds);
 
   if (!videos || videos.length === 0) {
     return <div>No videos available</div>;

@@ -1,6 +1,7 @@
 import axios from "axios";
+import { API } from "../utils/api";
 
-const API_URL = "http://54.180.83.169:8080/auth";
+const API_URL = `${API.auth}`;
 
 //회원가입
 export const signup = async (userData) => {

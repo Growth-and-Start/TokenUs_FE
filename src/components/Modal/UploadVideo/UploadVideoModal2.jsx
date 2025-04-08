@@ -7,9 +7,9 @@ import { SECONDARY, MAIN } from "../../../constants/colors";
 
 function UploadVideoModal2({ onBack, onChange, onSubmit, data, setNftData }) {
   const handleIncreasePrice = () => {
-    const currentPrice = parseFloat(data.nftPrice || "0") || 0;
+    const currentPrice = parseFloat(data.price || 0) || 0;
     const newPrice = (currentPrice + 0.001).toFixed(3);
-    setNftData((prev) => ({ ...prev, nftPrice: newPrice }));
+    setNftData((prev) => ({ ...prev, price: newPrice }));
   };
 
   // const handleDecreasePrice = () => {
@@ -55,14 +55,14 @@ function UploadVideoModal2({ onBack, onChange, onSubmit, data, setNftData }) {
 
       <InputsContainer>
         <InputItem>
-          <Label>NFT 가격 (ETH)</Label>
+          <Label>NFT 가격 (WEI)</Label>
           <InputRow>
            
             <StyledInput
               type="number"
-              step="0.001"
-              name="nftPrice"
-              value={data.nftPrice || ""}
+              step="1"
+              name="price"
+              value={data.price || ""}
               onChange={onChange}
               min="0"
             />

@@ -7,15 +7,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "../User/Avatar";
 import { HolderOutlined, MoreOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import { getMyInfo } from "../../services/channelService";
 
 function NavBar({ isLoggedIn, updateLoginStatus }) {
   const navigate = useNavigate();
+  const [myData, setMyData] = useState("");
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     updateLoginStatus(false);
     navigate("/");
   };
+
+  useEffect(()=>{
+    const fetchMyInfo = async() =>{
+      if(isLoggedIn){
+        const response = await getMyInfo();
+        setMyData(response);
+      }
+    }
+    fetchMyInfo();
+  },[])
 
   return (
     <NavWrapper>
@@ -33,7 +46,7 @@ function NavBar({ isLoggedIn, updateLoginStatus }) {
             <HolderOutlined style={{ fontSize: '22px', color: GRAY_SCALE.GRAY500 }} />
           </Division>
           <AvatarLink to="/mypage">
-            <Avatar size={35} />
+            <Avatar size={35} src={myData.profileImageUrl}/>
             <Tooltip>마이페이지</Tooltip>
           </AvatarLink>
 
