@@ -50,16 +50,16 @@ function VideoTable({ videos }) {
           {videos.map(( video = {} ) => (
             video && (
             <VideoRow
-              key={video.id || Math.random()} 
+              key={video.videoId || Math.random()} 
               video={video}
-              isChecked={selectedIds.includes(video.id)}
-              onCheckboxChange={() => handleCheckboxChange(video.id)}
-              title={video.title} 
-              summary={video.summary} 
-              thumbnail={video.thumbnail}
+              isChecked={selectedIds.includes(video.videoId)}
+              onCheckboxChange={() => handleCheckboxChange(video.videoId)}
+              title={video.videoTitle} 
+              summary={video.videoDetail} 
+              thumbnail={video.thumbnailUrl}
               isPublic={video.isPublic}
-              uploadDate={video.uploadDate}
-              NFTPrice={video.NFTPrice}
+              uploadDate={video.createdAt}
+              NFTPrice={video.nftPrice}
             />
             )
           ))}

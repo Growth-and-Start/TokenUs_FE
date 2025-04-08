@@ -4,6 +4,7 @@ import VideoTable from "../../components/VideoStudio/VideoTable.jsx";
 import { useEffect, useState } from "react";
 import UploadModalController from "./UploadModalController.jsx";
 import { getMyInfo } from "../../services/channelService.js";
+import { getMyVideo } from "../../services/videoService.js";
 
 const tempData_channel = {
   name: "8시 스쿼시 연맹",
@@ -46,8 +47,12 @@ const tempData_videoTable = [
 ];
 
 function StudioPage() {
+  //로딩 상태
+  const [loading, setLoading] = useState(false);
   //사용자 정보 데이터
   const [userData, setUserData] = useState("");
+  //사용자 비디오 데이터
+  const [myVideos, setMyVideos] = useState("");
 
   //비디오 업로드 실행 여부
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
@@ -62,11 +67,6 @@ function StudioPage() {
   //지갑 연결 상태 확인
   const checkWallet = () => {};
 
-  //로딩 상태
-  const [loading, setLoading] = useState(false);
-
-  const channel = tempData_channel;
-
   // console.log("channel:", channel);
   // console.log("videos:", tempData_videoTable);
 
@@ -74,18 +74,19 @@ function StudioPage() {
     const fetchUserData = async () => {
       setLoading(true);
       try {
-        const response = await getMyInfo();
-        setUserData(response);
+        const myData = await getMyInfo();
+        setUserData(myData);
+        const videoData = await getMyVideo();
+        setMyVideos(videoData);
       } catch (error) {
         console.log("사용자 정보 가져오기 실패:", error);
-      } finally{
+      } finally {
         setLoading(false);
       }
     };
 
     fetchUserData();
   }, []);
-
 
   return (
     <>
@@ -100,7 +101,7 @@ function StudioPage() {
           />
         </ChannelCardWrapper>
         <VideoTableWrapper>
-          <VideoTable videos={tempData_videoTable} />
+          <VideoTable videos={myVideos} />
         </VideoTableWrapper>
       </StudioPageWrapper>
 
