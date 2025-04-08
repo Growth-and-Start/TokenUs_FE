@@ -48,11 +48,13 @@ const InfoWrapper = styled.div`
 const ChannelName = styled.div`
   ${FONT.TITLE};
   ${TEXT.BLACK};
+  font-size: 24px;
 `;
 
 const ChannelAccount = styled.div`
   ${FONT.BODY2};
   color: ${GRAY_SCALE.GRAY700};
+  font-size: 13px;
 `;
 
 const ButtonWrapper = styled.div`
