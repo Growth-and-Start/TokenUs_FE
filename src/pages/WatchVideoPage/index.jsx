@@ -33,14 +33,6 @@ function WatchVideoPage() {
   const [likeCount, setLikeCount] = useState(0);
 
   const tempData = {
-    title: "8시 스쿼시는 즐거워",
-    profileUrl: "",
-    channelName: "8시 스쿼시 연맹",
-    subscribed: false,
-    liked: true,
-    likes: 87,
-    views: 256,
-    description: "8시 스쿼시 함께 하실래여? 김재열 강사님과 함께합니다.",
     NFTPrice: 0.0027,
     NFThistory: [
       {
@@ -176,7 +168,7 @@ function WatchVideoPage() {
                 <ShareButton />
               </SocialActions>
             </VideoDetail>
-            <VideoDescription>{videoData.VideoDetail}</VideoDescription>
+            <VideoDescription>{videoData.videoDetail}</VideoDescription>
           </VideoInfo>
         </ContentArea>
 
