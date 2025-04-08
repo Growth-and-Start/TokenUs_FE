@@ -12,7 +12,7 @@ export const mintVideoNFT = async (data) => {
   }
   )
 
-  return response.data.result;
+  return response.data.transactionHash;
 }
 
 //영상 NFT 거래
