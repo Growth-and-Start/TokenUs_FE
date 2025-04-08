@@ -12,7 +12,11 @@ import ShareButton from "../../components/VideoContent/SocialActions/ShareButton
 import NFTPrice from "../../components/VideoContent/NFTInfo/NFTPrice";
 import NFTHistory from "../../components/VideoContent/NFTInfo/NFTHistory";
 import { useEffect, useState } from "react";
-import { getVideoDetail, likeVideo, unlikeVideo } from "../../services/videoService";
+import {
+  getVideoDetail,
+  likeVideo,
+  unlikeVideo,
+} from "../../services/videoService";
 import {
   deleteSubscribe,
   getUserDetail,
@@ -90,18 +94,17 @@ function WatchVideoPage() {
       if (!liked) {
         await likeVideo(videoId);
         setLiked(true);
-        setLikeCount(prev => prev + 1);
+        setLikeCount((prev) => prev + 1);
       } else {
         await unlikeVideo(videoId);
         setLiked(false);
-        setLikeCount(prev => prev - 1);
+        setLikeCount((prev) => prev - 1);
       }
-      console.log("좋아요 요청 성공!")
+      console.log("좋아요 요청 성공!");
     } catch (err) {
       console.error("좋아요 요청 실패:", err);
     }
   };
-  
 
   useEffect(() => {
     const loadData = async () => {
@@ -129,7 +132,9 @@ function WatchVideoPage() {
     <>
       <Wrapper>
         <ContentArea>
-          <StyledVideo url={videoData.videoUrl} />
+          <VideoWrapper>
+            <StyledVideo url={videoData.videoUrl} />
+          </VideoWrapper>
           <VideoInfo>
             <VideoTitle>{videoData.videoTitle}</VideoTitle>
             <VideoDetail>
@@ -199,10 +204,22 @@ const NFTArea = styled.div`
   gap: 20px;
 `;
 
+const VideoWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; 
+  overflow: hidden;
+`;
+
 const StyledVideo = styled(Video)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
   transform: translateY(-4px) scale(1);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
 `;
 
 const VideoInfo = styled.div`
