@@ -1,6 +1,7 @@
 import axios from "axios";
+import { API } from "../utils/api";
 
-const API_URL = "http://54.180.83.169:8080/s3";
+const API_URL = `${API.s3}`;
 
 //presigned url 요청
 export const getPresignedUrl = async (folder, fileName, contentType) => {

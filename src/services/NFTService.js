@@ -1,6 +1,7 @@
+import { API } from "../utils/api";
 import axiosInstance from "../utils/axiosInstance"
 
-const API_URL = "http://54.180.83.169:8080/nft";
+const API_URL = `${API.nft}`;
 
 //영상 NFT 발행
 export const mintVideoNFT = async (data) => {

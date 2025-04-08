@@ -1,7 +1,8 @@
 import axios from "axios";
 import axiosInstance from "../utils/axiosInstance";
+import { API } from "../utils/api";
 
-const API_URL = "http://54.180.83.169:8080/user";
+const API_URL = `${API.user}`;
 
 //검색 결과 요청 (채널 목록)
 export const getSearchResult_channel = async (searchFor) => {
