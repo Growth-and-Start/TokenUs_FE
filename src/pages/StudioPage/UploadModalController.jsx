@@ -3,8 +3,12 @@ import UploadVideoModal1 from "../../components/Modal/UploadVideo/UploadVideoMod
 import UploadVideoModal2 from "../../components/Modal/UploadVideo/UploadVideoModal2";
 import { uploadContent } from "../../utils/upload";
 import { postVideoData } from "../../services/videoService";
+import { mintVideoNFT } from "../../services/NFTService";
+import { getMyInfo } from "../../services/channelService";
 
 function UploadModalController({ onClose }) {
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   //사용자 입력 데이터 - 비디오 정보
   const [videoData, setVideoData] = useState({
@@ -18,10 +22,12 @@ function UploadModalController({ onClose }) {
   //사용자 입력 데이터 - NFT 정보
   const [nftData, setNftData] = useState({
     metadataUri: "",
-    totalSupply: "1",
+    totalSupply: 1,
     nftName: "",
     nftSymbol: "",
-    nftPrice: "0.001",
+    price: 0.001,
+    videoId: 0,
+    creatorAddress: "",
   });
 
   //비디오 업르드 단계(1: 기본 정보 및 유사도 검사, 2: NFT 발행)
@@ -29,7 +35,7 @@ function UploadModalController({ onClose }) {
 
   //다음 페이지로 넘어가기
   const handleNext = () => {
-    handleSubmitVideoInfo();
+    // handleSubmitVideoInfo();
     setStep((prev) => prev + 1);
   };
 
@@ -39,7 +45,7 @@ function UploadModalController({ onClose }) {
   };
 
   //사용자 입력 데이터(비디오 정보) 변경
-  const handleChangeVideoInfo = async(e) => {
+  const handleChangeVideoInfo = async (e) => {
     const { name, value, files } = e.target;
 
     let finalValue = value;
@@ -57,6 +63,10 @@ function UploadModalController({ onClose }) {
       finalValue = value === "true";
     }
 
+    if(name === "price"){
+      finalValue = Number(value);
+    }
+
     setVideoData((prevData) => ({
       ...prevData,
       [name]: finalValue,
@@ -72,34 +82,65 @@ function UploadModalController({ onClose }) {
     }));
   };
 
-
   // 비디오 정보 POST
-  const handleSubmitVideoInfo = async () => {
-    try{
-      const uploadedImageUrl = await uploadContent(videoData.thumbnailUrl, "thumbnail"); 
-      const finalVideoData = {...videoData, thumbnailUrl: uploadedImageUrl};
-      
-      postVideoData(finalVideoData);
+  const postVideoInfo = async () => {
+    try {
+      const uploadedImageUrl = await uploadContent(
+        videoData.thumbnailUrl,
+        "thumbnail"
+      );
 
-       //temp for test
-       console.log("최종 전송 데이터", finalVideoData);
-    }catch(error){
-      console.log("비디오 POST 실패: ", error.response?.data?.message || "서버 오류" )
+      const finalVideoData = { ...videoData, thumbnailUrl: uploadedImageUrl };
+      const videoId = await postVideoData(finalVideoData);
+      setVideoData(finalVideoData);
+      console.log("최종 비디오 데이터: ", finalVideoData);
+      console.log("비디오 ID: ", videoId);
+
+      const updatedNFTData = { ...nftData, videoId };
+      setNftData(updatedNFTData);
+
+      console.log("최종 NFT 데이터: ", updatedNFTData);
+
+      return updatedNFTData;
+    } catch (error) {
+      console.log(
+        "비디오 POST 실패:",
+        error.response?.data?.message || "서버 오류"
+      );
     }
-
   };
 
+  // NFT 정보 POST & NFT 발행
+  // const postNFTInfo = async () => {
+  //   try {
+  //     await mintVideoNFT(nftData);
+  //   } catch (error) {
+  //     console.log("NFT 발행 실패: ", error);
+  //     setError("NFT 발행 실패");
+  //     return;
+  //   }
+  // };
+
   // NFT 정보 POST(비디오 업로드 완료)
-  const handleSubmitNFTInfo = () => {
-    //백엔드 연동 코드 - 비디오 정보/NFT 정보 전달
+  const handleSubmit = async () => {
+    const finalNFTData = await postVideoInfo();
+    await mintVideoNFT(finalNFTData);
 
     onClose(); //모달 창 닫기
   };
 
   //temp for test
   useEffect(() => {
-    console.log("videoData 변경:", videoData);
-  }, [videoData]);
+    const fetchMyInfo = async () => {
+      const myData = await getMyInfo();
+      setNftData((prevData) => ({
+        ...prevData,
+        creatorAddress: myData.walletAddress,
+      }));
+    };
+
+    fetchMyInfo();
+  }, []);
 
   return (
     <>
@@ -114,7 +155,7 @@ function UploadModalController({ onClose }) {
       {step === 2 && (
         <UploadVideoModal2
           onBack={handleBack}
-          onSubmit={handleSubmitNFTInfo}
+          onSubmit={handleSubmit}
           onChange={handleChangeNFTInfo}
           data={nftData}
           setNftData={setNftData}
