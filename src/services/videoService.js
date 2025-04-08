@@ -5,11 +5,13 @@ const API_URL = "http://54.180.83.169:8080/video";
 
 //비디오 정보 저장 요청
 export const postVideoData = async (data) => {
-  return await axiosInstance.post(`${API_URL}/save`, data, {
+  const response =  await axiosInstance.post(`${API_URL}/save`, data, {
     headers: {
       "Content-Type": "application/json",
     },
   });
+
+  return response.data.result.id;
 };
 
 
