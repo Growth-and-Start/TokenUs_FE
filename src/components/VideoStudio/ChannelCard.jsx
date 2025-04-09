@@ -34,7 +34,7 @@ function ChannelCard({ name, account, onClick, profileUrl, wallet }) {
 const ChannelCardWrapper = styled.div`
   display: flex;
   gap: 20px;
-  padding: 20px 10%;
+  padding: 20px 15%;
 `;
 
 const InfoWrapper = styled.div`

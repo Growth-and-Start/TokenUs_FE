@@ -1,12 +1,13 @@
 import axios from "axios";
 import axiosInstance from "../utils/axiosInstance";
 import { API } from "../utils/api";
+import { weiToMatic } from "../utils/blockchainNetwork";
 
 const API_URL = `${API.video}`;
 
 //비디오 정보 저장 요청
 export const postVideoData = async (data) => {
-  const response =  await axiosInstance.post(`${API_URL}/save`, data, {
+  const response = await axiosInstance.post(`${API_URL}/save`, data, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -40,7 +41,7 @@ export const getVideoList = async (isSubscribe) => {
 //검색 결과 요청 (비디오 목록)
 export const getSearchResult = async (searchFor) => {
   const response = await axios.get(`${API_URL}/search`, {
-    params: {searchFor},
+    params: { searchFor },
   });
 
   return response.data.result;
@@ -70,10 +71,23 @@ export const unlikeVideo = async (videoId) => {
 };
 
 //비디오 ID로 해당 비디오 URL 요청(유사도 검사 시 유사한 비디오 반환에 사용)
-export const getVideoURL = async(videoId) =>{
-  const response = await axiosInstance.get(`${API_URL}/get_url`,{
-    params: {videoId},
+export const getVideoURL = async (videoId) => {
+  const response = await axiosInstance.get(`${API_URL}/get_url`, {
+    params: { videoId },
   }
   )
   return response.data.result.videoUrl;
+}
+
+//내가 업로드한 비디오 요청
+export const getMyVideo = async () => {
+  const response = await axiosInstance.get(`${API_URL}/get_my_videos`)
+  const result = response.data.result;
+
+  const formattedResult = result.map((video) => ({
+    ...video,
+    nftPrice: video.nftPrice ? weiToMatic(video.nftPrice) : "",
+  }));
+
+  return formattedResult;
 }
