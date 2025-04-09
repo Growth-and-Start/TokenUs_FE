@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { GRAY_SCALE, TEXT } from "../../constants/colors";
+import { GRAY_SCALE, MAIN, TEXT } from "../../constants/colors";
 import FONT from "../../constants/fonts.js";
 import defaultThumbnail from "../../assets/default-thumbnail.png";
 
@@ -50,7 +50,7 @@ function VideoRow(props) {
         {NFTPrice ? 
         NFTPrice 
         : (
-          <StyledLink></StyledLink>
+          <StyledLink href="">NFT 등록하기</StyledLink>
         )
         }
         </TableData>
@@ -116,6 +116,15 @@ const Summary = styled.div`
   overflow: hidden;
 `;
 
-const StyledLink = styled.a``
+const StyledLink = styled.a`
+all: unset;
+text-decoration: underline;
+color: ${GRAY_SCALE.GRAY700};
+font-size: 14px;
+
+&:hover{
+  color: ${MAIN.BLUE}
+}
+`
 
 export default VideoRow;
