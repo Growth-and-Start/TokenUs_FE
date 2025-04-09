@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API } from "../utils/api";
+import axiosInstance from "../utils/axiosInstance";
 
 const API_URL = `${API.auth}`;
 
@@ -27,7 +28,7 @@ export const checkEmail = async (userData) => {
 
 //로그인
 export const login = async (userData) => {
-  const response = await axios.post(`${API_URL}/login`, userData, {
+  const response = await axiosInstance.post(`${API_URL}/login`, userData, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -37,14 +38,17 @@ export const login = async (userData) => {
   const { accessToken, refreshToken } = response.data.result;
 
   localStorage.setItem("accessToken", accessToken);
+  localStorage.setItem("refreshToken", refreshToken);
 
   return accessToken;
 };
 
+
+
 // 액세스 토큰 재발급 요청
 export const refreshAccessToken = async () => {
   try {
-    const response = await axios.post(`${API_URL}/refresh`, null, {
+    const response = await axiosInstance.post(`${API_URL}/refresh`, null, {
       withCredentials: true, 
     });
 
@@ -56,3 +60,20 @@ export const refreshAccessToken = async () => {
     throw error;
   }
 };
+
+//로그아웃
+export const logout = async() => {
+  try {
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (!refreshToken) throw new Error("Refresh token not found");
+  
+    await axiosInstance.post(`${API_URL}/logout`, { refreshToken });
+  
+    // 토큰 삭제
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+  
+  } catch (error) {
+    console.error("Logout failed:", error);
+  }
+}
