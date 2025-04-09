@@ -5,10 +5,12 @@ import VideoCard from "../../components/VideoContent/VideoCard";
 import { getVideoDetail } from "../../services/videoService";
 import { getMyInfo, getUserDetail } from "../../services/channelService";
 import { GRAY_SCALE, TEXT } from "../../constants/colors";
+import { weiToMatic } from "../../utils/blockchainNetwork";
 
-function NFTCard({ videoId, creatorId, price, }) {
+function NFTCard({ videoId, creatorId, nftName, price, }) {
   const [thumbnail, setThumbnail] = useState("");
   const [channelName, setChannelName] = useState("");
+  const maticPrice = weiToMatic(price);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,9 +28,9 @@ function NFTCard({ videoId, creatorId, price, }) {
     <>
       <VideoCardWrapper>
         <Thumbnail thumbnailUrl={thumbnail} />
-        <Title>NFT 이름</Title>
+        <Title>{nftName}</Title>
         <Channel>{channelName}</Channel>
-        <Date>{price} WEI</Date>
+        <Date>{maticPrice} MATIC</Date>
       </VideoCardWrapper>
     </>
   );
@@ -63,6 +65,7 @@ function MarketplacePage() {
               key={index}
               videoId={nft.videoId}
               creatorId={nft.creatorId}
+              nftName={nft.nftName}
               price={nft.currentPrice}
             />
           ))}
@@ -86,9 +89,10 @@ const TempTitle = styled.div`
 `;
 
 const NFTListWrapper = styled.div`
+max-width: 100%;
   padding: 0 10%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, auto));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   justify-content: center;
   gap: 25px;
   margin-top: 20px;
