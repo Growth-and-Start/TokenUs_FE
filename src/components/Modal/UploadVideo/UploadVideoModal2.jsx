@@ -4,11 +4,19 @@ import Button2 from "../../Button/Button2";
 import TextInput from "../../Input/TextInput";
 import BasicModalLayout from "../Layout/BasicModalLayout";
 import { SECONDARY, MAIN } from "../../../constants/colors";
+import LoadingMessage from "../../Message/LoadingMessage";
 
-function UploadVideoModal2({ onBack, onChange, onSubmit, data, setNftData }) {
+function UploadVideoModal2({
+  onBack,
+  onChange,
+  onSubmit,
+  data,
+  setNftData,
+  loading,
+}) {
   const handleIncreasePrice = () => {
     const currentPrice = parseFloat(data.price || 0) || 0;
-    const newPrice = (currentPrice + 0.001).toFixed(3);
+    const newPrice = (currentPrice + 0.01).toFixed(2);
     setNftData((prev) => ({ ...prev, price: newPrice }));
   };
 
@@ -39,12 +47,14 @@ function UploadVideoModal2({ onBack, onChange, onSubmit, data, setNftData }) {
           <Button2 onClick={onBack} width="100px" fontSize="15px">
             이전
           </Button2>
-          <Button1 onClick={onSubmit} width="100px" fontSize="15px" disabled={
-              !(
-                data.nftName.trim() !== "" &&
-                data.nftSymbol.trim() !== ""
-              )
-            }>
+          <Button1
+            onClick={onSubmit}
+            width="100px"
+            fontSize="15px"
+            disabled={
+              !(data.nftName.trim() !== "" && data.nftSymbol.trim() !== "" && !loading)
+            }
+          >
             업로드
           </Button1>
         </>
@@ -60,12 +70,11 @@ function UploadVideoModal2({ onBack, onChange, onSubmit, data, setNftData }) {
 
       <InputsContainer>
         <InputItem>
-          <Label>NFT 가격 (WEI)</Label>
+          <Label>NFT 가격 (MATIC)</Label>
           <InputRow>
-           
             <StyledInput
               type="number"
-              step="1"
+              step="0.01"
               name="price"
               value={data.price || ""}
               onChange={onChange}
@@ -89,6 +98,11 @@ function UploadVideoModal2({ onBack, onChange, onSubmit, data, setNftData }) {
           </InputRow>
         </InputItem>
       </InputsContainer>
+      {loading ? (
+        <LoadingContainer>
+          <LoadingMessage size={14}>잠시만 기다려 주세요...</LoadingMessage>
+        </LoadingContainer>
+      ) : null}
     </BasicModalLayout>
   );
 }
@@ -145,5 +159,9 @@ const PlusButton = styled.div`
   }
 `;
 
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`
 
 export default UploadVideoModal2;
