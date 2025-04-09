@@ -13,8 +13,11 @@ import styled from "styled-components";
 import Button1 from "../../components/Button/Button1";
 import { GRAY_SCALE, TEXT } from "../../constants/colors";
 import Button2 from "../../components/Button/Button2";
+import { maticToWei } from "../../utils/blockchainNetwork";
+import { useNavigate } from "react-router-dom";
 
 function UploadModalController({ onClose }) {
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -87,7 +90,11 @@ function UploadModalController({ onClose }) {
 
     let finalValue = value;
 
-    if (name === "price" || name === "totalSupply") {
+    if (name === "price") {
+      finalValue = Number(value);
+    }
+
+    if (name === "totalSupply") {
       finalValue = Number(value);
     }
 
@@ -111,10 +118,8 @@ function UploadModalController({ onClose }) {
       console.log("최종 비디오 데이터: ", finalVideoData);
       console.log("비디오 ID: ", videoId);
 
-      const updatedNFTData = { ...nftData, videoId };
+      const updatedNFTData = { ...nftData, videoId, price: maticToWei(nftData.price) };
       setNftData(updatedNFTData);
-
-      console.log("최종 NFT 데이터: ", updatedNFTData);
 
       return updatedNFTData;
     } catch (error) {
@@ -127,16 +132,19 @@ function UploadModalController({ onClose }) {
 
   // NFT 정보 POST(비디오 업로드 완료)
   const handleSubmit = async () => {
+    setLoading(true);
     const finalNFTData = await postVideoInfo();
+
+    console.log("최종 NFT 데이터: ", finalNFTData);
     try {
-      setLoading(true);
       const result = await mintVideoNFT(finalNFTData);
       setHash(result.transactionHash);
       setTokenId(result.mintedNFTs[0].tokenId);
-      setLoading(false);
       handleNext();
     } catch (error) {
       console.log("NFT 발행 실패: ", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -146,6 +154,7 @@ function UploadModalController({ onClose }) {
       setLoading(true);
       const result = await registerNFTOnMarketplace(tokenId, nftData.price);
       setLoading(false);
+      navigate("/marketplace");
       console.log("NFT 등록 성공!: ", result);
     } catch (error) {
       console.log("NFT 등록 실패: ", error);
@@ -182,6 +191,7 @@ function UploadModalController({ onClose }) {
           onChange={handleChangeNFTInfo}
           data={nftData}
           setNftData={setNftData}
+          loading={loading}
         />
       )}
       {step === 3 && (
@@ -194,7 +204,11 @@ function UploadModalController({ onClose }) {
         >
           <CompletionBody>
             <CompletionMessage>영상이 업로드되었습니다✅</CompletionMessage>
-            <HashValue>트랜잭션 주소:<br/>{hash}</HashValue>
+            <HashValue>
+              트랜잭션 주소:
+              <br />
+              {hash}
+            </HashValue>
             <Button2 onClick={resisterNFT}>NFT 등록하기</Button2>
           </CompletionBody>
         </BasicModalLayout>
@@ -206,7 +220,7 @@ function UploadModalController({ onClose }) {
 export default UploadModalController;
 
 const CompletionBody = styled.div`
-margin-top: 30px;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -229,7 +243,6 @@ const HashValue = styled.div`
   width: 100%;
   white-space: normal;
   overflow-wrap: break-word;
-  word-break: break-all;  
+  word-break: break-all;
   margin-bottom: 30px;
 `;
-
