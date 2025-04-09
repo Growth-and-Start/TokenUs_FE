@@ -15,6 +15,7 @@ const FooterWrapper = styled.footer`
       rgba(210, 216, 245, ${scrollRatio}) 80%
     )
   `};
+  margin-top: 100px;
   padding: 50px 150px;
   display: flex;
   flex-direction: column;

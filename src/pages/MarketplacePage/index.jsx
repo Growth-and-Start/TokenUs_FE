@@ -85,7 +85,7 @@ const Wrapper = styled.div`
 const TempTitle = styled.div`
   font-size: 25px;
   font-weight: 600;
-  margin-bottom: 30px;
+  margin: 50px 0 70px 0;
 `;
 
 const NFTListWrapper = styled.div`

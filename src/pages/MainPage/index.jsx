@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { getVideoList } from "../../services/videoService";
 import trendContentThumbnail from "../../assets/default-thumbnail.png"
 import FONT from "../../constants/fonts";
-import Footer from "../../components/Footer";
+
 
 function MainPage() {
   const [videoData, setVideoData] = useState([]);
@@ -60,14 +60,12 @@ function MainPage() {
       ))}
       </ContentListWrapper>
     </MainWrapper>
-    <Footer />
     </>
   )
 }
 
 const MainWrapper = styled.div`
 padding: 30px 0;
-margin-bottom : 100px;
 `
 
 const TrendContentWrapper = styled.div`

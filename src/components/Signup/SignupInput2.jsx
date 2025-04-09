@@ -27,7 +27,7 @@ function SignupInput2({
           onChange={onChange}
           data={data.nickname}
         >
-          * 닉네임
+          * 닉네임 (채널명)
         </TextInput>
         <ImgInput name="profileUrl" onChange={onChange} data={data.profileUrl}>
           프로필 사진 선택

@@ -46,7 +46,7 @@ const SearchBarBox = styled.div`
   display: inline-block;
   border: 1px solid ${SECONDARY.BLUE};
   border-radius: 8px;
-  padding: 8px 10px;
+  padding: 3px 10px;
 `;
 
 const Input = styled.input`

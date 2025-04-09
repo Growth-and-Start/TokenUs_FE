@@ -106,6 +106,7 @@ const SignupWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-grow: 1;
+  height: calc(100vh - 60px);
 `;
 
 const SignupBox = styled.div`
