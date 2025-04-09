@@ -82,12 +82,13 @@ function SearchResultPage() {
         <ContentListWrapper>
           {videoResults.map((video, index) => (
             <VideoCard
-              key={index}
-              title={video.videoTitle}
-              channel={video.creatorNickname}
-              date={video.createdAt}
-              thumbnailUrl={video.thumbnailUrl}
-              videoUrl={video.videoUrl}
+            key={index}
+            title={video.videoTitle || "제목이 없습니다"}
+            channel={video.creatorNickname}
+            date={video.createdAt}
+            videoId={video.videoId}
+            creatorId={video.creatorId}
+            thumbnailUrl={video.thumbnailUrl}
             />
           ))}
         </ContentListWrapper>
@@ -112,10 +113,22 @@ const ChannelListWrapper = styled.div`
 `;
 
 const ContentListWrapper = styled.div`
+  box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, auto));
-  justify-content: center;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 25px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
 `;
 
 export default SearchResultPage;

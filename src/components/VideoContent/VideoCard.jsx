@@ -26,8 +26,7 @@ const VideoCardWrapper = styled.div`
   justify-content: center;
   box-sizing: border-box;
   gap: 2px;
-  /* width: 250px; */
-  width : 100%
+  width : 100%;
 
   &:hover {
     transform: translateY(-4px) scale(1.00);

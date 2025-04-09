@@ -9,26 +9,27 @@ import Avatar from "../User/Avatar";
 import { HolderOutlined, MoreOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { getMyInfo } from "../../services/channelService";
+import { logout } from "../../services/authService";
 
 function NavBar({ isLoggedIn, updateLoginStatus }) {
   const navigate = useNavigate();
   const [myData, setMyData] = useState("");
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
+  const handleLogout = async() => {
+    await logout();
     updateLoginStatus(false);
     navigate("/");
   };
 
-  useEffect(()=>{
-    const fetchMyInfo = async() =>{
-      if(isLoggedIn){
+  useEffect(() => {
+    const fetchMyInfo = async () => {
+      if (isLoggedIn) {
         const response = await getMyInfo();
         setMyData(response);
       }
-    }
+    };
     fetchMyInfo();
-  },[])
+  }, [isLoggedIn]);
 
   return (
     <NavWrapper>
@@ -43,10 +44,12 @@ function NavBar({ isLoggedIn, updateLoginStatus }) {
         <>
           <StyledLink to="/video-studio">비디오 스튜디오</StyledLink>
           <Division>
-            <HolderOutlined style={{ fontSize: '22px', color: GRAY_SCALE.GRAY500 }} />
+            <HolderOutlined
+              style={{ fontSize: "22px", color: GRAY_SCALE.GRAY500 }}
+            />
           </Division>
           <AvatarLink to="/mypage">
-            <Avatar size={35} src={myData.profileImageUrl}/>
+            <Avatar size={37} src={myData.profileImageUrl} />
             <Tooltip>마이페이지</Tooltip>
           </AvatarLink>
 
@@ -63,13 +66,16 @@ function NavBar({ isLoggedIn, updateLoginStatus }) {
 }
 
 const NavWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
   background-color: ${BACKGROUND.WHITE};
-  padding: 16px 32px;
+  padding: 6px 32px;
   border-bottom: 1px solid ${GRAY_SCALE.GRAY300};
   display: flex;
   gap: 15px;
   width: 100%;
-  height : 60px;
   box-sizing: border-box;
   align-items: center;
 `;
@@ -77,8 +83,8 @@ const NavWrapper = styled.div`
 const Logo = styled.img`
   display: flex;
   align-items: center;
-  margin-left : 5px;
-  margin-right : 15px;
+  margin-left: 5px;
+  margin-right: 15px;
 `;
 
 const SearchWrapper = styled.div`

@@ -45,7 +45,7 @@ display: flex;
 justify-content: space-between;
 padding: 15px;
 background-color: ${(props) =>
-    props.isOdd ? '#EDF1FE' : BACKGROUND.WHITE };
+    props.isOdd ? GRAY_SCALE.GRAY100 : BACKGROUND.WHITE };
 `;
 const UserAccount = styled.div`
   ${FONT.BODY2}

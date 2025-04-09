@@ -70,8 +70,8 @@ const LoginWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-grow: 1;
   position: relative;
+  height: calc(100vh - 60px);
 `;
 
 const LoginBox = styled.div`
@@ -79,7 +79,7 @@ const LoginBox = styled.div`
   display: flex;
   flex-direction: column;
   width: 25%;
-  height: 60vh;
+  height: 400px;
   background-color: #f8f8ff;
   border-radius: 10px;
   border: 1.5px solid #d3d8e5;

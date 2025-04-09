@@ -29,7 +29,7 @@ const BarBody = styled.div`
   box-sizing: border-box;
   width: 100%;
   background-color: #EDF1FE;
-  padding: 20px 10%;
+  padding: 12px 10%;
 `;
 
 const BarContents = styled.div`
@@ -41,11 +41,11 @@ const Button = styled.button`
   all: unset;
   color: ${(props) => (props.active ? MAIN.BLUE : GRAY_SCALE.GRAY500)};
   font-weight: 600;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
 
   &:hover {
-    color: ${GRAY_SCALE.GRAY700}; /* 파란색으로 변경 */
+    color: ${MAIN.BLUE}; /* 파란색으로 변경 */
   }
 `;
 

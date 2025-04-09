@@ -1,4 +1,4 @@
-import { Avatar } from "antd";
+import Avatar from "../User/Avatar";
 import styled from "styled-components";
 import Button1 from "../Button/Button1";
 import Button2 from "../Button/Button2";
@@ -66,8 +66,8 @@ function ChannelCard({
 
 const ChannelCardWrapper = styled.div`
   display: flex;
-  gap: 20px;
-  padding: 20px 10%;
+  gap: 25px;
+  padding: 20px 12%;
 `;
 
 const InfoWrapper = styled.div`
