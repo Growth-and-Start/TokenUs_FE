@@ -5,27 +5,27 @@ import FONT from "../../../constants/fonts";
 const tempData = [
   {
     "account": "0xf2nr...0013",
-    "price": "0.027"
+    "price": "5.07"
   },
   {
     "account": "0xf2nr...0013",
-    "price": "0.027"
+    "price": "5.00"
   },
   {
     "account": "0xf2nr...0013",
-    "price": "0.027"
+    "price": "5.00"
   },
   {
     "account": "0xf2nr...0013",
-    "price": "0.027"
+    "price": "4.89"
   },
   {
     "account": "0xf2nr...0013",
-    "price": "0.027"
+    "price": "5.02"
   },
   {
     "account": "0xf2nr...0013",
-    "price": "0.027"
+    "price": "4.70"
   }
 ]
 
@@ -34,7 +34,7 @@ function Holder({account, price, index}) {
     <>
     <HolderWrapper isOdd={index % 2 !== 0}>
       <UserAccount>{account}</UserAccount>
-      <Price>{price}ETH</Price>
+      <Price>{price} MATIC</Price>
     </HolderWrapper>
     </>
   )
