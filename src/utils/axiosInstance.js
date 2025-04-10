@@ -21,16 +21,22 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url.includes("/auth/refresh") // ✅ 이 조건이 핵심
+    ) {
       originalRequest._retry = true;
 
       try {
         const newToken = await refreshAccessToken();
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
-        return axiosInstance(originalRequest); 
+        return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.log("리프레시 토큰도 만료됨");
-        window.location.href = "/login"; // 로그인 페이지로 이동
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        window.location.href = "/login";
         return Promise.reject(refreshError);
       }
     }
@@ -38,5 +44,6 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
 
 export default axiosInstance;

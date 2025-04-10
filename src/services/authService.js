@@ -65,15 +65,16 @@ export const refreshAccessToken = async () => {
 export const logout = async() => {
   try {
     const refreshToken = localStorage.getItem("refreshToken");
-    if (!refreshToken) throw new Error("Refresh token not found");
-  
-    await axiosInstance.post(`${API_URL}/logout`, { refreshToken });
-  
-    // 토큰 삭제
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-  
+    if (refreshToken) {
+      await axiosInstance.post(`${API_URL}/logout`, { refreshToken });
+    }
   } catch (error) {
     console.error("Logout failed:", error);
+  } finally {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+
+    // 전체 상태 초기화
+    window.location.href = "/login"; // 강제로 리로딩
   }
 }
