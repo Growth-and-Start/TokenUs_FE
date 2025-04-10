@@ -2,7 +2,7 @@ import axios from "axios";
 import { refreshAccessToken } from "../services/authService";
 
 const axiosInstance = axios.create({
-  baseURL: "http://54.180.83.169:8080",
+  baseURL: "http://13.125.207.27:8080",
   withCredentials: true,
 });
 
@@ -27,7 +27,7 @@ axiosInstance.interceptors.response.use(
       try {
         const newToken = await refreshAccessToken();
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
-        return axiosInstance(originalRequest); 
+        return axiosInstance(originalRequest);
       } catch (refreshError) {
         console.log("리프레시 토큰도 만료됨");
         window.location.href = "/login"; // 로그인 페이지로 이동
