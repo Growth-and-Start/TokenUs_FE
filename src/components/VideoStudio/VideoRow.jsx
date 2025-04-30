@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { GRAY_SCALE, MAIN, TEXT } from "../../constants/colors";
 import FONT from "../../constants/fonts.js";
 import defaultThumbnail from "../../assets/default-thumbnail.png";
+import { Link } from "react-router-dom";
 
 function VideoRow(props) {
   // console.log("VideoRow props:", props);
@@ -16,6 +17,8 @@ function VideoRow(props) {
     isPublic = "공개",
     uploadDate,
     NFTPrice,
+    videoId,
+    creatorId,
   } = props;
 
   //업로드 날짜 데이터 양식 변경
@@ -34,7 +37,15 @@ function VideoRow(props) {
         />
       </CheckBoxCell>
       <VideoInfoCell>
-        {thumbnail && <Thumbnail src={thumbnail} alt="thumbnail" />}
+        <Link
+          to={`/watch/${encodeURIComponent(title)}`}
+          state={{
+            videoId: videoId,
+            creatorId: creatorId,
+          }}
+        >
+          {thumbnail && <Thumbnail thumbnail={thumbnail} />}
+        </Link>
         <VideoText>
           <Title>{title}</Title>
           <Summary>{summary}</Summary>
@@ -47,13 +58,8 @@ function VideoRow(props) {
         {formattedTime}
       </TableData>
       <TableData>
-        {NFTPrice ? 
-        NFTPrice 
-        : (
-          <StyledLink href="">NFT 등록하기</StyledLink>
-        )
-        }
-        </TableData>
+        {NFTPrice ? NFTPrice : <StyledLink href="">NFT 등록하기</StyledLink>}
+      </TableData>
     </TableRow>
   );
 }
@@ -72,25 +78,46 @@ const CheckBoxCell = styled(TableData)`
 `;
 
 const VideoInfoCell = styled(TableData)`
-box-sizing: border-box;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   text-align: left;
-  gap:30px;
+  gap: 30px;
   width: 574px;
   height: 180px;
   padding: 20px 20px;
 `;
 
-const Thumbnail = styled.img`
-  width: 250px;
-  height: 140px;
+const Thumbnail = styled.div`
+  position: relative;
+  background-color: gray;
+  background-image: url(${(props) => props.thumbnail});
+  background-size: cover;
+  background-position: center;
   border-radius: 5px;
-  object-fit: cover;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  width: 250px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0); // 처음엔 투명
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+  }
+
+  &:hover::after {
+    background-color: rgba(0, 0, 0, 0.3); // hover 시 어둡게
+  }
 `;
 
 const VideoText = styled.div`
-flex: 1;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -106,25 +133,25 @@ const Summary = styled.div`
   color: ${GRAY_SCALE.GRAY700};
   font-size: 13px;
 
-  overflow: hidden; 
+  overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%; 
+  max-width: 100%;
 
   display: -webkit-box;
-  -webkit-line-clamp: 3; 
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 `;
 
 const StyledLink = styled.a`
-all: unset;
-text-decoration: underline;
-color: ${GRAY_SCALE.GRAY700};
-font-size: 14px;
+  all: unset;
+  text-decoration: underline;
+  color: ${GRAY_SCALE.GRAY700};
+  font-size: 14px;
 
-&:hover{
-  color: ${MAIN.BLUE}
-}
-`
+  &:hover {
+    color: ${MAIN.BLUE};
+  }
+`;
 
 export default VideoRow;
