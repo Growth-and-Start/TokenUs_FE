@@ -145,7 +145,7 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
 
               <SimilarityInfo>
                 <SimilarityValue>
-                  평균 유사도 : {maxSimilarity} / 최대 유사도 : {avgSimilarity}
+                  평균 유사도 : {avgSimilarity} / 최대 유사도 : {maxSimilarity}
                 </SimilarityValue>
                 <SimilarVideoURL
                   href={similarVideo}

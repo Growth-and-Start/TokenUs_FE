@@ -38,6 +38,7 @@ const Left = styled.div`
     ${FONT.CAPTION};
     color: ${GRAY_SCALE.GRAY700};
     white-space: pre-line;
+    font-size: 13px;
   }
 `;
 

@@ -37,39 +37,55 @@ function WatchVideoPage() {
   const [likeCount, setLikeCount] = useState(0);
 
   const tempData = {
-    NFTPrice: 0.0027,
+    NFTPrice: 2.71,
     NFThistory: [
       {
         account: "0xa1b2...c3d4",
-        price: "0.062",
+        price: "2.70",
       },
       {
         account: "0xbeef...feed",
-        price: "0.045",
+        price: "2.72",
       },
       {
         account: "0xdeed...face",
-        price: "0.05",
+        price: "2.65",
       },
       {
         account: "0xfade...d00d",
-        price: "0.051",
+        price: "2.68",
       },
       {
         account: "0xdead...beef",
-        price: "0.049",
+        price: "2.54",
       },
       {
         account: "0xbaad...cafe",
-        price: "0.063",
+        price: "2.68",
       },
       {
         account: "0x0ff1...ce00",
-        price: "0.051",
+        price: "2.42",
       },
       {
         account: "0xc001...d00d",
-        price: "0.04",
+        price: "2.56",
+      },
+      {
+        account: "0xc002...d30d",
+        price: "2.53",
+      },
+      {
+        account: "0xc001...d00d",
+        price: "2.50",
+      },
+      {
+        account: "0xc001...d00d",
+        price: "2.43",
+      },
+      {
+        account: "0xc001...d00d",
+        price: "2.56",
       },
     ],
   };
@@ -118,6 +134,7 @@ function WatchVideoPage() {
         setVideoData(contentData);
         setChannelData(userData);
         setLiked(contentData.isLiked);
+        setLikeCount(contentData.likeCount);
         setSubscribed(userData.subscribed);
       } catch (error) {
         console.error("시청 영상 데이터 불러오기 실패:", error);
@@ -207,7 +224,7 @@ const NFTArea = styled.div`
 const VideoWrapper = styled.div`
   position: relative;
   width: 100%;
-  padding-top: 56.25%; 
+  padding-top: 56.25%;
   overflow: hidden;
 `;
 

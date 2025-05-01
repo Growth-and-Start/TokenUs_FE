@@ -60,6 +60,8 @@ function VideoTable({ videos }) {
               isPublic={video.isPublic}
               uploadDate={video.createdAt}
               NFTPrice={video.nftPrice}
+              videoId={video.videoId}
+              creatorId={video.creatorId}
             />
             )
           ))}

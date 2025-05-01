@@ -3,21 +3,21 @@ import { MAIN, GRAY_SCALE} from "../../constants/colors";
 import { useState } from "react";
 import FONT from "../../constants/fonts";
 
-function SortBar() {
+function SortBar({sortVideo}) {
   const [selected, setSelected] = useState("최신"); 
 
   return (
     <BarBody>
       <BarContents>
-        <Button active={selected === "최신"} onClick={() => setSelected("최신")}>
+        <Button active={selected === "최신"} onClick={() => {setSelected("최신"); sortVideo(0)}}>
           최신
         </Button>
         <Divider>|</Divider>
-        <Button active={selected === "인기"} onClick={() => setSelected("인기")}>
+        <Button active={selected === "인기"} onClick={() => {setSelected("인기"); sortVideo(1)}}>
           인기
         </Button>
         <Divider>|</Divider>
-        <Button active={selected === "팔로잉"} onClick={() => setSelected("팔로잉")}>
+        <Button active={selected === "팔로잉"} onClick={() => {setSelected("팔로잉"); sortVideo(2)}}>
           팔로잉
         </Button>
       </BarContents>

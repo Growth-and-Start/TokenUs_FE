@@ -2,7 +2,7 @@ import axios from "axios";
 import { refreshAccessToken } from "../services/authService";
 
 const axiosInstance = axios.create({
-  baseURL: "http://54.180.83.169:8080",
+  baseURL: "http://13.125.207.27:8080",
   withCredentials: true,
 });
 
@@ -36,7 +36,7 @@ axiosInstance.interceptors.response.use(
         console.log("리프레시 토큰도 만료됨");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        window.location.href = "/login";
+        // window.location.href = "/login";
         return Promise.reject(refreshError);
       }
     }

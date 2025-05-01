@@ -8,7 +8,7 @@ import FONT from "../../../constants/fonts";
 
 function NFTInfo() {
   const [count, setCount] = useState(1);
-  const TotalPrice = 0.0027;
+  const TotalPrice = 5.07;
   return (
     <>
       <NFTInfoWrapper>
@@ -16,14 +16,14 @@ function NFTInfo() {
           <Header>Mint Price</Header>
           <Header>Floor Price</Header>
           <Header>Creator</Header>
-          <Data>$0.0002</Data>
-          <Data>$0.0027</Data>
+          <Data>4.00</Data>
+          <Data>5.07</Data>
           <Data>크리에이터 연합 토크너스</Data>
         </BasicInfo>
         <PriceInfo>
           <Title>예상 가격</Title>
           <Price>
-            <CurrentPrice>{TotalPrice * count} ETH</CurrentPrice>
+            <CurrentPrice>{TotalPrice * count} MATIC</CurrentPrice>
             <QuantityButton count={count} setCount={setCount}/>
           </Price>
         </PriceInfo>

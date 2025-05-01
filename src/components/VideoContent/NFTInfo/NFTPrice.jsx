@@ -10,7 +10,7 @@ function NFTPrice({price, className}) {
         <ContentWrapper>
           <PriceInfo>
             <Subtitle>Floor Price</Subtitle>
-            <Price>{price} ETH</Price>
+            <Price>{price} MATIC</Price>
           </PriceInfo>
           <ButtonWrapper>
             <Button2 width="150px" height="40px"  fontSize={"18px"}>

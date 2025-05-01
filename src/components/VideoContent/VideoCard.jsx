@@ -7,7 +7,7 @@ function VideoCard({ title, channel, date, thumbnailUrl, videoId, creatorId }) {
   const formattedDate = `${year} / ${month} / ${day}`;
   return (
     <Link 
-    to={`/watch/${title}`} 
+    to={`/watch/${encodeURIComponent(title)}`} 
     state={{videoId, creatorId}}
     style={{ textDecoration: "none", color: "inherit" }}>
       <VideoCardWrapper>

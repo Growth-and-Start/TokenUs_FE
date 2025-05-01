@@ -29,13 +29,21 @@ export const checkVideoSimilarity = async (videoUrl) => {
 };
 
 // 비디오 목록 요청
-export const getVideoList = async (isSubscribe) => {
+export const getVideoList = async (popularFilter = false, subscribeFilter = false) => {
   const response = await axiosInstance.get(`${API_URL}/get_opened_videos`, {
-    params: { isSubscribe },
+    params: { popularFilter, subscribeFilter},
   });
 
   return response.data.result;
 };
+
+
+//최고 인기 동영상 요청
+export const getTopVideo = async() => {
+  const response = await axiosInstance.get(`${API_URL}/most_popular`)
+
+  return response.data.result;
+}
 
 
 //검색 결과 요청 (비디오 목록)
