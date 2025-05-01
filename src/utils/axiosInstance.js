@@ -36,7 +36,7 @@ axiosInstance.interceptors.response.use(
         console.log("리프레시 토큰도 만료됨");
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        window.location.href = "/login";
+        // window.location.href = "/login";
         return Promise.reject(refreshError);
       }
     }
