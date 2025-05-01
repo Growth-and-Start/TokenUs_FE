@@ -80,7 +80,7 @@ function MainPage() {
         <SortBar sortVideo={sortVideo} />
         {/* 비디오 목록 */}
         <ContentListWrapper>
-          {videoData.map((video, index) => (
+          { videoData &&(videoData.map((video, index) => (
             <VideoCard
               key={index}
               title={video.videoTitle || "제목이 없습니다"}
@@ -90,7 +90,7 @@ function MainPage() {
               creatorId={video.creatorId}
               thumbnailUrl={video.thumbnailUrl}
             />
-          ))}
+          )))}
         </ContentListWrapper>
       </MainWrapper>
     </>
