@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { getNFTList } from "../../services/NFTService";
 import VideoCard from "../../components/VideoContent/VideoCard";
-import { getVideoDetail } from "../../services/videoService";
+import { getVideoDetail, getVideoList } from "../../services/videoService";
 import { getMyInfo, getUserDetail } from "../../services/channelService";
 import { GRAY_SCALE, TEXT } from "../../constants/colors";
 import { weiToMatic } from "../../utils/blockchainNetwork";
@@ -14,6 +14,16 @@ import { Link } from "react-router-dom";
 function MarketplacePage() {
   const [NFTs, setNFTs] = useState([]);
   const [videoData, setVideoData] = useState("");
+
+  //NFT 목록 정렬 함수
+  const sortNFT = async (criterion) => {
+    try {
+        const data = await getNFTList(criterion);
+        setNFTs(data);
+    } catch (error) {
+      console.error("정렬된 NFT 목록 불러오기 실패:", error);
+    } 
+  };
 
   //NFT 목록 불러오기
   useEffect(() => {
@@ -33,7 +43,7 @@ function MarketplacePage() {
     <>
       <Wrapper>
         <TempTitle>NFT 마켓플레이스</TempTitle>
-        <SortBar2 />
+        <SortBar2 sortNFT={sortNFT}/>
         <NFTListWrapper>
           {NFTs.map((nft, index) => (
             <Link key={index} 

@@ -29,8 +29,10 @@ export const registerNFTOnMarketplace = async (tokenId, price) => {
 }
 
 //마켓플레이스 NFT 목록 요청
-export const getNFTList = async () => {
-  const response = await axiosInstance.get(`${API_URL}/listed`)
+export const getNFTList = async (sortBy) => {
+  const response = await axiosInstance.get(`${API_URL}/listed`,{
+    params:{sortBy},
+  })
   return response.data.result;
 }
 
