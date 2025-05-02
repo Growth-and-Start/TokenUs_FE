@@ -2,18 +2,54 @@ import styled from "styled-components";
 import { BACKGROUND, TEXT, MAIN, GRAY_SCALE } from "../../constants/colors";
 import FONT from "../../constants/fonts";
 import Button1 from "../../components/Button/Button1";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button2 from "../../components/Button/Button2";
+import { getMyInfo } from "../../services/channelService";
+import { connectWallet } from "../../utils/blockchainNetwork";
+import { postWalletAddress } from "../../services/channelService";
 
 const WalletPage = () => {
-  const [walletList, setWalletList] = useState([
-    {
-      id: 1,
-      name: "account1",
-      address: "0x4006c7dCacDC85Ce079ea4bfbfEddd588C31eb2C1",
-      isChecked: false,
-    },
-  ]);
+  const [walletList, setWalletList] = useState([{name:"address1", address:"", isChecked: true}]);
+
+  //지갑 주소 등록하기
+  const registerWallet = async() => {
+    const myAddress = await connectWallet();
+    
+    try{
+      await postWalletAddress(myAddress);
+      setWalletList((prevList) =>
+        prevList.map((item, index) =>
+          index === 0
+            ? { ...item, address: myAddress }
+            : item
+        )
+      );
+    }catch(error){
+      console.log("지갑 주소 등록 실패:", error);
+    }
+
+    
+  }
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const myData = await getMyInfo();
+        setWalletList((prevList) =>
+          prevList.map((item, index) =>
+            index === 0
+              ? { ...item, address: myData.walletAddress }
+              : item
+          )
+        );
+      } catch (error) {
+        console.log("지갑 정보 가져오기 실패:", error);
+      }
+    };
+  
+    fetchUserData();
+  }, []);
+  
 
   return (
     <PageWrapper>
@@ -21,8 +57,8 @@ const WalletPage = () => {
       <Section>
         <Title>개인 지갑 주소 등록</Title>
         <InfoCard>
-          <DescriptionText>TokenUs 플랫폼에 지갑 주소를 등록하면 <span style={{ color: MAIN.BLUE }}>내 영상을 업로드해 NFT를 발행하거나, 다른 크리에이터의 NFT를 구매</span>하여<br />2차 창작에도 참여할 수 있습니다. <span style = {{color : GRAY_SCALE.GRAY700}}>개인 지갑 확장 프로그램을 설치한 후, 연결 상태를 확인해주세요.</span></DescriptionText>
-          <Button1 width = "100px" height = "40px">주소 등록</Button1>
+          <DescriptionText>TokenUs 플랫폼에 지갑 주소를 등록하면 <span style={{ color: MAIN.BLUE }}>내 영상을 업로드해 NFT를 발행하거나, 다른 크리에이터의 NFT를 구매</span>하여<br />2차 창작에도 참여할 수 있습니다. <span style = {{color : GRAY_SCALE.GRAY700}}>MetaMask를 설치한 후, 연결 상태를 확인해주세요.</span></DescriptionText>
+          <Button1 onClick={registerWallet} width = "120px" fontSize="15px">주소 등록</Button1>
         </InfoCard>
       </Section>
 
@@ -86,10 +122,10 @@ const InfoCard = styled.div`
   display : flex;
   flex-direction : row;
   height : 100px;
-  gap : 60px;
+  /* gap : 40px; */
   padding : 20px 40px;
   border-radius : 10px;
-  justify-content : space-between;
+  justify-content : space-around;
   background-color : ${BACKGROUND.WHITE};
   box-shadow : 1px 1px 7px ${GRAY_SCALE.GRAY300};
   align-items : center;
