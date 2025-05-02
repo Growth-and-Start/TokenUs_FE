@@ -10,7 +10,7 @@ export const connectWallet = async () => {
         method: "eth_requestAccounts",
       });
       const walletAddress = accounts[0];
-      alert(`✅ 지갑이 연결되었습니다:\n${walletAddress}`);
+      alert(`✅ 연결할 지갑 주소:\n${walletAddress}`);
       return walletAddress;
     } catch (error) {
       console.error("❌ 지갑 연결 실패:", error);
