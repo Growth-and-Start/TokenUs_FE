@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { MAIN } from "../../constants/colors";
+import { GRAY_SCALE, MAIN, SECONDARY } from "../../constants/colors";
 import SortBar from "../../components/VideoContent/SortBar";
 import VideoCard from "../../components/VideoContent/VideoCard";
 import NFTInfo from "../../components/VideoContent/Main/NFTInfo";
@@ -9,6 +9,7 @@ import { getTopVideo, getVideoList } from "../../services/videoService";
 import trendContentThumbnail from "../../assets/KakaoTalk_20250410_011838779.png";
 import FONT from "../../constants/fonts";
 import { Link } from "react-router-dom";
+import defaultThumbnail from "../../assets/default-thumbnail.png";
 
 function MainPage() {
   const [videoData, setVideoData] = useState([]);
@@ -70,7 +71,7 @@ function MainPage() {
                   creatorId: topVideo.creatorId,
                 }}
               >
-                <Thumbnail src={topVideo.thumbnailUrl} />
+                <Thumbnail src={topVideo.thumbnailUrl}  />
               </Link>
               <HolderList />
               <NFTInfo />
@@ -118,6 +119,7 @@ const TrendContent = styled.div`
 `;
 
 const Thumbnail = styled.div`
+  background-color: ${GRAY_SCALE.GRAY300};
   position: relative;
   width: 444px;
   height: 250px;
