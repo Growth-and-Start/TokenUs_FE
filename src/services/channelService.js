@@ -40,7 +40,13 @@ export const getUserDetail = async (creatorId) => {
 }
 
 //현재 로그인한 사용자 정보 요청
-export const getMyInfo = async () =>{
+export const getMyInfo = async () => {
   const response = await axiosInstance.get(`${API_URL}/get_my_info`)
+  return response.data.result;
+}
+
+//사용자 지갑 주소 등록
+export const postWalletAddress = async (walletAddress) => {
+  const response = await axiosInstance.post(`${API_URL}/add_wallet`, { walletAddress })
   return response.data.result;
 }

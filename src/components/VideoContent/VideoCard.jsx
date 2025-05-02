@@ -37,7 +37,7 @@ const VideoCardWrapper = styled.div`
 
 const Thumbnail = styled.div`
   position: relative;
-  background-color: gray;
+  background-color: ${GRAY_SCALE.GRAY300};
   background-image: url(${(props) => props.thumbnailUrl});
   background-size: cover;
   background-position: center;

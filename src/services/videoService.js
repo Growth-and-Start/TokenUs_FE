@@ -55,7 +55,7 @@ export const getSearchResult = async (searchFor) => {
   return response.data.result;
 }
 
-//비디오 시청 페이지 정보 요청
+//비디오 아이디로 상세 정보 요청
 export const getVideoDetail = async (videoId) => {
   const response = await axiosInstance.get(`${API_URL}/detail`, {
     params: { videoId },
