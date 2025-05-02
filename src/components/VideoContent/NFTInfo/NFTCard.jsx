@@ -5,31 +5,35 @@ import { weiToMatic } from "../../../utils/blockchainNetwork";
 import MaticIcon from "../../../assets/matic.png";
 import { useEffect, useState } from "react";
 import { getUserDetail } from "../../../services/channelService";
+import { getVideoDetail } from "../../../services/videoService";
 
-function NFTCard({ className, videoId, title, creatorId, price}) {
-  const [creator, setCreator] = useState('');  //크리에이터 이름(채널명명)
+function NFTCard({ className, title, videoId, creatorId, price}) {
+  const [creator, setCreator] = useState('');  //크리에이터 이름(채널명)
+  const [imgURL, setImgURL] = useState('');   //썸네일 이미지
   
   //matic 단위 변환
   const priceToMatic = (Number(weiToMatic(price))).toFixed(3);
 
-  //크리레이엍 이름 가져오기
+  //썸네일 이미지 & 크리에이터 이름 가져오기
   useEffect(()=>{
-    const getCreatorName = async(id) => {
+    const fetchData = async() => {
       try{
-        const data = await getUserDetail(id);
-        setCreator(data.nickName);
+        const videoData = await getVideoDetail(videoId);
+        setImgURL(videoData.thumbnailUrl);
+        const userData = await getUserDetail(creatorId);
+        setCreator(userData.nickName);
       }catch(error){
         console.log("크리에이터 이름 가져오기 실패", error)
       }
     }
 
-    getCreatorName(creatorId);
+    fetchData();
   },[]);
 
   return (
     <CardWrapper className={className}>
       <ContentSection>
-        <Thumbnail src={thumbnail} alt="thumbnail" />
+        <Thumbnail src={imgURL ? imgURL : thumbnail} alt="thumbnail" />
         <TextSection>
           <Title>{title}</Title>
           <Creator>{creator}</Creator>
