@@ -6,35 +6,9 @@ import { getVideoDetail } from "../../services/videoService";
 import { getMyInfo, getUserDetail } from "../../services/channelService";
 import { GRAY_SCALE, TEXT } from "../../constants/colors";
 import { weiToMatic } from "../../utils/blockchainNetwork";
-
-function NFTCard({ videoId, creatorId, nftName, price, }) {
-  const [thumbnail, setThumbnail] = useState("");
-  const [channelName, setChannelName] = useState("");
-  const maticPrice = weiToMatic(price);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const videoData = await getVideoDetail(videoId);
-        setThumbnail(videoData.thumbnailUrl);
-        const userData = await getUserDetail(creatorId);
-        setChannelName(userData.nickName);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
-  return (
-    <>
-      <VideoCardWrapper>
-        <Thumbnail thumbnailUrl={thumbnail} />
-        <Title>{nftName}</Title>
-        <Channel>{channelName}</Channel>
-        <Date>{maticPrice} MATIC</Date>
-      </VideoCardWrapper>
-    </>
-  );
-}
+import SortBar2 from "../../components/VideoContent/SortBar2";
+import NFTCard from "../../components/VideoContent/NFTInfo/NFTCard";
+import { Link } from "react-router-dom";
 
 //NFT 마켓플레이스
 function MarketplacePage() {
@@ -59,15 +33,20 @@ function MarketplacePage() {
     <>
       <Wrapper>
         <TempTitle>NFT 마켓플레이스</TempTitle>
+        <SortBar2 />
         <NFTListWrapper>
           {NFTs.map((nft, index) => (
-            <NFTCard
-              key={index}
-              videoId={nft.videoId}
-              creatorId={nft.creatorId}
-              nftName={nft.nftName}
-              price={nft.currentPrice}
-            />
+            <Link key={index} 
+            to={`/nft-info/${encodeURIComponent(nft.tokenId)}`}
+            style={{ textDecoration: "none", color: "inherit" }}>
+          
+              <StyledNFTCard
+                title={nft.nftName}
+                videoId={nft.videoId}
+                creatorId={nft.creatorId}
+                price={nft.currentPrice}
+              />
+            </Link>
           ))}
         </NFTListWrapper>
       </Wrapper>
@@ -76,90 +55,41 @@ function MarketplacePage() {
 }
 
 const Wrapper = styled.div`
-  padding: 30px 0;
+  padding: 50px 10% 0 10%;
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 
 const TempTitle = styled.div`
+  padding: 30px 0;
   font-size: 25px;
   font-weight: 600;
-  margin: 50px 0 70px 0;
 `;
 
 const NFTListWrapper = styled.div`
-max-width: 100%;
-  padding: 0 10%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  justify-content: center;
-  gap: 25px;
-  margin-top: 20px;
-`;
-
-
-//Temp
-const VideoCardWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  margin-top: 10px;
+  width: 100%;
   box-sizing: border-box;
-  gap: 2px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 25px;
 
-  &:hover {
-    transform: translateY(-4px) scale(1.00);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    border-radius: 10px;
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 `;
 
-const Thumbnail = styled.div`
-  position: relative;
-  background-color: gray;
-  background-image: url(${(props) => props.thumbnailUrl});
-  background-size: cover;
-  background-position: center;
-  border-radius: 5px;
-  width: 240px;
-  height: 135px;
-  overflow: hidden;
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0); // 처음엔 투명
-    transition: background-color 0.3s ease;
-    border-radius: 5px;
-  }
-
-  &:hover::after {
-    background-color: rgba(0, 0, 0, 0.3); // hover 시 어둡게
-  }
+const StyledNFTCard = styled(NFTCard)`
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.03), 0 -2px 5px rgba(0, 0, 0, 0.03),
+    2px 0 5px rgba(0, 0, 0, 0.03), -2px 0 5px rgba(0, 0, 0, 0.03);
 `;
-
-const Title = styled.div`
-  font-size: 15px;
-  padding: 0 0 0 5px;
-`;
-
-const Channel = styled.div`
-  padding: 0 0 0 5px;
-  font-size: 12px;
-  color: ${GRAY_SCALE.GRAY700};
-`;
-
-const Date = styled.div`
-  display: flex;
-  justify-content: end;
-  font-size: 20px;
-  padding: 0 5px 5px 0;
-  color: ${TEXT.BLACK};
-`;
-
 
 export default MarketplacePage;
