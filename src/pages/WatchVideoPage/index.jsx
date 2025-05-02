@@ -134,7 +134,7 @@ function WatchVideoPage() {
         setVideoData(contentData);
         setChannelData(userData);
         setLiked(contentData.isLiked);
-        setLikeCount(contentData.likeCount);
+        setLikeCount(contentData.likeCount)
         setSubscribed(userData.subscribed);
       } catch (error) {
         console.error("시청 영상 데이터 불러오기 실패:", error);
@@ -224,7 +224,7 @@ const NFTArea = styled.div`
 const VideoWrapper = styled.div`
   position: relative;
   width: 100%;
-  padding-top: 56.25%;
+  padding-top: 56.25%; 
   overflow: hidden;
 `;
 

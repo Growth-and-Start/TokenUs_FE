@@ -14,7 +14,7 @@ const WalletPage = () => {
   //지갑 주소 등록하기
   const registerWallet = async() => {
     const myAddress = await connectWallet();
-    
+    console.log("연결할 지갑 주소: ", myAddress);
     try{
       await postWalletAddress(myAddress);
       setWalletList((prevList) =>
