@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { GRAY_SCALE, MAIN, SECONDARY } from "../../constants/colors";
+import { GRAY_SCALE, MAIN, SECONDARY, TEXT } from "../../constants/colors";
 import { useState } from "react";
 
 function SortBar2({sortNFT}) {
@@ -39,7 +39,7 @@ const BarContents = styled.div`
 const Button = styled.button`
   all: unset;
   padding: 3px 20px;
-  border: 1px solid ${GRAY_SCALE.GRAY300};
+  border: 1px solid ${(props)=>(props.active ? GRAY_SCALE.GRAY500 : GRAY_SCALE.GRAY300)};
   border-radius: 9999px;
   color: ${(props) => (props.active ? GRAY_SCALE.GRAY700 : GRAY_SCALE.GRAY500)};
   background-color: ${(props) => (props.active ? SECONDARY.GREEN : "white")};
