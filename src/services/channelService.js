@@ -46,7 +46,7 @@ export const getMyInfo = async () => {
 }
 
 //사용자 지갑 주소 등록
-export const postWalletAddress = async (address) => {
-  const response = await axiosInstance.post(`${API_URL}/add_wallet`, { address })
+export const postWalletAddress = async (walletAddress) => {
+  const response = await axiosInstance.post(`${API_URL}/add_wallet`, { walletAddress })
   return response.data.result;
 }
