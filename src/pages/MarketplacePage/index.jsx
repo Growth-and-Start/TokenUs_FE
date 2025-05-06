@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 
 //NFT 마켓플레이스
 function MarketplacePage() {
+
   const [NFTs, setNFTs] = useState([]);
   const [videoData, setVideoData] = useState("");
 
@@ -48,8 +49,10 @@ function MarketplacePage() {
           {NFTs.map((nft, index) => (
             <Link key={index} 
             to={`/nft-info/${encodeURIComponent(nft.tokenId)}`}
-            style={{ textDecoration: "none", color: "inherit" }}>
-          
+            style={{ textDecoration: "none", color: "inherit" }}
+            state={{videoId: nft.videoId, creatorId: nft.creatorId}}
+            >
+              
               <StyledNFTCard
                 title={nft.nftName}
                 videoId={nft.videoId}
