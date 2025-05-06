@@ -36,4 +36,11 @@ export const getNFTList = async (sortBy) => {
   return response.data.result;
 }
 
+//video id로 NFT 거래 히스토리 요청
+export const getTxHistory = async(videoId) => {
+  const response = await axiosInstance.get(`${API_URL}/trade_history`,{
+    params:{videoId},
+  })
+  return response.data.result;
+}
 
