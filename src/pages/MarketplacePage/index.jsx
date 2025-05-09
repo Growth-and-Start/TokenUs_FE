@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getNFTList } from "../../services/NFTService";
 import VideoCard from "../../components/VideoContent/VideoCard";
-import { getVideoDetail, getVideoList } from "../../services/videoService";
+import { getNFTList, getVideoDetail, getVideoList } from "../../services/videoService";
 import { getMyInfo, getUserDetail } from "../../services/channelService";
 import { GRAY_SCALE, MAIN, TEXT } from "../../constants/colors";
 import { weiToMatic } from "../../utils/blockchainNetwork";
@@ -60,10 +59,10 @@ function MarketplacePage() {
                 state={{ videoId: nft.videoId, creatorId: nft.creatorId }}
               >
                 <StyledNFTCard
-                  title={nft.nftName}
+                  title={nft.title}
                   videoId={nft.videoId}
-                  creatorId={nft.creatorId}
-                  price={nft.currentPrice}
+                  creator={nft.creatorNickname}
+                  price={nft.floorPrice}
                 />
               </Link>
             ))}
