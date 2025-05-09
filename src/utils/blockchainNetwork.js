@@ -23,10 +23,12 @@ export const connectWallet = async () => {
 
 //MATIC to WEI 변환 (POST 시 사용)
 export const maticToWei= (maticValue) => {
+  if (!maticValue || isNaN(Number(maticValue))) return "0"; 
   return web3.utils.toWei(maticValue.toString(), 'ether');
 }
 
 //WEI to MATIC 변환 (GET 시 사용)
 export const weiToMatic = (weiValue)=> {
+  if (!weiValue || isNaN(Number(weiValue))) return "0"; 
   return web3.utils.fromWei(weiValue, 'ether');
 }
