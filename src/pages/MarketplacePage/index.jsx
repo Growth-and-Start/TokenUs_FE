@@ -46,7 +46,7 @@ function MarketplacePage() {
         <TempTitle>NFT 마켓플레이스</TempTitle>
         <SortBar2 sortNFT={sortNFT}/>
         <NFTListWrapper>
-          {NFTs.map((nft, index) => (
+          {NFTs && NFTs.map((nft, index) => (
             <Link key={index} 
             to={`/nft-info/${encodeURIComponent(nft.tokenId)}`}
             style={{ textDecoration: "none", color: "inherit" }}
