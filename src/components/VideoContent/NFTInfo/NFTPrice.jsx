@@ -1,8 +1,12 @@
 import styled from "styled-components";
 import { MAIN, GRAY_SCALE, TEXT } from "../../../constants/colors";
 import Button2 from "../../Button/Button2";
+import { weiToMatic } from "../../../utils/blockchainNetwork";
 
 function NFTPrice({price, className}) {
+  //matic 단위 변환
+  const floorPriceMatic = Number(weiToMatic(price)).toFixed(3);
+
   return (
     <>
       <Wrapper className={className}>
@@ -10,7 +14,7 @@ function NFTPrice({price, className}) {
         <ContentWrapper>
           <PriceInfo>
             <Subtitle>Floor Price</Subtitle>
-            <Price>{price} MATIC</Price>
+            <Price>{floorPriceMatic} MATIC</Price>
           </PriceInfo>
           <ButtonWrapper>
             <Button2 width="150px" height="40px"  fontSize={"18px"}>
