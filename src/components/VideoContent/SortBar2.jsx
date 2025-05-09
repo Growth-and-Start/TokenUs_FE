@@ -27,7 +27,7 @@ function SortBar2({sortNFT}) {
 
 const BarBody = styled.div`
   box-sizing: border-box;
-  width: 100%;
+
   padding: 12px 0;
 `;
 
