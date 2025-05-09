@@ -1,19 +1,23 @@
 import styled from "styled-components";
 import { GRAY_SCALE, MAIN, TEXT } from "../../../constants/colors";
 import Avatar from "../../User/Avatar";
+import { weiToMatic } from "../../../utils/blockchainNetwork";
 
-function NFTDesc({title, description, creator, mintPrice, floorPrice}) {
+function NFTDesc({className, title, description, creator, mintPrice, floorPrice, profile}) {
+    //matic 단위 변환
+    const mintPriceMatic = Number(weiToMatic(mintPrice)).toFixed(3);
+    const floorPriceMatic = Number(weiToMatic(floorPrice)).toFixed(3);
   return (
-    <Wrapper>
+    <Wrapper className={className}>
       <VideoInfo>
-        <Title>제목입니다.</Title>
-        <Description>설명입니다.</Description>
-        <Creator><StyledAvatar size={28}/>크리에이터</Creator>
+        <Title>{title}</Title>
+        <Description>{description}</Description>
+        <Creator><StyledAvatar src={profile} size={28}/>{creator}</Creator>
       </VideoInfo>
       <PriceInfo>
-        <Price>Mint Price <Matic>100 Matic</Matic></Price>
+        <Price>Mint Price <Matic>{mintPriceMatic} Matic</Matic></Price>
         <Divide>|</Divide>
-        <Price>Floor Price <Matic>100 Matic</Matic></Price>
+        <Price>Floor Price <Matic>{floorPriceMatic} Matic</Matic></Price>
       </PriceInfo>
     </Wrapper>
   );
@@ -31,7 +35,7 @@ const Wrapper = styled.div`
 const VideoInfo = styled.div`
 display: flex;
 flex-direction: column;
-gap: 5px;
+gap: 6px;
 padding : 20px 0 10px 0;
 border-bottom: 1px solid ${GRAY_SCALE.GRAY300};
 `;
@@ -48,7 +52,7 @@ font-size: 14px;
 `;
 
 const Creator = styled.div`
-margin-top: 10px;
+margin-top: 15px;
 font-size: 14px;
 display: flex;
 align-items: center;
