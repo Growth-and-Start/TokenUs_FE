@@ -99,3 +99,11 @@ export const getMyVideo = async () => {
 
   return formattedResult;
 }
+
+//마켓플레이스 NFT 목록 요청
+export const getNFTList = async (sort) => {
+  const response = await axiosInstance.get(`${API_URL}/listed`,{
+    params:{sort},
+  })
+  return response.data.result;
+}
