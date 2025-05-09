@@ -4,7 +4,7 @@ import { getNFTList } from "../../services/NFTService";
 import VideoCard from "../../components/VideoContent/VideoCard";
 import { getVideoDetail, getVideoList } from "../../services/videoService";
 import { getMyInfo, getUserDetail } from "../../services/channelService";
-import { GRAY_SCALE, TEXT } from "../../constants/colors";
+import { GRAY_SCALE, MAIN, TEXT } from "../../constants/colors";
 import { weiToMatic } from "../../utils/blockchainNetwork";
 import SortBar2 from "../../components/VideoContent/SortBar2";
 import NFTCard from "../../components/VideoContent/NFTInfo/NFTCard";
@@ -12,18 +12,17 @@ import { Link } from "react-router-dom";
 
 //NFT 마켓플레이스
 function MarketplacePage() {
-
   const [NFTs, setNFTs] = useState([]);
   const [videoData, setVideoData] = useState("");
 
   //NFT 목록 정렬 함수
   const sortNFT = async (criterion) => {
     try {
-        const data = await getNFTList(criterion);
-        setNFTs(data);
+      const data = await getNFTList(criterion);
+      setNFTs(data);
     } catch (error) {
       console.error("정렬된 NFT 목록 불러오기 실패:", error);
-    } 
+    }
   };
 
   //NFT 목록 불러오기
@@ -44,23 +43,30 @@ function MarketplacePage() {
     <>
       <Wrapper>
         <TempTitle>NFT 마켓플레이스</TempTitle>
-        <SortBar2 sortNFT={sortNFT}/>
+        <NavBox>
+          <SortBar2 sortNFT={sortNFT} />
+          <StyledLink
+          to={`/my-nft`}
+          >내 NFT 보러가기 &gt; </StyledLink>
+        </NavBox>
+
         <NFTListWrapper>
-          {NFTs && NFTs.map((nft, index) => (
-            <Link key={index} 
-            to={`/nft-info/${encodeURIComponent(nft.tokenId)}`}
-            style={{ textDecoration: "none", color: "inherit" }}
-            state={{videoId: nft.videoId, creatorId: nft.creatorId}}
-            >
-              
-              <StyledNFTCard
-                title={nft.nftName}
-                videoId={nft.videoId}
-                creatorId={nft.creatorId}
-                price={nft.currentPrice}
-              />
-            </Link>
-          ))}
+          {NFTs &&
+            NFTs.map((nft, index) => (
+              <Link
+                key={index}
+                to={`/nft-info/${encodeURIComponent(nft.tokenId)}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+                state={{ videoId: nft.videoId, creatorId: nft.creatorId }}
+              >
+                <StyledNFTCard
+                  title={nft.nftName}
+                  videoId={nft.videoId}
+                  creatorId={nft.creatorId}
+                  price={nft.currentPrice}
+                />
+              </Link>
+            ))}
         </NFTListWrapper>
       </Wrapper>
     </>
@@ -77,6 +83,25 @@ const TempTitle = styled.div`
   padding: 30px 0;
   font-size: 25px;
   font-weight: 600;
+`;
+
+const NavBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StyledLink = styled(Link)`
+all: unset;
+cursor: pointer;
+display: flex;
+align-items: center;
+color: ${MAIN.BLUE};
+font-size: 18px;
+font-weight: 550;
+
+  &:hover{
+    color: #0049D9;
+  }
 `;
 
 const NFTListWrapper = styled.div`
