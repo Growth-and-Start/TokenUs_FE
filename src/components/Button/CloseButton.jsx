@@ -3,7 +3,7 @@ import { faX } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-function CloseButton({size, color, style}) {
+function CloseButton({className, size, color, style, onClick}) {
   const navigate = useNavigate();
 
   const handleGoBack = () => {
@@ -11,7 +11,7 @@ function CloseButton({size, color, style}) {
   }
 
   return(
-    <Button onClick={handleGoBack} style={style}>
+    <Button className={className} onClick={onClick || handleGoBack} style={style}>
       <FontAwesomeIcon icon={faX} size={size} color={color}/>
     </Button>
   )
