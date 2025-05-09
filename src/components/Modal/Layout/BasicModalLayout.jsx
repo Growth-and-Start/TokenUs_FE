@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import { BACKGROUND, SECONDARY, GRAY_SCALE } from "../../../constants/colors";
+import CloseButton from "../../Button/CloseButton";
 
-function BasicModalLayout({ header, children, footer }) {
+function BasicModalLayout({ header, children, footer, onClose, width }) {
   return (
     <>
       <Overlay>
-        <Container>
+        <Container width={width}>
+          {onClose && <StyledCloseButton onClick={onClose}     size="2x"
+            color={GRAY_SCALE.GRAY500}/>}
           {header && <Header>{header}</Header>}
           <ScrollBody>
             <Body>{children}</Body>
@@ -32,11 +35,12 @@ const Overlay = styled.div`
 `;
 
 const Container = styled.div`
+  position: relative;
   box-sizing: border-box;
   background: ${BACKGROUND.WHITE};
   border-radius: 12px;
   padding: 25px 15px 25px 25px;
-  width: 35%;
+  width: ${(props) => props.width || '35%'};
   max-width: 90%;
   max-height: 80%;
   display: flex;
@@ -66,7 +70,7 @@ const ScrollBody = styled.div`
 
   /* 스크롤바 썸에 hover 효과 */
   &::-webkit-scrollbar-thumb:hover {
-    background: ${SECONDARY.BLUE};;
+    background: ${SECONDARY.BLUE};
   }
 `;
 
@@ -89,5 +93,12 @@ const Footer = styled.div`
   gap: 10px;
   margin: 20px 0 10px 0;
 `;
+
+const StyledCloseButton = styled(CloseButton)`
+  position: absolute;
+  top: 30px;
+  right: 30px;
+`
+
 
 export default BasicModalLayout;

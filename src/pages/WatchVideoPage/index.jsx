@@ -22,6 +22,7 @@ import {
   getUserDetail,
   postSubscribe,
 } from "../../services/channelService";
+import { getTxHistory } from "../../services/NFTService";
 
 //비디오 시청 페이지
 function WatchVideoPage() {
@@ -32,63 +33,10 @@ function WatchVideoPage() {
   const [loading, setLoading] = useState(false);
   const [videoData, setVideoData] = useState("");
   const [channelData, setChannelData] = useState("");
+  const [txData, setTxData] = useState("");
   const [subscribed, setSubscribed] = useState(false);
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-
-  const tempData = {
-    NFTPrice: 2.71,
-    NFThistory: [
-      {
-        account: "0xa1b2...c3d4",
-        price: "2.70",
-      },
-      {
-        account: "0xbeef...feed",
-        price: "2.72",
-      },
-      {
-        account: "0xdeed...face",
-        price: "2.65",
-      },
-      {
-        account: "0xfade...d00d",
-        price: "2.68",
-      },
-      {
-        account: "0xdead...beef",
-        price: "2.54",
-      },
-      {
-        account: "0xbaad...cafe",
-        price: "2.68",
-      },
-      {
-        account: "0x0ff1...ce00",
-        price: "2.42",
-      },
-      {
-        account: "0xc001...d00d",
-        price: "2.56",
-      },
-      {
-        account: "0xc002...d30d",
-        price: "2.53",
-      },
-      {
-        account: "0xc001...d00d",
-        price: "2.50",
-      },
-      {
-        account: "0xc001...d00d",
-        price: "2.43",
-      },
-      {
-        account: "0xc001...d00d",
-        price: "2.56",
-      },
-    ],
-  };
 
   //구독하기&구독 취소하기
   const toggleSubscription = async () => {
@@ -129,12 +77,12 @@ function WatchVideoPage() {
         console.log("파라미터: ", videoId, creatorId);
         const contentData = await getVideoDetail(videoId);
         const userData = await getUserDetail(creatorId);
-        console.log("영상 정보:", contentData);
-        console.log("채널 정보:", userData);
+        const txData = await getTxHistory(videoId);
         setVideoData(contentData);
         setChannelData(userData);
+        setTxData(txData);
         setLiked(contentData.isLiked);
-        setLikeCount(contentData.likeCount)
+        setLikeCount(contentData.likeCount);
         setSubscribed(userData.subscribed);
       } catch (error) {
         console.error("시청 영상 데이터 불러오기 실패:", error);
@@ -195,8 +143,8 @@ function WatchVideoPage() {
         </ContentArea>
 
         <NFTArea>
-          <StyledNFTPrice price={tempData.NFTPrice} />
-          <StyledNFTHistory history={tempData.NFThistory} />
+          <StyledNFTPrice price={videoData.floorPrice} />
+          <StyledNFTHistory history={txData}/>
         </NFTArea>
       </Wrapper>
     </>
@@ -224,7 +172,7 @@ const NFTArea = styled.div`
 const VideoWrapper = styled.div`
   position: relative;
   width: 100%;
-  padding-top: 56.25%; 
+  padding-top: 56.25%;
   overflow: hidden;
 `;
 
