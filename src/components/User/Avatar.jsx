@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import defaultProfile from "../../assets/defaultProfile.png";
 
-function Avatar({ src, size = 50 }) {
+function Avatar({ className, src, size = 50 }) {
   // '~default'라는 문자열이 오면 디폴트 이미지로 대체
   const resolvedSrc = (!src || src.includes('default')) ? defaultProfile : src;
 
-  return <StyledAvatar src={resolvedSrc} size={size} alt="Profile Image" />;
+  return <StyledAvatar className={className} src={resolvedSrc} size={size} alt="Profile Image" />;
 }
 
 const StyledAvatar = styled.img`
