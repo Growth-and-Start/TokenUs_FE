@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import VideoCard from "../../components/VideoContent/VideoCard";
-import { getNFTList, getVideoDetail, getVideoList } from "../../services/videoService";
+import {
+  getNFTList,
+  getVideoDetail,
+  getVideoList,
+} from "../../services/videoService";
 import { getMyInfo, getUserDetail } from "../../services/channelService";
 import { GRAY_SCALE, MAIN, TEXT } from "../../constants/colors";
 import { weiToMatic } from "../../utils/blockchainNetwork";
@@ -43,10 +47,15 @@ function MarketplacePage() {
       <Wrapper>
         <TempTitle>NFT 마켓플레이스</TempTitle>
         <NavBox>
-          <SortBar2 sortNFT={sortNFT} />
-          <StyledLink
-          to={`/my-nft`}
-          >내 NFT 보러가기 &gt; </StyledLink>
+          <SortBar2
+            sort={sortNFT}
+            menuItems={[
+              { key: "latest", label: "최신" },
+              { key: "popular", label: "인기" },
+              { key: "liked", label: "관심" },
+            ]}
+          />
+          <StyledLink to={`/my-nft`}>내 NFT 보러가기 &gt; </StyledLink>
         </NavBox>
 
         <NFTListWrapper>
@@ -54,7 +63,7 @@ function MarketplacePage() {
             NFTs.map((nft, index) => (
               <Link
                 key={index}
-                to={`/nft-info/${encodeURIComponent(nft.tokenId)}`}
+                to={`/nft-info/${encodeURIComponent(nft.title)}`}
                 style={{ textDecoration: "none", color: "inherit" }}
                 state={{ videoId: nft.videoId, creatorId: nft.creatorId }}
               >
@@ -90,16 +99,16 @@ const NavBox = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-all: unset;
-cursor: pointer;
-display: flex;
-align-items: center;
-color: ${MAIN.BLUE};
-font-size: 18px;
-font-weight: 550;
+  all: unset;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: ${MAIN.BLUE};
+  font-size: 18px;
+  font-weight: 550;
 
-  &:hover{
-    color: #0049D9;
+  &:hover {
+    color: #0049d9;
   }
 `;
 
