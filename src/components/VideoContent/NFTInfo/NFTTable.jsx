@@ -44,6 +44,7 @@ const TableHeader = styled.thead`
     padding: 12px;
     border-bottom: 1px solid #ddd;
     font-weight: 600;
+    font-size: 15px;
   }
 `;
 
@@ -56,6 +57,7 @@ const TableBody = styled.tbody`
     padding: 12px;
     vertical-align: middle;
     color: ${GRAY_SCALE.GRAY700};
+    font-size: 13px;
   }
 `;
 
