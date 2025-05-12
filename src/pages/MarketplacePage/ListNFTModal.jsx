@@ -4,17 +4,20 @@ import Button1 from "../../components/Button/Button1";
 import styled from "styled-components";
 import { GRAY_SCALE, MAIN, SECONDARY } from "../../constants/colors";
 import { registerNFTOnMarketplace } from "../../services/NFTService";
+import { weiToMatic } from "../../utils/blockchainNetwork";
 
 function ListNFTModal({ onClose, selectedNFT }) {
   const [price, setPrice] = useState(0);
 
   //선택한 NFT 등록하기
-  const submitList = async (NFTs) => {
+  const submitList = async (nft) => {
     try {
-      NFTs.map(async (nft) => {
-        await registerNFTOnMarketplace(nft.tokenId, price);
-        console.log(`NFT 등록: ${nft.tokenId}`)
-      });
+      await registerNFTOnMarketplace(nft.tokenId, price);
+      console.log(`NFT 등록: ${nft.tokenId}`)
+      // NFTs.map(async (nft) => {
+      //   await registerNFTOnMarketplace(nft.tokenId, price);
+      //   console.log(`NFT 등록: ${nft.tokenId}`)
+      // });
     } catch (error) {
       console.log("NFT 등록 실패", error);
     }
@@ -30,7 +33,7 @@ function ListNFTModal({ onClose, selectedNFT }) {
       <BasicModalLayout
         width="32%"
         onClose={onClose}
-        header={"선택한 NFT 등록하기"}
+        header={selectedNFT.isListed? "NFT 가격 변경하기" : "선택한 NFT 등록하기"}
         footer={
           <SubmitButton>
             <Button1
@@ -48,7 +51,9 @@ function ListNFTModal({ onClose, selectedNFT }) {
           <NFTBox>
             <Label>선택한 NFT</Label>
             <NFTList>
-
+              <SelectedNFT name={selectedNFT.videoTitle}
+                  id={selectedNFT.tokenId}
+                 />
             </NFTList>
           </NFTBox>
           <InputBox>
@@ -78,10 +83,14 @@ function ListNFTModal({ onClose, selectedNFT }) {
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
 `;
 
-const NFTBox = styled.div``;
+const NFTBox = styled.div`
+display: flex;
+flex-direction: column;
+gap: 3px;
+`;
 
 const NFTList = styled.div``;
 
@@ -137,6 +146,39 @@ const SubmitButton = styled.div`
   justify-content: center;
   border-top: 1px solid ${GRAY_SCALE.GRAY300};
   padding-top: 20px;
+`;
+
+function SelectedNFT({ name, id, price }) {
+  price = Number(weiToMatic(price)).toFixed(3);
+  return (
+    <BoxWrapper>
+      <NFTName>{name}</NFTName>
+      <TokenId>({id})</TokenId>
+      <NFTPrice>{price}&nbsp;&nbsp;MATIC</NFTPrice>
+    </BoxWrapper>
+  );
+}
+
+const BoxWrapper = styled.div`
+  display: flex;
+  gap: 5px;
+  border-radius: 5px;
+  padding: 5px 10px;
+  border: 1px solid ${GRAY_SCALE.GRAY300};
+  background-color: white;
+  margin-bottom: 5px;
+`;
+const NFTName = styled.div``;
+
+const TokenId = styled.div`
+color: ${GRAY_SCALE.GRAY500};
+`;
+
+const NFTPrice = styled.div`
+  flex-grow: 1;
+  display: flex;
+  justify-content: end;
+  color: ${MAIN.BLUE};
 `;
 
 export default ListNFTModal;
