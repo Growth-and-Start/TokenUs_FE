@@ -2,32 +2,31 @@ import styled from "styled-components";
 import { GRAY_SCALE, MAIN, SECONDARY, TEXT } from "../../constants/colors";
 import { useState } from "react";
 
-function SortBar2({sortNFT}) {
-  const [selected, setSelected] = useState("latest"); 
+function SortBar2({ menuItems, sort }) {
+  const [selected, setSelected] = useState(menuItems[0]?.key || "");
 
   return (
     <BarBody>
       <BarContents>
-        <Button active={selected === "latest"} onClick={() => {setSelected("latest"); sortNFT()}}>
-          최신
-        </Button>
-
-        <Button active={selected === "popular"} onClick={() => {setSelected("popular"); sortNFT("popular")}}>
-          인기
-        </Button>
-  
-        <Button active={selected === "liked"} onClick={() => {setSelected("liked"); sortNFT("liked")}}>
-          관심
-        </Button>
+        {menuItems.map(({ key, label }) => (
+          <Button
+            key={key}
+            active={selected === key}
+            onClick={() => {
+              setSelected(key);
+              sort(key);
+            }}
+          >
+            {label}
+          </Button>
+        ))}
       </BarContents>
     </BarBody>
   );
 }
 
-
 const BarBody = styled.div`
   box-sizing: border-box;
-  width: 100%;
   padding: 12px 0;
 `;
 
@@ -39,7 +38,7 @@ const BarContents = styled.div`
 const Button = styled.button`
   all: unset;
   padding: 3px 20px;
-  border: 1px solid ${(props)=>(props.active ? GRAY_SCALE.GRAY500 : GRAY_SCALE.GRAY300)};
+  border: 1px solid ${(props) => (props.active ? GRAY_SCALE.GRAY500 : GRAY_SCALE.GRAY300)};
   border-radius: 9999px;
   color: ${(props) => (props.active ? GRAY_SCALE.GRAY700 : GRAY_SCALE.GRAY500)};
   background-color: ${(props) => (props.active ? SECONDARY.GREEN : "white")};
@@ -52,7 +51,5 @@ const Button = styled.button`
     background-color: ${SECONDARY.GREEN};
   }
 `;
-
-
 
 export default SortBar2;

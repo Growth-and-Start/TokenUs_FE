@@ -1,5 +1,6 @@
 import { API } from "../utils/api";
 import axiosInstance from "../utils/axiosInstance"
+import { maticToWei } from "../utils/blockchainNetwork";
 
 const API_URL = `${API.nft}`;
 
@@ -24,17 +25,11 @@ export const transferVideoNFT = async (tokenId) => {
 
 //마켓플레이스에 NFT 등록
 export const registerNFTOnMarketplace = async (tokenId, price) => {
+  price = maticToWei(price);
   const response = await axiosInstance.post(`${API_URL}/list`, { tokenId, price })
   return response.data.result;
 }
 
-//마켓플레이스 NFT 목록 요청
-export const getNFTList = async (sortBy) => {
-  const response = await axiosInstance.get(`${API_URL}/listed`,{
-    params:{sortBy},
-  })
-  return response.data.result;
-}
 
 //video id로 NFT 거래 히스토리 요청
 export const getTxHistory = async(videoId) => {
@@ -52,3 +47,8 @@ export const getListedNFT = async(videoId) => {
   return response.data.result;
 }
 
+//내가 보유한 NFT 요청
+export const getMyNFT = async() => {
+  const response = await axiosInstance.get(`${API_URL}/my_nft`)
+  return response.data.result;
+}
