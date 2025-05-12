@@ -70,7 +70,7 @@ function MarketplacePage() {
                 <StyledNFTCard
                   title={nft.title}
                   videoId={nft.videoId}
-                  creator={nft.creatorNickname}
+                  creatorId={nft.creatorId}
                   price={nft.floorPrice}
                 />
               </Link>
