@@ -148,10 +148,13 @@ const BoxWrapper = styled.div`
   padding: 5px 10px;
   border: 1px solid ${GRAY_SCALE.GRAY300};
   background-color: white;
+  margin-bottom: 5px;
 `;
 const NFTName = styled.div``;
 
-const TokenId = styled.div``;
+const TokenId = styled.div`
+color: ${GRAY_SCALE.GRAY500};
+`;
 
 const NFTPrice = styled.div`
   flex-grow: 1;
