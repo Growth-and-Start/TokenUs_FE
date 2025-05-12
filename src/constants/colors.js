@@ -13,6 +13,7 @@ export const GRAY_SCALE = {
   GRAY300: '#D3D8E5',
   GRAY500: '#73798D',
   GRAY700: '#535761',
+  GRAY900: '#1A1B1D',
 }
 
 export const BACKGROUND = {
