@@ -23,6 +23,7 @@ import {
   postSubscribe,
 } from "../../services/channelService";
 import { getTxHistory } from "../../services/NFTService";
+import HistoryChart from "../../components/VideoContent/NFTInfo/HistoryChart";
 
 //비디오 시청 페이지
 function WatchVideoPage() {
@@ -145,6 +146,11 @@ function WatchVideoPage() {
         <NFTArea>
           <StyledNFTPrice price={videoData.floorPrice} />
           <StyledNFTHistory history={txData}/>
+          {txData && txData.length > 0 ? (
+              <HistoryChart history={txData} />
+            ) : (
+              <></>
+            )}
         </NFTArea>
       </Wrapper>
     </>
