@@ -1,13 +1,21 @@
 import styled from "styled-components";
 import { MAIN, GRAY_SCALE, BACKGROUND } from "../../../constants/colors";
 
-function Holder({ account, price, index }) {
+const shortenHash = (hash) => {
+  if (!hash || hash.length < 10) return hash;
+  return `${hash.slice(0, 10)}...${hash.slice(-4)}`;
+};
+
+function Holder({ hash, price, index }) {
   return (
     <>
       <HolderWrapper isOdd={index % 2 == 0}>
-        <UserAccount>{account}</UserAccount>
+        <TxHash
+        href={`https://amoy.polygonscan.com/tx/${hash}`}
+        target="_blank" rel="noopener noreferrer"
+        >{shortenHash(hash)}</TxHash>
 
-        <NFTPrice>{price} ETH</NFTPrice>
+        <NFTPrice>{price} Matic</NFTPrice>
       </HolderWrapper>
     </>
   );
@@ -21,9 +29,13 @@ const HolderWrapper = styled.div`
     props.isOdd ? GRAY_SCALE.GRAY100 : BACKGROUND.WHITE};
 `;
 
-const UserAccount = styled.div`
+const TxHash = styled.a`
   font-size: 15px;
-  color: #535761;
+  color: ${GRAY_SCALE.GRAY500};
+
+  &:hover{
+    color: ${GRAY_SCALE.GRAY700};
+  }
 `;
 const NFTPrice = styled.div`
   display: flex;
@@ -32,59 +44,6 @@ const NFTPrice = styled.div`
   font-size: 15px;
 `;
 
-// const tempData = {
-//   NFTPrice: 2.71,
-//   NFThistory: [
-//     {
-//       account: "0xa1b2...c3d4",
-//       price: "2.70",
-//     },
-//     {
-//       account: "0xbeef...feed",
-//       price: "2.72",
-//     },
-//     {
-//       account: "0xdeed...face",
-//       price: "2.65",
-//     },
-//     {
-//       account: "0xfade...d00d",
-//       price: "2.68",
-//     },
-//     {
-//       account: "0xdead...beef",
-//       price: "2.54",
-//     },
-//     {
-//       account: "0xbaad...cafe",
-//       price: "2.68",
-//     },
-//     {
-//       account: "0x0ff1...ce00",
-//       price: "2.42",
-//     },
-//     {
-//       account: "0xc001...d00d",
-//       price: "2.56",
-//     },
-//     {
-//       account: "0xc002...d30d",
-//       price: "2.53",
-//     },
-//     {
-//       account: "0xc001...d00d",
-//       price: "2.50",
-//     },
-//     {
-//       account: "0xc001...d00d",
-//       price: "2.43",
-//     },
-//     {
-//       account: "0xc001...d00d",
-//       price: "2.56",
-//     },
-//   ],
-// };
 
 function NFTHistory({ history, className }) {
   return (
@@ -96,8 +55,8 @@ function NFTHistory({ history, className }) {
             {history.map((holder, index) => (
               <Holder
                 key={index}
-                account={holder.account}
-                price={holder.price}
+                hash={holder.txHash}
+                price={holder.tradePrice}
                 index={index}
               />
             ))}
