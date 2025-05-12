@@ -44,18 +44,18 @@ function NFTDetailPage() {
   const fetchData = async () => {
     const videoData = await getVideoDetail(videoId);
     setVideoInfo(videoData);
-    const creatorData = await getUserDetail(creatorId);
-    setCreator(creatorData);
+    // const creatorData = await getUserDetail(creatorId);
+    // setCreator(creatorData);
     const txData = await getTxHistory(videoId);
     setTxHistory(txData);
     let nftData = await getListedNFT(videoId);
-    console.log("Listed NFTs 1: ", nftData);
     nftData = nftData.sort(
       (a, b) => parseFloat(a.currentPrice) - parseFloat(b.currentPrice)
     ); //가격 기준 오름차순 정렬
-
     setListedNFT(nftData);
-    console.log("Listed NFTs 2: ", nftData);
+    console.log("트랜잭션 데이터", txData);
+    console.log("판매 등록된 NFT", nftData);
+
   };
 
   //NFT 구매 모달 창 열고 닫기
@@ -115,8 +115,8 @@ function NFTDetailPage() {
             <StyledNFTHistory history={txHistory} />
           </TransactionInfo>
           <TransactionInfo2>
-            {txHistoryTemp && txHistoryTemp.length > 0 ? (
-              <HistoryChart history={txHistoryTemp} />
+            {txHistory && txHistory.length > 0 ? (
+              <HistoryChart history={txHistory} />
             ) : (
               <></>
             )}
