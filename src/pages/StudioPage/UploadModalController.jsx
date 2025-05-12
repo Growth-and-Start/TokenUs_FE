@@ -32,7 +32,6 @@ function UploadModalController({ onClose }) {
 
   //사용자 입력 데이터 - NFT 정보
   const [nftData, setNftData] = useState({
-    metadataUri: "",
     totalSupply: 1,
     nftName: "",
     nftSymbol: "",
