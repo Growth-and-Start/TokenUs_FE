@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { MAIN, GRAY_SCALE, BACKGROUND } from "../../../constants/colors";
+import { weiToMatic } from "../../../utils/blockchainNetwork";
 
 const shortenHash = (hash) => {
   if (!hash || hash.length < 10) return hash;
@@ -56,7 +57,7 @@ function NFTHistory({ history, className }) {
               <Holder
                 key={index}
                 hash={holder.txHash}
-                price={holder.tradePrice}
+                price={weiToMatic(holder.tradePrice)}
                 index={index}
               />
             ))}
