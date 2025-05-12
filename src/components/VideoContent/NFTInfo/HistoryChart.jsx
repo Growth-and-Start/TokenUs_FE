@@ -12,6 +12,7 @@ import {
 import { Line } from "react-chartjs-2";
 import { faker } from "@faker-js/faker";
 import { MAIN, SECONDARY } from "../../../constants/colors";
+import { weiToMatic } from "../../../utils/blockchainNetwork";
 
 ChartJS.register(
   CategoryScale,
@@ -25,8 +26,21 @@ ChartJS.register(
 );
 
 function HistoryChart({ history }) {
-  const prices = history.map((item) => item.tradePrice);
-  const labels = history.map((item) => item.createdAt);
+  const formatDateTime = (isoString) => {
+    const date = new Date(isoString);
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, "0");
+    const dd = String(date.getDate()).padStart(2, "0");
+    const hh = String(date.getHours()).padStart(2, "0");
+    const min = String(date.getMinutes()).padStart(2, "0");
+    const ss = String(date.getSeconds()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd} / ${hh}:${min}:${ss}`;
+  };
+
+  const reversedHistory = [...history].reverse();
+
+  const prices = reversedHistory.map((item) => weiToMatic(item.tradePrice));
+  const labels = reversedHistory.map((item) => formatDateTime(item.createdAt));
 
   const options = {
     responsive: true,
