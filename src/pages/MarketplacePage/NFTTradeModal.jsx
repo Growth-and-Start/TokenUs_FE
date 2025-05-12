@@ -11,11 +11,15 @@ function NFTTradeModal({ onClose, listedNFT }) {
   const [count, setCount] = useState(0);
 
   //선택한 NFT 구매하기
-  const submitTrade = async(NFTs) => {
-    NFTs.map(async(nft)=>{
-      await transferVideoNFT(nft.tokenId)
-    })
-  }
+  const submitTrade = async (NFTs) => {
+    try {
+      NFTs.map(async (nft) => {
+        await transferVideoNFT(nft.tokenId);
+      });
+    } catch (error) {
+      console.log("NFT 구매 실패", error);
+    }
+  };
 
   return (
     <>
@@ -25,7 +29,12 @@ function NFTTradeModal({ onClose, listedNFT }) {
         header={"NFT 구매하기"}
         footer={
           <SubmitButton>
-            <Button1 onClick={submitTrade(listedNFT.slice(0,count))} width="150px" height="40px" fontSize="18px">
+            <Button1
+              onClick={()=>submitTrade(listedNFT.slice(0, count))}
+              width="150px"
+              height="40px"
+              fontSize="18px"
+            >
               구매하기
             </Button1>
           </SubmitButton>
@@ -137,7 +146,7 @@ const BoxWrapper = styled.div`
   gap: 5px;
   border-radius: 5px;
   padding: 5px 10px;
-  border: 1px solid ${GRAY_SCALE.GRAY500};
+  border: 1px solid ${GRAY_SCALE.GRAY300};
   background-color: white;
 `;
 const NFTName = styled.div``;
