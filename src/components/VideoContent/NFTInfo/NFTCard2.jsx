@@ -18,7 +18,18 @@ function NFTCard2({
   floorPrice,
 }) {
   //ROI
-  const roi = ((floorPrice - purchasedPrice) / purchasedPrice) * 100;
+  let roi;
+
+  if (purchasedPrice === 0) {
+    if (floorPrice === 0) {
+      roi = 0; 
+    } else {
+      roi = null; 
+    }
+  } else {
+    roi = ((floorPrice - purchasedPrice) / purchasedPrice) * 100;
+  }
+
   const roiFormatted = Math.abs(roi).toFixed(2);
   const isPositive = roi > 0;
   const isNegative = roi < 0;
@@ -141,6 +152,6 @@ const ROIPercent = styled.div`
   font-size: 13px;
   font-weight: 600;
   color: ${({ $up, $down }) =>
-    $up ? WARNING.TEXT : $down ? "#355cf7" : GRAY_SCALE.GRAY500};
+    $up ? WARNING.TEXT : $down ? "#476bf9" : GRAY_SCALE.GRAY500};
   gap: 5px;
 `;
