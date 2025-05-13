@@ -13,6 +13,7 @@ import { getUserDetail } from "../../services/channelService";
 import { getListedNFT, getTxHistory } from "../../services/NFTService";
 import HistoryChart from "../../components/VideoContent/NFTInfo/HistoryChart";
 import NFTTradeModal from "./NFTTradeModal";
+import NFTTable from "../../components/VideoContent/NFTInfo/NFTTable";
 
 const txHistoryTemp = [
   { txHash: "0x1", tradePrice: 1.25, createdAt: "2024-05-01T10:00:00Z" },
@@ -35,8 +36,8 @@ function NFTDetailPage() {
 
   const [videoInfo, setVideoInfo] = useState("");
   const [creator, setCreator] = useState("");
-  const [txHistory, setTxHistory] = useState();
-  const [listedNFT, setListedNFT] = useState();
+  const [txHistory, setTxHistory] = useState([]);
+  const [listedNFT, setListedNFT] = useState([]);
 
   const [isTradeModalOpen, setIsTradeModalOpen] = useState(false); //NFT 구매 모달 실행 여부
 
@@ -44,8 +45,8 @@ function NFTDetailPage() {
   const fetchData = async () => {
     const videoData = await getVideoDetail(videoId);
     setVideoInfo(videoData);
-    // const creatorData = await getUserDetail(creatorId);
-    // setCreator(creatorData);
+    const creatorData = await getUserDetail(creatorId);
+    setCreator(creatorData);
     const txData = await getTxHistory(videoId);
     setTxHistory(txData);
     let nftData = await getListedNFT(videoId);
@@ -121,7 +122,9 @@ function NFTDetailPage() {
               <></>
             )}
 
-            <ListedNFTs></ListedNFTs>
+            <ListedNFTs>
+              <NFTTable NFTs={listedNFT} />
+            </ListedNFTs>
           </TransactionInfo2>
         </NFTSection>
       </Wrapper>

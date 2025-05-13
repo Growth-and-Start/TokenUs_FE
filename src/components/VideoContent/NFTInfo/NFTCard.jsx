@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 import { getUserDetail } from "../../../services/channelService";
 import { getVideoDetail } from "../../../services/videoService";
 
-function NFTCard({ className, title, videoId, creator, price }) {
-  
+function NFTCard({ className, title, videoId, creatorId, price }) {
+  const [creator, setCreator] = useState(""); //크리에이터 이름(채널명)
   const [imgURL, setImgURL] = useState(""); //썸네일 이미지
 
   //matic 단위 변환
@@ -20,7 +20,8 @@ function NFTCard({ className, title, videoId, creator, price }) {
       try {
         const videoData = await getVideoDetail(videoId);
         setImgURL(videoData.thumbnailUrl);
-        
+        const userData = await getUserDetail(creatorId);
+        setCreator(userData.nickName);
       } catch (error) {
         console.log("크리에이터 이름 가져오기 실패", error);
       }

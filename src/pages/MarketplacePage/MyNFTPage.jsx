@@ -5,9 +5,12 @@ import SortBar2 from "../../components/VideoContent/SortBar2";
 import { getNFTList } from "../../services/videoService";
 import ListNFTModal from "./ListNFTModal";
 import Button1 from "../../components/Button/Button1";
+import NFTCard2 from "../../components/VideoContent/NFTInfo/NFTCard2";
+import { all } from "axios";
 
 function MyNFTPage() {
   const [NFTs, setNFTs] = useState([]);
+  const [selectedNFT, setSelectedNft] = useState();
   const [selectedNFTs, setSelectedNfts] = useState([]);
   const [isListModalOpen, setIsListModalOpen] = useState(false); //NFT 등록 모달 실행 여부
 
@@ -76,18 +79,35 @@ function MyNFTPage() {
         <NFTListWrapper>
           {NFTs &&
             NFTs.map((nft, index) => (
-              <button key={index} onClick={() => selectNFT(nft)}>
-                <div>{nft.videoTitle}</div>
-                <div>{nft.tokenId}</div>
+              <button
+                key={index}
+                style={{all:"unset"}}
+                onClick={() => {
+                  setSelectedNft(nft);
+                  openListModal();
+                }}
+              >
+                <NFTCard2
+                  videoTitle={nft.videoTitle}
+                  creator={nft.creatorNickname}
+                  nftName={"nft name"}
+                  tokenId={nft.tokenId}
+                  purchasedPrice={nft.purchasedPrice}
+                  floorPrice={nft.floorPrice}
+                />
               </button>
+
+              // <button key={index} onClick={() => selectNFT(nft)}>
+              //   <div>{nft.videoTitle}</div>
+              //   <div>{nft.tokenId}</div>
+              // </button>
             ))}
         </NFTListWrapper>
-        <Button1 onClick={openListModal}>임시 모달 버튼</Button1>
       </Wrapper>
 
       {/*NFT 등록 모달*/}
       {isListModalOpen && (
-        <ListNFTModal onClose={closeListModal} selectedNFT={selectedNFTs} />
+        <ListNFTModal onClose={closeListModal} selectedNFT={selectedNFT} />
       )}
     </>
   );
@@ -110,6 +130,25 @@ const NavBox = styled.div`
   justify-content: space-between;
 `;
 
-const NFTListWrapper = styled.div``;
+const NFTListWrapper = styled.div`
+  margin-top: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 25px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+`;
 
 export default MyNFTPage;
