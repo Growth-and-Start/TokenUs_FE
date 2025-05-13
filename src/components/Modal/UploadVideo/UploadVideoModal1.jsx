@@ -14,6 +14,7 @@ import { useState, useEffect, useRef } from "react";
 import {
   checkVideoSimilarity,
   getVideoURL,
+  isNFThold,
 } from "../../../services/videoService";
 import styled from "styled-components";
 import { GRAY_SCALE } from "../../../constants/colors";
@@ -30,10 +31,12 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
   const [maxSimilarity, setMaxSimilarity] = useState(0);
   const [avgSimilarity, setAvgSimilarity] = useState(0);
   const [similarVideo, setSimilarVideo] = useState("");
+  //NFT 소유 여부
+  const [hasNFT, setHasNFT] = useState(false);
 
   //웹소켓 연결 및 유사도 검사 결과 응답 받기
   useEffect(() => {
-    const socket = new SockJS("http://13.125.207.27:8080/ws");
+    const socket = new SockJS("http://54.180.147.174:8080/ws");
     const stompClient = new Client({
       webSocketFactory: () => socket,
       reconnectDelay: 5000,
@@ -48,6 +51,9 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
             setSimilarityStatus("pass");
           } else {
             setSimilarityStatus("fail");
+            const data = await isNFThold(data.videoUrl);
+            setHasNFT(data.hasNft);
+            console.log("NFT 소유 여부", data);
           }
           setMaxSimilarity(result.max_similarity.toFixed(2));
           setAvgSimilarity(result.avg_similarity.toFixed(2));
@@ -138,7 +144,7 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
             내 영상으로 NFT 발행 가능
           </ApprovalMessage>
         )}
-        {similarityStatus === "fail" && (
+        {similarityStatus === "fail" && !hasNFT && (
           <>
             <FailMessageBox>
               <ErrorMessage size={"13px"}>업로드 불가</ErrorMessage>
@@ -152,7 +158,27 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                   → 유사한 비디오 보러가기
+                  → 유사한 비디오 보러가기
+                </SimilarVideoURL>
+              </SimilarityInfo>
+            </FailMessageBox>
+          </>
+        )}
+        {similarityStatus === "fail" && hasNFT && (
+          <>
+            <FailMessageBox>
+              <ApprovalMessage size={"13px"}>NFT 소유자</ApprovalMessage>
+
+              <SimilarityInfo>
+                <SimilarityValue>
+                  평균 유사도 : {avgSimilarity} / 최대 유사도 : {maxSimilarity}
+                </SimilarityValue>
+                <SimilarVideoURL
+                  href={similarVideo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  → 유사한 비디오 보러가기
                 </SimilarVideoURL>
               </SimilarityInfo>
             </FailMessageBox>
