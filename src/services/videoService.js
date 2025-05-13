@@ -107,3 +107,12 @@ export const getNFTList = async (sort) => {
   })
   return response.data.result;
 }
+
+
+//NFT 소유 여부 확인 요청
+export const isNFThold = async(videoUrl) => {
+  const response = await axiosInstance.get(`${API_URL}/check_nft`,{
+    params:{videoUrl},
+  })
+  return response.data.result;
+}
