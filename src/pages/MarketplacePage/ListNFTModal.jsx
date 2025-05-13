@@ -53,6 +53,7 @@ function ListNFTModal({ onClose, selectedNFT }) {
             <NFTList>
               <SelectedNFT name={selectedNFT.videoTitle}
                   id={selectedNFT.tokenId}
+                  price={selectedNFT.floorPrice}
                  />
             </NFTList>
           </NFTBox>
