@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { FaGithub, FaYoutube } from "react-icons/fa";
 import { IoMailOutline } from "react-icons/io5";
-import { MAIN, BACKGROUND, GRAY_SCALE, SECONDARY } from "../../constants/colors";
+import { BACKGROUND, GRAY_SCALE, SECONDARY } from "../../constants/colors";
 import FONT from "../../constants/fonts";
 import logo from "../../assets/logo_icon+text.png";
 
 const FooterWrapper = styled.footer`
-  background: ${({ scrollRatio }) => `
-    linear-gradient(
-      to bottom,
-      ${BACKGROUND.WHITE} 0%,
-      rgba(210, 216, 245, ${scrollRatio}) 60%,
-      rgba(210, 216, 245, ${scrollRatio}) 80%
-    )
-  `};
+  background: #EDF1FE;
+  border-top: 1px solid ${GRAY_SCALE.GRAY300};
   margin-top: 100px;
   padding: 50px 150px;
   display: flex;
@@ -88,22 +82,8 @@ const Copyright = styled.div`
 `;
 
 const Footer = () => {
-  const [scrollRatio, setScrollRatio] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const documentHeight = document.body.scrollHeight - window.innerHeight;
-      const ratio = Math.min(scrollY / documentHeight, 1);
-      setScrollRatio(ratio);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <FooterWrapper scrollRatio={scrollRatio}>
+    <FooterWrapper>
       <Content>
         <Left>
           <Logo src={logo} alt="Tokenus Logo" width="150px" />

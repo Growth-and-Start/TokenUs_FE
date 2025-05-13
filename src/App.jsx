@@ -16,7 +16,7 @@ import ProfilePage from "./pages/MyPage";
 import WalletPage from "./pages/MyPage/WalletPage";
 import Footer from "./components/Footer";
 import NFTDetailPage from "./pages/MarketplacePage/NFTDetailPage";
-import TestTemp from "./pages/TestTemp";
+/* import TestTemp from "./pages/TestTemp"; */
 import MyNFTPage from "./pages/MarketplacePage/MyNFTPage";
 
 function App() {
@@ -65,7 +65,7 @@ function App() {
             <Route path="/marketplace" element={<MarketplacePage />} />
             <Route path="/nft-info/:id" element={<NFTDetailPage />} />
             <Route path="/my-nft" element={<MyNFTPage />} />
-            <Route path="/test" element={<TestTemp/>} />
+            {/* <Route path="/test" element={<TestTemp/>} /> */}
           </Routes>
         </AppContent>
         <Footer />
