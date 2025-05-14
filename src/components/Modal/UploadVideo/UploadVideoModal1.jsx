@@ -47,17 +47,18 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
           const result = JSON.parse(message.body);
           console.log("📩 유사도 결과 수신:", result);
 
-          if (result.passed) {
-            setSimilarityStatus("pass");
-          } else {
-            setSimilarityStatus("fail");
-            const data = await isNFThold(data.videoUrl);
-            setHasNFT(data.hasNft);
-            console.log("NFT 소유 여부", data);
-          }
           setMaxSimilarity(result.max_similarity.toFixed(2));
           setAvgSimilarity(result.avg_similarity.toFixed(2));
           setSimilarVideo(result.similar_video_url);
+
+          if (result.passed) {
+            setSimilarityStatus("pass");
+          } else {
+                 setSimilarityStatus("fail");
+            const res = await isNFThold(result.similar_video_url);
+            setHasNFT(res.hasNft);
+            console.log("NFT 소유 여부", res);
+          }
         });
 
         //구독 후 HTTP 요청이 가도록 타임 딜레이
@@ -109,7 +110,7 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
             fontSize="15px"
             disabled={
               !(
-                similarityStatus === "pass" &&
+                (similarityStatus === "pass" || hasNFT)&&
                 data.videoTitle?.trim() !== "" &&
                 data.thumbnailUrl
               )
@@ -222,15 +223,13 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
   );
 }
 
-const FailMessageBox = styled.div`
-
-`;
+const FailMessageBox = styled.div``;
 
 const SimilarityInfo = styled.div`
-    display: flex;
+  display: flex;
   text-align: center;
   gap: 20px;
-`
+`;
 
 const SimilarityValue = styled.div`
   color: ${GRAY_SCALE.GRAY700};
