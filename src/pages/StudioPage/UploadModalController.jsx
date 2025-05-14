@@ -208,7 +208,7 @@ function UploadModalController({ onClose }) {
               <br />
               {hash}
             </HashValue>
-            <Button2 onClick={resisterNFT}>NFT 등록하기</Button2>
+            {/* <Button2 onClick={resisterNFT}>NFT 등록하기</Button2> */}
           </CompletionBody>
         </BasicModalLayout>
       )}
@@ -224,7 +224,7 @@ const CompletionBody = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 50px;
 `;
 
 const CompletionMessage = styled.div`
