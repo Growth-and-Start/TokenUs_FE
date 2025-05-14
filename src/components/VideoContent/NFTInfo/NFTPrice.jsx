@@ -2,11 +2,21 @@ import styled from "styled-components";
 import { MAIN, GRAY_SCALE, TEXT } from "../../../constants/colors";
 import Button2 from "../../Button/Button2";
 import { weiToMatic } from "../../../utils/blockchainNetwork";
+import { useNavigate } from "react-router-dom";
 
-function NFTPrice({price, className}) {
+function NFTPrice({price, title, videoId, creatorId, className}) {
+  const navigate = useNavigate();
   //matic 단위 변환
   const floorPriceMatic = Number(weiToMatic(price)).toFixed(3);
-
+  //NFT 상세 페이지로 이동
+  const moveToNFTDetail = () => {
+    navigate(`/nft-info/${encodeURIComponent(title)}`,{
+      state:{
+        videoId,
+        creatorId,
+      }
+    });
+  }
   return (
     <>
       <Wrapper className={className}>
@@ -17,7 +27,7 @@ function NFTPrice({price, className}) {
             <Price>{floorPriceMatic} MATIC</Price>
           </PriceInfo>
           <ButtonWrapper>
-            <Button2 width="150px" height="40px"  fontSize={"18px"}>
+            <Button2 onClick={moveToNFTDetail} width="150px" height="40px"  fontSize={"18px"}>
               구매하기
             </Button2>
           </ButtonWrapper>
