@@ -51,7 +51,7 @@ function ListNFTModal({ onClose, selectedNFT }) {
           <NFTBox>
             <Label>선택한 NFT</Label>
             <NFTList>
-              <SelectedNFT name={selectedNFT.videoTitle}
+              <SelectedNFT name={selectedNFT.nftName}
                   id={selectedNFT.tokenId}
                   price={selectedNFT.floorPrice}
                  />
