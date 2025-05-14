@@ -90,7 +90,7 @@ function MyNFTPage() {
                 <NFTCard2
                   videoTitle={nft.videoTitle}
                   creator={nft.creatorNickname}
-                  nftName={"nft name"}
+                  nftName={nft.nftName}
                   tokenId={nft.tokenId}
                   purchasedPrice={nft.purchasedPrice}
                   floorPrice={nft.floorPrice}
