@@ -144,7 +144,7 @@ function WatchVideoPage() {
         </ContentArea>
 
         <NFTArea>
-          <StyledNFTPrice price={videoData.floorPrice} />
+          <StyledNFTPrice price={videoData.floorPrice} title={videoData.videoTitle} videoId={videoData.videoId} creatorId={videoData.creatorId} />
           <StyledNFTHistory history={txData}/>
           {txData && txData.length > 0 ? (
               <HistoryChart history={txData} />
