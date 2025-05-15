@@ -1,14 +1,26 @@
 import styled from "styled-components";
 import { MAIN, GRAY_SCALE, TEXT } from "../../../constants/colors";
 import QuantityButton from "../../Input/QuantityButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button1 from "../../Button/Button1";
 import Button2 from "../../Button/Button2";
 import FONT from "../../../constants/fonts";
+import { weiToMatic } from "../../../utils/blockchainNetwork";
+import { getUserDetail } from "../../../services/channelService";
 
-function NFTInfo() {
+function NFTInfo({video}) {
   const [count, setCount] = useState(1);
+  const [creator, setCreator] = useState("");
   const TotalPrice = 5.07;
+
+  const getCreatorName = async() => {
+    const data = await getUserDetail(video.creatorId);
+    return data.nickName;
+  }
+
+  useEffect(()=>{
+    setCreator(getCreatorName());
+  },[])
   return (
     <>
       <NFTInfoWrapper>
@@ -16,9 +28,9 @@ function NFTInfo() {
           <Header>Mint Price</Header>
           <Header>Floor Price</Header>
           <Header>Creator</Header>
-          <Data>4.00</Data>
-          <Data>5.07</Data>
-          <Data>크리에이터 연합 토크너스</Data>
+          <Data>{weiToMatic(video.mintPrice)}</Data>
+          <Data>{weiToMatic(video.floorPrice)}</Data>
+          <Data>{creator}</Data>
         </BasicInfo>
         <PriceInfo>
           <Title>예상 가격</Title>
