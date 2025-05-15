@@ -52,3 +52,18 @@ export const getMyNFT = async() => {
   const response = await axiosInstance.get(`${API_URL}/my_nft`)
   return response.data.result;
 }
+
+//NFT 찜하기&취소
+export const saveNFT = async(videoId) => {
+  const response = await axiosInstance.post(`${API_URL}/interest`, {
+    params:{videoId},
+  })
+  return response.data.result;
+}
+
+export const unsaveNFT = async(videoId) => {
+  const response = await axiosInstance.delete(`${API_URL}/interest`, {
+    params:{videoId},
+  })
+  return response.data.result;
+}
