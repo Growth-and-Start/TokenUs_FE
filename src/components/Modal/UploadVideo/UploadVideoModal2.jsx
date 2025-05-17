@@ -43,7 +43,7 @@ function UploadVideoModal2({
     <BasicModalLayout
       header={"비디오 업로드"}
       footer={
-        <>
+        <FooterButtons>
           <Button2 onClick={onBack} width="100px" fontSize="15px">
             이전
           </Button2>
@@ -57,7 +57,7 @@ function UploadVideoModal2({
           >
             업로드
           </Button1>
-        </>
+        </FooterButtons>
       }
     >
       <TextInput onChange={onChange} name="nftName" data={data.nftName}>
@@ -162,6 +162,13 @@ const PlusButton = styled.div`
 const LoadingContainer = styled.div`
   display: flex;
   justify-content: center;
+`
+
+const FooterButtons = styled.div`
+width: 100%;
+display: flex;
+justify-content: end;
+gap:10px;
 `
 
 export default UploadVideoModal2;
