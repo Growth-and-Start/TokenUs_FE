@@ -5,56 +5,76 @@ import styled from "styled-components";
 import { GRAY_SCALE, MAIN, SECONDARY } from "../../constants/colors";
 import { registerNFTOnMarketplace } from "../../services/NFTService";
 import { weiToMatic } from "../../utils/blockchainNetwork";
+import LoadingMessage from "../../components/Message/LoadingMessage";
 
-function ListNFTModal({ onClose, selectedNFT }) {
+function ListNFTModal({ onClose, selectedNFT, setComplete }) {
   const [price, setPrice] = useState(0);
+  const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   //선택한 NFT 등록하기
   const submitList = async (nft) => {
+    setLoading(true);
     try {
       await registerNFTOnMarketplace(nft.tokenId, price);
-      console.log(`NFT 등록: ${nft.tokenId}`)
+      setLoading(false);
+      console.log(`NFT 등록: ${nft.tokenId}`);
       // NFTs.map(async (nft) => {
       //   await registerNFTOnMarketplace(nft.tokenId, price);
       //   console.log(`NFT 등록: ${nft.tokenId}`)
       // });
+      onClose();
+      setComplete(true);
+      setTimeout(() => {
+        setComplete(false);
+      }, 2000);
     } catch (error) {
+      setLoading(false);
       console.log("NFT 등록 실패", error);
     }
   };
 
   //temp
-  useEffect(()=>{
-    console.log("선택한 NFT", selectedNFT)
-  })
+  useEffect(() => {
+    console.log("선택한 NFT", selectedNFT);
+  });
 
   return (
     <>
       <BasicModalLayout
         width="32%"
         onClose={onClose}
-        header={selectedNFT.isListed? "NFT 가격 변경하기" : "선택한 NFT 등록하기"}
+        header={
+          selectedNFT.isListed ? "NFT 가격 변경하기" : "선택한 NFT 등록하기"
+        }
         footer={
-          <SubmitButton>
-            <Button1
-              onClick={()=>submitList(selectedNFT)}
-              width="150px"
-              height="40px"
-              fontSize="18px"
-            >
-              등록하기
-            </Button1>
-          </SubmitButton>
+            <SubmitButton>
+              {loading ? (
+                <LoadingMessage size={14}>
+                  잠시만 기다려 주세요...
+                </LoadingMessage>
+              ) : (
+                <Button1
+                  onClick={() => submitList(selectedNFT)}
+                  width="150px"
+                  height="40px"
+                  fontSize="18px"
+                >
+                  등록하기
+                </Button1>
+              )}
+            </SubmitButton>
         }
       >
         <ModalBody>
           <NFTBox>
             <Label>선택한 NFT</Label>
             <NFTList>
-              <SelectedNFT name={selectedNFT.nftName}
-                  id={selectedNFT.tokenId}
-                  price={selectedNFT.floorPrice}
-                 />
+              <SelectedNFT
+                name={selectedNFT.nftName}
+                id={selectedNFT.tokenId}
+                price={selectedNFT.floorPrice}
+              />
             </NFTList>
           </NFTBox>
           <InputBox>
@@ -75,6 +95,11 @@ function ListNFTModal({ onClose, selectedNFT }) {
               </PlusButton>
             </InputRow>
           </InputBox>
+          {/* {loading ? (
+            <LoadingContainer>
+              <LoadingMessage size={14}>잠시만 기다려 주세요...</LoadingMessage>
+            </LoadingContainer>
+          ) : null} */}
         </ModalBody>
       </BasicModalLayout>
     </>
@@ -88,9 +113,9 @@ const ModalBody = styled.div`
 `;
 
 const NFTBox = styled.div`
-display: flex;
-flex-direction: column;
-gap: 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 `;
 
 const NFTList = styled.div``;
@@ -172,7 +197,7 @@ const BoxWrapper = styled.div`
 const NFTName = styled.div``;
 
 const TokenId = styled.div`
-color: ${GRAY_SCALE.GRAY500};
+  color: ${GRAY_SCALE.GRAY500};
 `;
 
 const NFTPrice = styled.div`
@@ -180,6 +205,11 @@ const NFTPrice = styled.div`
   display: flex;
   justify-content: end;
   color: ${MAIN.BLUE};
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 export default ListNFTModal;
