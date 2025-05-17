@@ -74,7 +74,7 @@ function MainPage() {
                 <Thumbnail src={topVideo.thumbnailUrl}  />
               </Link>
               <HolderList />
-              <NFTInfo />
+              <NFTInfo video={topVideo}/>
             </TrendContent>
           )}
         </TrendContentWrapper>

@@ -3,6 +3,7 @@ import { GRAY_SCALE, MAIN, TEXT } from "../../constants/colors";
 import FONT from "../../constants/fonts.js";
 import defaultThumbnail from "../../assets/default-thumbnail.png";
 import { Link } from "react-router-dom";
+import { weiToMatic } from "../../utils/blockchainNetwork.js";
 
 function VideoRow(props) {
   // console.log("VideoRow props:", props);
@@ -16,7 +17,7 @@ function VideoRow(props) {
     thumbnail,
     isPublic = "공개",
     uploadDate,
-    NFTPrice,
+    nftPrice,
     videoId,
     creatorId,
   } = props;
@@ -27,6 +28,7 @@ function VideoRow(props) {
   const [hour, minute] = timePart.split(":").map(Number);
   const formattedDate = `${year} / ${month} / ${day}`;
   const formattedTime = `${hour} : ${minute}`;
+  const NFTPrice = nftPrice;
   return (
     <TableRow>
       <CheckBoxCell>

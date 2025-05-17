@@ -10,23 +10,30 @@ import NFTHistory from "../../components/VideoContent/NFTInfo/NFTHistory";
 import { useEffect, useState } from "react";
 import { getVideoDetail } from "../../services/videoService";
 import { getUserDetail } from "../../services/channelService";
-import { getListedNFT, getTxHistory } from "../../services/NFTService";
+import {
+  getListedNFT,
+  getTxHistory,
+  saveNFT,
+  unsaveNFT,
+} from "../../services/NFTService";
 import HistoryChart from "../../components/VideoContent/NFTInfo/HistoryChart";
 import NFTTradeModal from "./NFTTradeModal";
 import NFTTable from "../../components/VideoContent/NFTInfo/NFTTable";
+import { HeartFilled } from "@ant-design/icons";
+import BasicModalLayout from "../../components/Modal/Layout/BasicModalLayout";
 
-const txHistoryTemp = [
-  { txHash: "0x1", tradePrice: 1.25, createdAt: "2024-05-01T10:00:00Z" },
-  { txHash: "0x2", tradePrice: 2.1, createdAt: "2024-05-02T11:30:00Z" },
-  { txHash: "0x3", tradePrice: 0.75, createdAt: "2024-05-03T13:45:00Z" },
-  { txHash: "0x4", tradePrice: 1.9, createdAt: "2024-05-04T15:00:00Z" },
-  { txHash: "0x5", tradePrice: 3.05, createdAt: "2024-05-05T09:20:00Z" },
-  { txHash: "0x6", tradePrice: 2.55, createdAt: "2024-05-06T16:10:00Z" },
-  { txHash: "0x7", tradePrice: 4.0, createdAt: "2024-05-07T12:00:00Z" },
-  { txHash: "0x8", tradePrice: 1.75, createdAt: "2024-05-08T18:30:00Z" },
-  { txHash: "0x9", tradePrice: 3.6, createdAt: "2024-05-09T14:45:00Z" },
-  { txHash: "0x10", tradePrice: 2.85, createdAt: "2024-05-10T17:15:00Z" },
-];
+// const txHistoryTemp = [
+//   { txHash: "0x1", tradePrice: 1.25, createdAt: "2024-05-01T10:00:00Z" },
+//   { txHash: "0x2", tradePrice: 2.1, createdAt: "2024-05-02T11:30:00Z" },
+//   { txHash: "0x3", tradePrice: 0.75, createdAt: "2024-05-03T13:45:00Z" },
+//   { txHash: "0x4", tradePrice: 1.9, createdAt: "2024-05-04T15:00:00Z" },
+//   { txHash: "0x5", tradePrice: 3.05, createdAt: "2024-05-05T09:20:00Z" },
+//   { txHash: "0x6", tradePrice: 2.55, createdAt: "2024-05-06T16:10:00Z" },
+//   { txHash: "0x7", tradePrice: 4.0, createdAt: "2024-05-07T12:00:00Z" },
+//   { txHash: "0x8", tradePrice: 1.75, createdAt: "2024-05-08T18:30:00Z" },
+//   { txHash: "0x9", tradePrice: 3.6, createdAt: "2024-05-09T14:45:00Z" },
+//   { txHash: "0x10", tradePrice: 2.85, createdAt: "2024-05-10T17:15:00Z" },
+// ];
 
 //NFT 상세 페이지
 function NFTDetailPage() {
@@ -38,8 +45,10 @@ function NFTDetailPage() {
   const [creator, setCreator] = useState("");
   const [txHistory, setTxHistory] = useState([]);
   const [listedNFT, setListedNFT] = useState([]);
+  const [save, setSave] = useState(false);
 
   const [isTradeModalOpen, setIsTradeModalOpen] = useState(false); //NFT 구매 모달 실행 여부
+  const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false);
 
   //페이지 렌더링 데이터 가져오기
   const fetchData = async () => {
@@ -50,13 +59,35 @@ function NFTDetailPage() {
     const txData = await getTxHistory(videoId);
     setTxHistory(txData);
     let nftData = await getListedNFT(videoId);
-    nftData = nftData.sort(
-      (a, b) => parseFloat(a.currentPrice) - parseFloat(b.currentPrice)
-    ); //가격 기준 오름차순 정렬
-    setListedNFT(nftData);
-    console.log("트랜잭션 데이터", txData);
     console.log("판매 등록된 NFT", nftData);
 
+    //판매 등록된 NFT 정렬
+    if (Array.isArray(nftData)) {
+      nftData = nftData.sort(
+        (a, b) => parseFloat(a.currentPrice) - parseFloat(b.currentPrice)
+      );
+    } else {
+      nftData = []; // fallback to empty list
+    }
+    setListedNFT(nftData);
+
+    console.log("트랜잭션 데이터", txData);
+  };
+
+  //NFT 찜하기&취소하기
+  const toggleSave = async () => {
+    try {
+      if (!save) {
+        await saveNFT(videoId);
+        setSave(true);
+      } else {
+        await unsaveNFT(videoId);
+        setSave(false);
+      }
+      console.log("NFT 찜하기/취소하기 성공");
+    } catch (err) {
+      console.error("NFT 찜하기/취소하기 실패:", err);
+    }
   };
 
   //NFT 구매 모달 창 열고 닫기
@@ -97,9 +128,25 @@ function NFTDetailPage() {
               profile={creator.profileImageUrl}
             />
             <Buttons>
-              <StyledButton4 width="48%" height="50px" fontSize="15px">
-                관심 등록 &nbsp; <img src={PlusHeart} width={15} />
+              <StyledButton4
+                onClick={toggleSave}
+                width="48%"
+                height="50px"
+                fontSize="15px"
+              >
+                {save ? (
+                  <>
+                    관심 NFT&nbsp;
+                    <StyledFilledIcon />
+                  </>
+                ) : (
+                  <>
+                    관심 등록&nbsp;
+                    <img src={PlusHeart} width={15} />
+                  </>
+                )}
               </StyledButton4>
+
               <StyledButton3
                 onClick={openTradeModal}
                 width="48%"
@@ -131,7 +178,26 @@ function NFTDetailPage() {
 
       {/*NFT 구매 모달*/}
       {isTradeModalOpen && (
-        <NFTTradeModal onClose={closeTradeModal} listedNFT={listedNFT} />
+        <NFTTradeModal
+          onClose={closeTradeModal}
+          listedNFT={listedNFT}
+          setComplete={setIsCompleteModalOpen}
+        />
+      )}
+
+      {/*NFT 구매 완료 모달*/}
+      {isCompleteModalOpen && (
+        <BasicModalLayout
+          width="30%"
+          onClose={() => setIsCompleteModalOpen(false)}
+        >
+          <CompletionBody>
+            <CompletionMessage>NFT 구매 완료✅</CompletionMessage>
+            <CompletionMessage2>
+              {listedNFT[0].nftName}를 성공적으로 구매하였습니다.
+            </CompletionMessage2>
+          </CompletionBody>
+        </BasicModalLayout>
       )}
     </>
   );
@@ -251,5 +317,33 @@ const StyledNFTHistory = styled(NFTHistory)`
 `;
 
 const ListedNFTs = styled.div``;
+
+const StyledFilledIcon = styled(HeartFilled)`
+  font-size: 16px;
+  color: rgba(255, 0, 98, 0.9); /* 하트 클릭된 상태 색상 */
+`;
+
+const CompletionBody = styled.div`
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+`;
+
+const CompletionMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: 600;
+`;
+
+const CompletionMessage2 = styled.div`
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: 13px;
+`;
 
 export default NFTDetailPage;

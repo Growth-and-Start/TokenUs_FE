@@ -6,16 +6,25 @@ import { useState } from "react";
 import { GRAY_SCALE, MAIN } from "../../constants/colors";
 import { weiToMatic } from "../../utils/blockchainNetwork";
 import { transferVideoNFT } from "../../services/NFTService";
+import LoadingMessage from "../../components/Message/LoadingMessage";
 
-function NFTTradeModal({ onClose, listedNFT }) {
+function NFTTradeModal({ onClose, listedNFT, setComplete }) {
   const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   //선택한 NFT 구매하기
   const submitTrade = async (NFTs) => {
+    setLoading(true);
     try {
       NFTs.map(async (nft) => {
         await transferVideoNFT(nft.tokenId);
       });
+      setLoading(false);
+      onClose();
+      setComplete(true);
+      setTimeout(() => {
+        setComplete(false);
+      }, 2000);
     } catch (error) {
       console.log("NFT 구매 실패", error);
     }
@@ -29,14 +38,18 @@ function NFTTradeModal({ onClose, listedNFT }) {
         header={"NFT 구매하기"}
         footer={
           <SubmitButton>
-            <Button1
-              onClick={()=>submitTrade(listedNFT.slice(0, count))}
-              width="150px"
-              height="40px"
-              fontSize="18px"
-            >
-              구매하기
-            </Button1>
+            {loading ? (
+              <LoadingMessage size={14}>잠시만 기다려 주세요...</LoadingMessage>
+            ) : (
+              <Button1
+                onClick={() => submitTrade(listedNFT.slice(0, count))}
+                width="150px"
+                height="40px"
+                fontSize="18px"
+              >
+                구매하기
+              </Button1>
+            )}
           </SubmitButton>
         }
       >
@@ -153,7 +166,7 @@ const BoxWrapper = styled.div`
 const NFTName = styled.div``;
 
 const TokenId = styled.div`
-color: ${GRAY_SCALE.GRAY500};
+  color: ${GRAY_SCALE.GRAY500};
 `;
 
 const NFTPrice = styled.div`

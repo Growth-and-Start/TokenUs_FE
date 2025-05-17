@@ -89,8 +89,7 @@ const Body = styled.div`
 
 const Footer = styled.div`
   display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  justify-content: center;
   margin: 20px 0 10px 0;
 `;
 

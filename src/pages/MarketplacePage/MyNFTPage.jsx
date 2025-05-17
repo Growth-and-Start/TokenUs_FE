@@ -7,12 +7,14 @@ import ListNFTModal from "./ListNFTModal";
 import Button1 from "../../components/Button/Button1";
 import NFTCard2 from "../../components/VideoContent/NFTInfo/NFTCard2";
 import { all } from "axios";
+import BasicModalLayout from "../../components/Modal/Layout/BasicModalLayout";
 
 function MyNFTPage() {
   const [NFTs, setNFTs] = useState([]);
   const [selectedNFT, setSelectedNft] = useState();
   const [selectedNFTs, setSelectedNfts] = useState([]);
   const [isListModalOpen, setIsListModalOpen] = useState(false); //NFT 등록 모달 실행 여부
+  const [isCompleteModalOpen, setIsCompleteModalOpen] = useState(false);
 
   const fetchData = async () => {
     const nftData = await getMyNFT();
@@ -81,7 +83,7 @@ function MyNFTPage() {
             NFTs.map((nft, index) => (
               <button
                 key={index}
-                style={{all:"unset"}}
+                style={{ all: "unset" }}
                 onClick={() => {
                   setSelectedNft(nft);
                   openListModal();
@@ -107,7 +109,27 @@ function MyNFTPage() {
 
       {/*NFT 등록 모달*/}
       {isListModalOpen && (
-        <ListNFTModal onClose={closeListModal} selectedNFT={selectedNFT} />
+        <ListNFTModal
+          onClose={closeListModal}
+          selectedNFT={selectedNFT}
+          setComplete={setIsCompleteModalOpen}
+        />
+      )}
+      {/* NFT 등록 완료 모달 */}
+      {isCompleteModalOpen && (
+        <BasicModalLayout
+          width="30%"
+          onClose={() => setIsCompleteModalOpen(false)}
+        >
+          <CompletionBody>
+            <CompletionMessage>{selectedNFT.isListed ? "NFT 가격 변경 완료✅" : "NFT 등록 완료✅"}</CompletionMessage>
+            <CompletionMessage2>{selectedNFT.isListed ? 
+            `${selectedNFT.nftName}(${selectedNFT.tokenId})의 가격이 성공적으로 변경되었습니다.` 
+            : 
+            `${selectedNFT.nftName}(${selectedNFT.tokenId})가 마켓플레이스에 성공적으로 등록되었습니다.`}
+            </CompletionMessage2>
+          </CompletionBody>
+        </BasicModalLayout>
       )}
     </>
   );
@@ -150,5 +172,28 @@ const NFTListWrapper = styled.div`
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 `;
+
+const CompletionBody = styled.div`
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+`;
+
+const CompletionMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: 600;
+`;
+
+const CompletionMessage2 = styled.div`
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: 13px;
+`
 
 export default MyNFTPage;

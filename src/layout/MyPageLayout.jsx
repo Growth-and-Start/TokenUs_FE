@@ -1,16 +1,17 @@
 import { Outlet } from "react-router-dom";
 import SideBar from "../components/MyPage/SideBar";
 import styled from "styled-components";
-import { BACKGROUND, SECONDARY } from "../constants/colors";
+import { BACKGROUND, GRAY_SCALE, SECONDARY } from "../constants/colors";
 
 const LayoutWrapper = styled.div`
   display: flex;
-  width: 100vw;
+  max-width: 100vw;
+  min-height: 100vh;
 `;
 
 const SidebarWrapper = styled.div`
-  margin-left: 48px;
-  margin-top: 60px;
+  margin-left: 0;
+  margin-top: 0;
   position: fixed;
   top: 64px;
   left: 0;
@@ -18,12 +19,12 @@ const SidebarWrapper = styled.div`
 `;
 
 const ContentSection = styled.div`
-  margin-left: 258px;
-  margin-top: 60px;
-  padding: 24px 48px;
+  margin-left: 240px;
+  padding: 30px 50px;
   background-color: ${BACKGROUND.WHITE};
-  width: calc(100% - 258px);
+  width: calc(100% - 240px);
   min-height: 100vh;
+  border-left: 2px ${GRAY_SCALE.GRAY300} solid;
 `;
 
 const MyPageLayout = () => {

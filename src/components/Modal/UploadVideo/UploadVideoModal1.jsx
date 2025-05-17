@@ -100,7 +100,7 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
     <BasicModalLayout
       header={"비디오 업로드"}
       footer={
-        <>
+        <FooterButtons>
           <Button2 onClick={onCancel} width="100px" fontSize="15px">
             취소
           </Button2>
@@ -118,7 +118,7 @@ function UploadVideoModal1({ onCancel, onNext, onChange, data, onRemove }) {
           >
             다음
           </Button1>
-        </>
+        </FooterButtons>
       }
     >
       <div>
@@ -244,5 +244,12 @@ const SimilarVideoURL = styled.a`
   color: ${GRAY_SCALE.GRAY700};
   cursor: pointer;
 `;
+
+const FooterButtons = styled.div`
+width: 100%;
+display: flex;
+justify-content: end;
+gap:10px;
+`
 
 export default UploadVideoModal1;
