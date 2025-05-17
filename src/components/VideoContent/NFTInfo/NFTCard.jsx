@@ -6,13 +6,17 @@ import MaticIcon from "../../../assets/matic.png";
 import { useEffect, useState } from "react";
 import { getUserDetail } from "../../../services/channelService";
 import { getVideoDetail } from "../../../services/videoService";
+import { saveNFT, unsaveNFT } from "../../../services/NFTService";
+import { HeartFilled } from "@ant-design/icons";
 
 function NFTCard({ className, title, videoId, creatorId, price }) {
   const [creator, setCreator] = useState(""); //크리에이터 이름(채널명)
   const [imgURL, setImgURL] = useState(""); //썸네일 이미지
+  const [save, setSave] = useState(false);
 
   //matic 단위 변환
   const priceToMatic = Number(weiToMatic(price)).toFixed(3);
+
 
   //썸네일 이미지 & 크리에이터 이름 가져오기
   useEffect(() => {
@@ -36,7 +40,7 @@ function NFTCard({ className, title, videoId, creatorId, price }) {
         <Thumbnail
           src={imgURL || defaultThumbnail}
           onError={(e) => {
-            e.target.onerror = null; 
+            e.target.onerror = null;
             e.target.src = defaultThumbnail;
           }}
           alt="thumbnail"
@@ -51,7 +55,10 @@ function NFTCard({ className, title, videoId, creatorId, price }) {
           <PriceIcon src={MaticIcon} />
           {priceToMatic} MATIC
         </Price>
-        <InterestButton>+ 관심 등록</InterestButton>
+        <button 
+        style={{ all: "unset", cursor: "pointer" }}>
+          {save&&<StyledFilledIcon/>}
+        </button>
       </BottomSection>
     </CardWrapper>
   );
@@ -150,3 +157,9 @@ const InterestButton = styled.div`
     color: ${MAIN.GREEN};
   }
 `;
+
+const StyledFilledIcon = styled(HeartFilled)`
+  font-size: 16px;
+  color: rgba(255, 0, 98, 0.9); /* 하트 클릭된 상태 색상 */
+`;
+
