@@ -12,7 +12,7 @@ const Nav = styled.nav`
 const MenuItem = styled(NavLink)`
   ${FONT.BODY1}
   padding : 15px;
-  width : 180px;
+  width : 200px;
   height : 20px;
   border-radius : 5px;
   text-decoration: none;
