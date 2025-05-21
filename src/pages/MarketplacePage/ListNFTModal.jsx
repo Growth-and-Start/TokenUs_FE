@@ -27,7 +27,7 @@ function ListNFTModal({ onClose, selectedNFT, setComplete }) {
       setComplete(true);
       setTimeout(() => {
         setComplete(false);
-      }, 2000);
+      }, 1000);
     } catch (error) {
       setLoading(false);
       console.log("NFT 등록 실패", error);

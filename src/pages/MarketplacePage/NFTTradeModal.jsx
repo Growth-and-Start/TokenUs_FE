@@ -24,7 +24,7 @@ function NFTTradeModal({ onClose, listedNFT, setComplete }) {
       setComplete(true);
       setTimeout(() => {
         setComplete(false);
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.log("NFT 구매 실패", error);
     }
