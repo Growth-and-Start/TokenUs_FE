@@ -50,3 +50,16 @@ export const postWalletAddress = async (walletAddress) => {
   const response = await axiosInstance.post(`${API_URL}/add_wallet`, { walletAddress })
   return response.data.result;
 }
+
+//사용자 정보 수정 요청
+export const postModifyUserInfo = async(profileImage, nickname) => {
+  const response = await axiosInstance.post(`${API_URL}/modify_info`, {profileImage,nickname})
+  return response.data.result;
+}
+
+//비밀번호 변경 요청
+export const postModifyUserPassword = async(pwd) => {
+  const response = await axiosInstance.post(`${API_URL}/modify_info`, pwd)
+  return response.data.result;
+}
+
