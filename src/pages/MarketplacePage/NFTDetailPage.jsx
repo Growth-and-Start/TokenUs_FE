@@ -39,7 +39,7 @@ import BasicModalLayout from "../../components/Modal/Layout/BasicModalLayout";
 function NFTDetailPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { videoId, creatorId } = location.state || {};
+  const { videoId, creatorId, isInterested } = location.state || {};
 
   const [videoInfo, setVideoInfo] = useState("");
   const [creator, setCreator] = useState("");
@@ -52,6 +52,8 @@ function NFTDetailPage() {
 
   //페이지 렌더링 데이터 가져오기
   const fetchData = async () => {
+    setSave(isInterested);
+
     const videoData = await getVideoDetail(videoId);
     setVideoInfo(videoData);
     const creatorData = await getUserDetail(creatorId);
