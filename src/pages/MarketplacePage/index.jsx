@@ -12,11 +12,12 @@ import { weiToMatic } from "../../utils/blockchainNetwork";
 import SortBar2 from "../../components/VideoContent/SortBar2";
 import NFTCard from "../../components/VideoContent/NFTInfo/NFTCard";
 import { Link } from "react-router-dom";
+import { saveNFT, unsaveNFT } from "../../services/NFTService";
 
 //NFT 마켓플레이스
 function MarketplacePage() {
   const [NFTs, setNFTs] = useState([]);
-  const [videoData, setVideoData] = useState("");
+  const [save, setSave] = useState(false);
 
   //NFT 목록 정렬 함수
   const sortNFT = async (criterion) => {
@@ -27,6 +28,32 @@ function MarketplacePage() {
       console.error("정렬된 NFT 목록 불러오기 실패:", error);
     }
   };
+
+  //nft 찜하기&취소하기기
+const toggleSave = async (videoId) => {
+  try {
+    const updatedNFTs = await Promise.all(
+      NFTs.map(async (nft) => {
+        if (nft.videoId === videoId) {
+          if (nft.isInterested) {
+            await unsaveNFT(videoId);
+            setSave(false);
+            return { ...nft, isInterested: false };
+          } else {
+            await saveNFT(videoId);
+            setSave(true);
+            return { ...nft, isInterested: true };
+          }
+        }
+        return nft;
+      })
+    );
+    setNFTs(updatedNFTs);
+  } catch (err) {
+    console.error("NFT 찜하기/취소 실패", err);
+  }
+};
+
 
   //NFT 목록 불러오기
   useEffect(() => {
@@ -52,7 +79,7 @@ function MarketplacePage() {
             menuItems={[
               { key: "latest", label: "최신" },
               { key: "popular", label: "인기" },
-              { key: "liked", label: "관심" },
+              { key: "interested", label: "관심" },
             ]}
           />
           <StyledLink to={`/my-nft`}>내 NFT 보러가기 &gt; </StyledLink>
@@ -65,13 +92,20 @@ function MarketplacePage() {
                 key={index}
                 to={`/nft-info/${encodeURIComponent(nft.title)}`}
                 style={{ textDecoration: "none", color: "inherit" }}
-                state={{ videoId: nft.videoId, creatorId: nft.creatorId }}
+                state={{
+                  videoId: nft.videoId,
+                  creatorId: nft.creatorId,
+                  isInterested: save,
+                }}
               >
                 <StyledNFTCard
                   title={nft.title}
                   videoId={nft.videoId}
                   creatorId={nft.creatorId}
                   price={nft.floorPrice}
+                  isInterested={nft.isInterested}
+                  save={nft.isInterested}
+                  toggleSave={() => toggleSave(nft.videoId)}
                 />
               </Link>
             ))}
