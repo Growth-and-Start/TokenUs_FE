@@ -51,9 +51,6 @@ const SideBar = () => {
         프로필 수정
       </MenuItem>
       <MenuItem to="/mypage/wallet">연결된 지갑 관리</MenuItem>
-      <MenuItem to="/mypage/channels">채널 관리</MenuItem>
-      <MenuItem to="/mypage/nfts">보유 NFT 조회</MenuItem>
-      <MenuItem to="/mypage/privacy">개인정보 및 데이터</MenuItem>
     </Nav>
   );
 };
