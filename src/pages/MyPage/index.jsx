@@ -167,7 +167,7 @@ const ProfilePage = () => {
           )}
         </ButtonGroup>
       </Section>
-      {/*NFT 구매 완료 모달*/}
+      {/*프로필 정보 수정 완료 알림 모달*/}
       {complete && (
         <BasicModalLayout width="30%">
           <CompletionBody>
@@ -175,7 +175,7 @@ const ProfilePage = () => {
           </CompletionBody>
         </BasicModalLayout>
       )}
-      s
+      
     </PageWrapper>
   );
 };

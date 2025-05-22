@@ -38,7 +38,7 @@ export const getVideoList = async (popularFilter = false, subscribeFilter = fals
 };
 
 
-//최고 인기 동영상 요청
+//실시간 인기 동영상 요청
 export const getTopVideo = async() => {
   const response = await axiosInstance.get(`${API_URL}/most_popular`)
 
@@ -114,5 +114,12 @@ export const isNFThold = async(videoUrl) => {
   const response = await axiosInstance.get(`${API_URL}/check_nft`,{
     params:{videoUrl},
   })
+  return response.data.result;
+}
+
+//비디오 정보 수정 요청
+export const patchVideoInfo = async(data) => {
+  const response = await axiosInstance.patch(`${API_URL}/modify`, data)
+
   return response.data.result;
 }

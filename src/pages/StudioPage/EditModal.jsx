@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import UploadVideoModal1 from "../../components/Modal/UploadVideo/UploadVideoModal1";
 import UploadVideoModal2 from "../../components/Modal/UploadVideo/UploadVideoModal2";
 import { uploadContent } from "../../utils/upload";
-import { postVideoData } from "../../services/videoService";
+import { patchVideoInfo, postVideoData } from "../../services/videoService";
 import {
   mintVideoNFT,
   registerNFTOnMarketplace,
@@ -19,16 +19,20 @@ import ImageInput from "../../components/Input/ImageInput";
 import RadioInput from "../../components/Input/RadioInput";
 import TextArea from "../../components/Input/TextArea";
 import TextInput from "../../components/Input/TextInput";
+import LoadingMessage from "../../components/Message/LoadingMessage";
 
 function EditModal({ onClose, data }) {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [complete, setComplete] = useState(false);
   //기존 비디오 정보
   const [videoData, setVideoData] = useState();
+  //기존 썸네일
+  const [originalImg, setOriginalImg] = useState();
   //비디오 정보 수정 데이터
   const [revisedData, setRevisedData] = useState({
+    videoId: 0,
     videoTitle: "",
     videoDetail: "",
     isOpen: true,
@@ -56,15 +60,41 @@ function EditModal({ onClose, data }) {
   };
 
   //수정된 정보 제출하기
-  const handleSubmitData = async(e) => {
+  const handleSubmitData = async () => {
+    setLoading(true);
+    try {
+      if (originalImg == revisedData.thumbnailUrl) {
+        const finalVideoData = revisedData;
+        await patchVideoInfo(finalVideoData);
+      } else {
+        const uploadedImageUrl = await uploadContent(
+          revisedData.thumbnailUrl,
+          "thumbnail"
+        );
+        const finalVideoData = {
+          ...revisedData,
+          thumbnailUrl: uploadedImageUrl,
+        };
+        await patchVideoInfo(finalVideoData);
+      }
 
-  }
+      setComplete(true);
+      setTimeout(() => {
+        setComplete(false);
+        onClose();
+      }, 1000);
+    } catch (e) {
+      console.log("비디오 정보 수정 실패", e);
+    }
+    setLoading(false);
+  };
 
   //기존 비디오 정보 불러오기
   const fetchData = () => {
     setRevisedData(data);
+    setOriginalImg(data.thumbnailUrl);
     console.log("기존 데이터: ", data);
-    console.log("기존 데이터2: ", revisedData);
+    console.log("기존 썸네일: ", data.thumbnailUrl);
   };
 
   useEffect(() => {
@@ -77,9 +107,13 @@ function EditModal({ onClose, data }) {
         header={"비디오 정보 수정"}
         footer={
           <FooterButtons>
-            <Button1 width="100px" fontSize="15px">
-              완료
-            </Button1>
+            {loading ? (
+              <LoadingMessage size={14}>잠시만 기다려 주세요...</LoadingMessage>
+            ) : (
+              <Button1 width="100px" fontSize="15px" onClick={handleSubmitData}>
+                완료
+              </Button1>
+            )}
           </FooterButtons>
         }
         onClose={onClose}
@@ -127,6 +161,14 @@ function EditModal({ onClose, data }) {
           썸네일 선택
         </ImageInput>
       </BasicModalLayout>
+
+      {complete && (
+        <BasicModalLayout width="30%">
+          <CompletionBody>
+            <CompletionMessage>비디오 정보 수정 완료 ✅</CompletionMessage>
+          </CompletionBody>
+        </BasicModalLayout>
+      )}
     </>
   );
 }
@@ -136,6 +178,22 @@ const FooterButtons = styled.div`
   display: flex;
   justify-content: end;
   gap: 10px;
+`;
+
+const CompletionBody = styled.div`
+  margin: 30px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+`;
+
+const CompletionMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: 600;
 `;
 
 export default EditModal;

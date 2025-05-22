@@ -23,7 +23,7 @@ function StudioPage() {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   //비디오 정보 수정 모달 실행 여부
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
+  
   //지갑 연결 상태
   const [isWalletConnedted, setIsWalletConnected] = useState(false);
 

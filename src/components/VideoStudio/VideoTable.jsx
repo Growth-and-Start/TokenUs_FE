@@ -58,7 +58,7 @@ function VideoTable({ videos, editVideo }) {
               title={video.videoTitle} 
               summary={video.videoDetail} 
               thumbnail={video.thumbnailUrl}
-              isPublic={video.isPublic}
+              isOpen={video.isOpen}
               uploadDate={video.createdAt}
               nftPrice={video.nftPrice}
               videoId={video.videoId}

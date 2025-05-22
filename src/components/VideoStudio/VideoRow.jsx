@@ -16,7 +16,7 @@ function VideoRow(props) {
     title,
     summary,
     thumbnail,
-    isPublic = "공개",
+    isOpen,
     uploadDate,
     nftPrice,
     videoId,
@@ -55,22 +55,23 @@ function VideoRow(props) {
           <Summary>{summary}</Summary>
         </VideoText>
       </VideoInfoCell>
-      <TableData>{isPublic ? "공개" : "비공개"}</TableData>
+      <TableData>{isOpen ? "공개" : "비공개"}</TableData>
       <TableData>
         {formattedDate}
         <br />
         {formattedTime}
       </TableData>
       <TableData>
-        {NFTPrice ? NFTPrice : <StyledLink href="">NFT 등록하기</StyledLink>}
+        {NFTPrice ? NFTPrice : <StyledLink to='/my-nft'>NFT 등록하기</StyledLink>}
       </TableData>
       <TableData>
         <EditIcon
           onClick={() =>
             editVideo({
+              videoId: videoId,
               videoTitle: title,
               videoDetail: summary,
-              isOpen: isPublic=='공개' ? true : false,
+              isOpen: isOpen,
               thumbnailUrl: thumbnail,
             })
           }
@@ -159,7 +160,7 @@ const Summary = styled.div`
   overflow: hidden;
 `;
 
-const StyledLink = styled.a`
+const StyledLink = styled(Link)`
   all: unset;
   text-decoration: underline;
   color: ${GRAY_SCALE.GRAY700};
