@@ -5,7 +5,7 @@ import CheckboxCounter from "../../components/VideoStudio/CheckboxCounter.jsx";
 import { GRAY_SCALE, BACKGROUND, TEXT } from "../../constants/colors";
 import FONT from "../../constants/fonts.js";
 
-function VideoTable({ videos }) {
+function VideoTable({ videos, editVideo }) {
 
   const [selectedIds, setSelectedIds] = useState([]);
 
@@ -39,9 +39,10 @@ function VideoTable({ videos }) {
               <input type="checkbox" checked={false} disabled /> 
             </TableHeader>
             <TableHeader style={{ width: '574px' }}>영상</TableHeader>
-            <TableHeader style={{ width: '240px' }}>공개 여부</TableHeader>
+            <TableHeader style={{ width: '200px' }}>공개 여부</TableHeader>
             <TableHeader style={{ width: '240px' }}>날짜</TableHeader>
-            <TableHeader style={{ width: '240px' }}>NFT 가격</TableHeader>
+            <TableHeader style={{ width: '220px' }}>NFT 가격</TableHeader>
+            <TableHeader style={{ width: '50px' }}></TableHeader>
           </tr>
         </TableHead>
 
@@ -62,6 +63,7 @@ function VideoTable({ videos }) {
               nftPrice={video.nftPrice}
               videoId={video.videoId}
               creatorId={video.creatorId}
+              editVideo={editVideo}
             />
             )
           ))}

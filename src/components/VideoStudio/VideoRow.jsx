@@ -4,6 +4,7 @@ import FONT from "../../constants/fonts.js";
 import defaultThumbnail from "../../assets/default-thumbnail.png";
 import { Link } from "react-router-dom";
 import { weiToMatic } from "../../utils/blockchainNetwork.js";
+import { EditOutlined } from "@ant-design/icons";
 
 function VideoRow(props) {
   // console.log("VideoRow props:", props);
@@ -20,6 +21,7 @@ function VideoRow(props) {
     nftPrice,
     videoId,
     creatorId,
+    editVideo,
   } = props;
 
   //업로드 날짜 데이터 양식 변경
@@ -61,6 +63,18 @@ function VideoRow(props) {
       </TableData>
       <TableData>
         {NFTPrice ? NFTPrice : <StyledLink href="">NFT 등록하기</StyledLink>}
+      </TableData>
+      <TableData>
+        <EditIcon
+          onClick={() =>
+            editVideo({
+              videoTitle: title,
+              videoDetail: summary,
+              isOpen: isPublic=='공개' ? true : false,
+              thumbnailUrl: thumbnail,
+            })
+          }
+        />
       </TableData>
     </TableRow>
   );
@@ -150,6 +164,16 @@ const StyledLink = styled.a`
   text-decoration: underline;
   color: ${GRAY_SCALE.GRAY700};
   font-size: 14px;
+
+  &:hover {
+    color: ${MAIN.BLUE};
+  }
+`;
+
+const EditIcon = styled(EditOutlined)`
+  font-size: 20px;
+  color: ${GRAY_SCALE.GRAY500};
+  cursor: pointer;
 
   &:hover {
     color: ${MAIN.BLUE};
