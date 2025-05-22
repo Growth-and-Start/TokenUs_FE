@@ -2,6 +2,14 @@ import styled from "styled-components";
 import { GRAY_SCALE, MAIN } from "../../constants/colors";
 
 function ImageInput({ name, onChange, data, children }) {
+  let previewSrc = "";
+
+  try {
+    previewSrc = URL.createObjectURL(data);
+  } catch (e) {
+    previewSrc = data; // 이미 string URL일 경우 fallback
+  }
+
   return (
     <Wrapper>
       <Title>{children}</Title>
@@ -17,7 +25,7 @@ function ImageInput({ name, onChange, data, children }) {
           />
         </Button>
         {/* <FileName>{data && data.name}</FileName> */}
-        {data && <Preview src={URL.createObjectURL(data)} alt="preview" />}
+        {data && <Preview src={previewSrc} alt="preview" />}
       </Input>
     </Wrapper>
   );

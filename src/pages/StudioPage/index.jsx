@@ -5,30 +5,37 @@ import { useEffect, useState } from "react";
 import UploadModalController from "./UploadModalController.jsx";
 import { getMyInfo } from "../../services/channelService.js";
 import { getMyVideo } from "../../services/videoService.js";
+import EditModal from "./EditModal.jsx";
 
 function StudioPage() {
   //로딩 상태
   const [loading, setLoading] = useState(false);
+
   //사용자 정보 데이터
   const [userData, setUserData] = useState("");
   //사용자 비디오 데이터
   const [myVideos, setMyVideos] = useState("");
 
-  //비디오 업로드 실행 여부
-  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  //수정할 비디오의 기존 정보
+  const [currentVideoData, setCurrentVideoData] = useState({});
 
+  //비디오 업로드 모달 실행 여부
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  //비디오 정보 수정 모달 실행 여부
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  
   //지갑 연결 상태
   const [isWalletConnedted, setIsWalletConnected] = useState(false);
 
-  //비디오 업로드 모달 창 열고 닫기
+  //비디오 업로드/정보 수정 모달 창 열고 닫기
   const handleUploadModalOpen = () => setIsUploadModalOpen(true);
   const handleUploadModalClose = () => setIsUploadModalOpen(false);
+  const handleEditModalOpen = (videoData) => {
+    setIsEditModalOpen(true);
+    setCurrentVideoData(videoData);
+  };
+  const handleEditModalClose = () => setIsEditModalOpen(false);
 
-  //지갑 연결 상태 확인
-  const checkWallet = () => {};
-
-  // console.log("channel:", channel);
-  // console.log("videos:", tempData_videoTable);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -61,13 +68,18 @@ function StudioPage() {
           />
         </ChannelCardWrapper>
         <VideoTableWrapper>
-          <VideoTable videos={myVideos} />
+          <VideoTable videos={myVideos} editVideo={handleEditModalOpen} />
         </VideoTableWrapper>
       </StudioPageWrapper>
 
       {/* 비디오 업로드 모달 조건부 렌더링 */}
       {isUploadModalOpen && (
         <UploadModalController onClose={handleUploadModalClose} />
+      )}
+
+      {/* 비디오 정보 수정 모달 조건부 렌더링 */}
+      {isEditModalOpen && (
+        <EditModal onClose={handleEditModalClose} data={currentVideoData} />
       )}
     </>
   );

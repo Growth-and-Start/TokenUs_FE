@@ -8,7 +8,7 @@ console.log("전달된 count 값:", count); // 상태 값 확인
     <CounterWrapper>
       <SelectedCount>{count}개 선택됨</SelectedCount>
       <Divider />
-      <ModifyButton>공개 여부 수정</ModifyButton>
+      <ModifyButton>선택된 영상 삭제</ModifyButton>
     </CounterWrapper>
   );
 }
@@ -41,6 +41,10 @@ const ModifyButton = styled.button`
   color: ${GRAY_SCALE.GRAY700};
   ${FONT.BODY2};
   text-decoration: underline;
+
+  &:hover{
+    color: ${MAIN.BLUE}
+  }
 `;
 
 export default CheckboxCounter;
