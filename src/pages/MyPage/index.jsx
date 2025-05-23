@@ -118,13 +118,13 @@ const ProfilePage = () => {
             <PicControl>
               <ButtonWrapper>
                 <label htmlFor="profile-image-upload">
-                  <HoverableCircle>
-                    <Avatar
+             
+                    <StyledAvatar
                       onClick={handleImageButtonClick}
                       size={80}
                       src={revise.profileImageUrl}
                     />
-                  </HoverableCircle>
+            
                 </label>
                 <input
                   id="profile-image-upload"
@@ -161,7 +161,7 @@ const ProfilePage = () => {
           {loading ? (
             <LoadingMessage size={14}>잠시만 기다려 주세요...</LoadingMessage>
           ) : (
-            <Button1 onClick={handleSubmit} width="180px" height="50px">
+            <Button1 onClick={handleSubmit} width="180px" height="50px" fontSize="15px">
               변경사항 저장
             </Button1>
           )}
@@ -175,7 +175,6 @@ const ProfilePage = () => {
           </CompletionBody>
         </BasicModalLayout>
       )}
-      
     </PageWrapper>
   );
 };
@@ -183,7 +182,7 @@ const ProfilePage = () => {
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  gap: 50px;
 `;
 
 const Section = styled.section`
@@ -228,11 +227,12 @@ const PicControl = styled.div`
   margin-top: 8px;
 `;
 
-const HoverableCircle = styled.div`
+
+const StyledAvatar = styled(Avatar)`
+padding: 2px;
+  border: 1.5px solid ${GRAY_SCALE.GRAY700};
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => GRAY_SCALE.GRAY700};
   overflow: hidden;
-  transition: border-color 0.2s ease;
 
   &:hover {
     border-color: ${MAIN.BLUE};
