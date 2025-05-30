@@ -3,9 +3,14 @@ import BasicModalLayout from "../../components/Modal/Layout/BasicModalLayout";
 import Button1 from "../../components/Button/Button1";
 import styled from "styled-components";
 import { GRAY_SCALE, MAIN, SECONDARY } from "../../constants/colors";
-import { registerNFTOnMarketplace } from "../../services/NFTService";
+import {
+  registerNFTOnMarketplace,
+  delistNFTOnMarketplace,
+} from "../../services/NFTService";
 import { weiToMatic } from "../../utils/blockchainNetwork";
 import LoadingMessage from "../../components/Message/LoadingMessage";
+import { getMyInfo } from "../../services/channelService";
+import Button2 from "../../components/Button/Button2";
 
 function ListNFTModal({ onClose, selectedNFT, setComplete }) {
   const [price, setPrice] = useState(0);
@@ -16,7 +21,12 @@ function ListNFTModal({ onClose, selectedNFT, setComplete }) {
   const submitList = async (nft) => {
     setLoading(true);
     try {
-      await registerNFTOnMarketplace(nft.tokenId, price);
+      const userData = await getMyInfo();
+      const result = await registerNFTOnMarketplace(
+        nft.tokenId,
+        price,
+        userData.id
+      );
       setLoading(false);
       console.log(`NFT 등록: ${nft.tokenId}`);
       // NFTs.map(async (nft) => {
@@ -24,20 +34,48 @@ function ListNFTModal({ onClose, selectedNFT, setComplete }) {
       //   console.log(`NFT 등록: ${nft.tokenId}`)
       // });
       onClose();
-      setComplete(true);
-      setTimeout(() => {
-        setComplete(false);
-      }, 1000);
+
+      if (result) {
+        setComplete(true);
+        setTimeout(() => {
+          setComplete(false);
+        }, 1000);
+      }
     } catch (error) {
       setLoading(false);
       console.log("NFT 등록 실패", error);
     }
   };
 
-  //temp
-  useEffect(() => {
-    console.log("선택한 NFT", selectedNFT);
-  });
+  //선택한 NFT 등록 취소하기
+  const submitDelist = async (nft) => {
+    setLoading(true);
+    try {
+      const userData = await getMyInfo();
+      const result = await delistNFTOnMarketplace(
+        nft.tokenId,
+        price,
+        userData.id
+      );
+      setLoading(false);
+      console.log(`NFT 등록 취소: ${nft.tokenId}`);
+      // NFTs.map(async (nft) => {
+      //   await registerNFTOnMarketplace(nft.tokenId, price);
+      //   console.log(`NFT 등록: ${nft.tokenId}`)
+      // });
+      onClose();
+
+      if (result) {
+        setComplete(true);
+        setTimeout(() => {
+          setComplete(false);
+        }, 1000);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.log("NFT 등록 취소 실패", error);
+    }
+  };
 
   return (
     <>
@@ -48,22 +86,32 @@ function ListNFTModal({ onClose, selectedNFT, setComplete }) {
           selectedNFT.isListed ? "NFT 가격 변경하기" : "선택한 NFT 등록하기"
         }
         footer={
-            <SubmitButton>
-              {loading ? (
-                <LoadingMessage size={14}>
-                  잠시만 기다려 주세요...
-                </LoadingMessage>
-              ) : (
+          <SubmitButton>
+            {loading ? (
+              <LoadingMessage size={14}>잠시만 기다려 주세요...</LoadingMessage>
+            ) : (
+              <ButtonContainer>
+                {selectedNFT.isListed && (
+                  <Button2
+                    onClick={() => submitDelist(selectedNFT)}
+                    width="150px"
+                    height="40px"
+                    fontSize="18px"
+                  >
+                    등록 취소
+                  </Button2>
+                )}
                 <Button1
                   onClick={() => submitList(selectedNFT)}
                   width="150px"
                   height="40px"
                   fontSize="18px"
                 >
-                  등록하기
+                  {selectedNFT.isListed ? "가격 변경" : "등록하기"}
                 </Button1>
-              )}
-            </SubmitButton>
+              </ButtonContainer>
+            )}
+          </SubmitButton>
         }
       >
         <ModalBody>
@@ -172,6 +220,12 @@ const SubmitButton = styled.div`
   justify-content: center;
   border-top: 1px solid ${GRAY_SCALE.GRAY300};
   padding-top: 20px;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 `;
 
 function SelectedNFT({ name, id, price }) {

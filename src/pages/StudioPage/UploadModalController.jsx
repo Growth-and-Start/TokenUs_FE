@@ -42,7 +42,6 @@ function UploadModalController({ onClose }) {
 
   //NFT 발행 트랜잭션 해시 값 및 토큰 아이디
   const [hash, setHash] = useState("");
-  const [tokenId, setTokenId] = useState(0);
 
   //비디오 업르드 단계(1: 기본 정보 및 유사도 검사, 2: NFT 발행)
   const [step, setStep] = useState(1);
@@ -133,32 +132,31 @@ function UploadModalController({ onClose }) {
   const handleSubmit = async () => {
     setLoading(true);
     const finalNFTData = await postVideoInfo();
-
     console.log("최종 NFT 데이터: ", finalNFTData);
     try {
-      const result = await mintVideoNFT(finalNFTData);
+      const userData = await getMyInfo();
+      const result = await mintVideoNFT(finalNFTData, userData.id);
       setHash(result.transactionHash);
-      setTokenId(result.mintedNFTs[0].tokenId);
       handleNext();
     } catch (error) {
-      console.log("NFT 발행 실패: ", error);
+      alert("NFT 발행 실패: ", error);
     } finally {
       setLoading(false);
     }
   };
 
   //NFT 마켓플레이스에 등록
-  const resisterNFT = async () => {
-    try {
-      setLoading(true);
-      const result = await registerNFTOnMarketplace(tokenId, nftData.price);
-      setLoading(false);
-      navigate("/marketplace");
-      console.log("NFT 등록 성공!: ", result);
-    } catch (error) {
-      console.log("NFT 등록 실패: ", error);
-    }
-  };
+  // const resisterNFT = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const result = await registerNFTOnMarketplace(tokenId, nftData.price);
+  //     setLoading(false);
+  //     navigate("/marketplace");
+  //     console.log("NFT 등록 성공!: ", result);
+  //   } catch (error) {
+  //     console.log("NFT 등록 실패: ", error);
+  //   }
+  // };
 
   //temp for test
   useEffect(() => {
