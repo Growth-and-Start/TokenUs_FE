@@ -122,9 +122,9 @@ function MyNFTPage() {
           onClose={() => setIsCompleteModalOpen(false)}
         >
           <CompletionBody>
-            <CompletionMessage>{selectedNFT.isListed ? "NFT 가격 변경 완료✅" : "NFT 등록 완료✅"}</CompletionMessage>
+            <CompletionMessage>{selectedNFT.isListed ? "변경 완료✅" : "NFT 등록 완료✅"}</CompletionMessage>
             <CompletionMessage2>{selectedNFT.isListed ? 
-            `${selectedNFT.nftName}(${selectedNFT.tokenId})의 가격이 성공적으로 변경되었습니다.` 
+            `${selectedNFT.nftName}(${selectedNFT.tokenId})의 정보가 성공적으로 변경되었습니다.` 
             : 
             `${selectedNFT.nftName}(${selectedNFT.tokenId})가 마켓플레이스에 성공적으로 등록되었습니다.`}
             </CompletionMessage2>
