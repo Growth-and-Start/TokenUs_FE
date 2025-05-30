@@ -16,16 +16,25 @@ function NFTTradeModal({ onClose, listedNFT, setComplete }) {
   const submitTrade = async (NFTs) => {
     setLoading(true);
     try {
-      NFTs.map(async (nft) => {
-        await transferVideoNFT(nft.tokenId);
-      });
+      // 모든 NFT 전송이 완료될 때까지 대기
+      const results = await Promise.all(
+        NFTs.map((nft) => transferVideoNFT(nft.tokenId, nft.currentPrice))
+      );
+
       setLoading(false);
       onClose();
-      setComplete(true);
-      setTimeout(() => {
-        setComplete(false);
-      }, 1000);
+
+      // 모든 전송이 성공적으로 완료되었는지 확인
+      if (results.every((result) => result === true)) {
+        setComplete(true);
+        setTimeout(() => {
+          setComplete(false);
+        }, 1000);
+      } else {
+        console.log("일부 NFT 전송이 실패했습니다.");
+      }
     } catch (error) {
+      setLoading(false);
       console.log("NFT 구매 실패", error);
     }
   };
