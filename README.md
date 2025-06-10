@@ -18,7 +18,7 @@ EVM 호환 Polygon 네트워크를 기반으로 한 NFT 발행.
 #### 주요 기능3️⃣ : NFT 거래<br>
 플랫폼 개입 없이 유저 간 자유로운 P2P NFT 거래. 
 
-## Stacks
+## Front Stacks
 <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"><br>
 <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"><br>
 <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"><br>
