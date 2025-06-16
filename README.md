@@ -44,8 +44,8 @@ yarn dev
 개발 서버는 기본적으로 http://localhost:5173 에서 실행됩니다.
 
 #### <테스트 계정>
-- ID : 
-- PWD : 
+- ID : testTUS@gmail.com
+- PWD : testpwd123!
 
 </br></br>
 
