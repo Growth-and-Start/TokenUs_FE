@@ -30,11 +30,29 @@ EVM 호환 Polygon 네트워크를 기반으로 한 NFT 발행.
 
 ## How To Run
 #### 1. 의존성 설치
-```
+```bash
 npm install
+#또는
+yarn install
 ```
 #### 2. 개발 서버 실행 (VITE)
-```
+```bash
 npm run dev
+#또는
+yarn dev
 ```
+개발 서버는 기본적으로 http://localhost:5173 에서 실행됩니다.
+</br></br>
 
+## Project Structure
+```
+src/
+├── abis/          # 스마트 컨트랙트 ABI 파일
+├── assets/        # 이미지, 폰트 등 정적 파일
+├── components/    # 재사용 가능한 컴포넌트
+├── constants/     # 상수 정의
+├── layout/        # 레이아웃 관련 컴포넌트
+├── pages/         # 페이지 컴포넌트
+├── services/      # API 서비스
+└── utils/         # 유틸리티 함수
+```
